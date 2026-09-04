@@ -21,6 +21,9 @@
   --amber-class: #b45309;
   --amber-asg: #fcd34d;
   --amber-soft: #fffbeb;
+  --green-class: #166534;
+  --green-asg: #86efac;
+  --green-soft: #f0fdf4;
   --slate-class: #334155;
   --slate-asg: #94a3b8;
   --slate-soft: #f1f5f9;
@@ -250,6 +253,9 @@ button.active, .chip.active {
 .pill.class.amber { background: var(--amber-class); }
 .pill.assignment.amber { background: var(--amber-asg); color: #78350f; }
 .pill.break.amber { background: var(--amber-soft); color: var(--amber-class); border: 1px dashed var(--amber-asg); }
+.pill.class.green { background: var(--green-class); }
+.pill.assignment.green { background: var(--green-asg); color: #14532d; }
+.pill.break.green { background: var(--green-soft); color: var(--green-class); border: 1px dashed var(--green-asg); }
 .pill.class.slate { background: var(--slate-class); }
 .pill.assignment.slate { background: var(--slate-asg); color: #1e293b; }
 .pill.break.slate { background: var(--slate-soft); color: var(--slate-class); border: 1px dashed var(--slate-asg); }
@@ -288,6 +294,9 @@ button.active, .chip.active {
 .dot.class.amber { background: var(--amber-class); }
 .dot.assignment.amber { background: var(--amber-asg); }
 .dot.break.amber { background: var(--amber-asg); opacity: 0.45; }
+.dot.class.green { background: var(--green-class); }
+.dot.assignment.green { background: var(--green-asg); }
+.dot.break.green { background: var(--green-asg); opacity: 0.45; }
 .dot.class.slate { background: var(--slate-class); }
 .dot.assignment.slate { background: var(--slate-asg); }
 .dot.break.slate { background: var(--slate-asg); opacity: 0.45; }
@@ -331,6 +340,8 @@ button.active, .chip.active {
 .card.purple.assignment { border-left-color: var(--purple-asg); background: #fcf8ff; }
 .card.amber.class, .card.amber.break { border-left-color: var(--amber-class); background: var(--amber-soft); }
 .card.amber.assignment { border-left-color: var(--amber-asg); background: #fffdf3; }
+.card.green.class, .card.green.break { border-left-color: var(--green-class); background: var(--green-soft); }
+.card.green.assignment { border-left-color: var(--green-asg); background: #f7fef9; }
 .card.slate.class, .card.slate.break { border-left-color: var(--slate-class); background: var(--slate-soft); }
 .card.slate.assignment { border-left-color: var(--slate-asg); background: #f8fafc; }
 .tag {

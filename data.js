@@ -41,6 +41,13 @@ const COURSES = {
     name: "Personal tasks and schedule",
     hue: "slate",
   },
+  assessment: {
+    id: "assessment",
+    code: "PSYC7010",
+    short: "Assessment I",
+    name: "Psychoeducational Assessment I",
+    hue: "green",
+  },
 };
 
 const EVENTS = [
@@ -101,6 +108,26 @@ const EVENTS = [
   asg("sen", "2026-11-25", "23:59", "Peer evaluation of Week 11 presentation", "As instructed", "Week 12 presenters evaluate the group that presented the week before (Week 11: SpLD reading/writing intervention)."),
   asg("sen", "2026-12-02", "23:59", "Individual project report", "Moodle", "Max 2,000 words excluding references/appendices. Double-line spacing. Topic must not be SpLD in mathematics (your group presentation topic)."),
   asg("sen", "2026-12-09", "23:59", "Group presentation write-up (SpLD in mathematics)", "Moodle", "Due within two weeks after 25 Nov: (1) PSU promotional material on the topic for parents/public; (2) compiled list of relevant resources."),
+
+  cls("assessment", "2026-09-07", "10:00", "12:50", "LE2", "Class 1 · Foundational concepts I · Theory, basic concepts, ethics and professionalism"),
+  cls("assessment", "2026-09-14", "10:00", "12:50", "MB217", "Class 2 · Foundational concepts II · Psychological testing and psychometrics (Dr. Frances Jin)", "Joint class with CP. Venue is MB217 this week (not LE2)."),
+  cls("assessment", "2026-09-21", "10:00", "12:50", "LE2", "Class 3 · Assessment of intelligence I · Theories; WISC-IV(HK) / WISC-V (co-teach with Dr. Frances Jin)", "Joint class with CP. Extra WISC practice is in Skills Training."),
+  cls("assessment", "2026-09-28", "10:00", "12:50", "LE2", "Class 4 · Assessment of intelligence II · Other batteries; WAIS-IV(HK) (co-teach with Dr. Frances Jin)", "Joint class with CP."),
+  cls("assessment", "2026-10-05", "10:00", "12:50", "LE2", "Class 5 · Assessment of young children I · Preschool development; M-P-R, SB-5, WPPSI-IV(HK) (Dr. Jacqueline Tang)", "Joint class with CP."),
+  cls("assessment", "2026-10-12", "10:00", "12:50", "Venue TBC", "Class 6 · Foundational concepts III · Informal assessment and interview methods (Ms. Natalie Tsui)"),
+  asg("assessment", "2026-10-12", "10:00", "Quiz I", "In class (venue TBC)", "Sattler (2024) Ch.1–6, App. K, L; Sattler (2022) Ch.4–6. Held during the Monday 10:00–12:50 slot."),
+  brk("assessment", "2026-10-19", "Chung Yeung Festival · no class"),
+  cls("assessment", "2026-10-26", "10:00", "12:50", "LE2", "Class 7 · Interpreting and reporting I · WISC-IV(HK); feedback and recommendations (Mr. Richard Ng)", "Joint class with CP."),
+  cls("assessment", "2026-11-02", "10:00", "12:50", "LE2", "Class 8 · Assessment of young children II · ASQ-3, Vineland-3, ABAS-3 (HK) (Dr. Jacqueline Tang)", "Joint class with CP."),
+  cls("assessment", "2026-11-09", "10:00", "12:50", "Venue TBC", "Class 9 · Interpreting and reporting II · Integrative report on young children; non-verbal intelligence measures"),
+  asg("assessment", "2026-11-09", "10:00", "Quiz II", "In class (venue TBC)", "Sattler (2022) Ch.4–6; WISC-IV(HK); WISC-V; M-P-R; WPPSI-IV(HK); ABAS-3(HK); Vineland-3."),
+  cls("assessment", "2026-11-16", "10:00", "12:50", "LE2", "Class 10 · Assessment of learning difficulties I · HKT-P(III) / HKT-JS(II)", "Joint class with CP."),
+  cls("assessment", "2026-11-23", "10:00", "12:50", "LE2", "Class 11 · Assessment of learning difficulties II · 3-tier model; achievement tests"),
+  asg("assessment", "2026-11-23", "23:59", "Integrative report 1 · Developmental history, WPPSI-IV(HK), ABAS-III", "Moodle", "25% of the course."),
+  cls("assessment", "2026-11-30", "10:00", "12:50", "LE2", "Class 12 · Assessment of learning difficulties III · Neuropsychological assessment (Dr. Frances Jin)", "Joint class with CP."),
+  cls("assessment", "2026-12-07", "10:00", "12:50", "LE2", "Class 13 · Interpreting and reporting III · Integrative report on learning problems; linkage with intervention"),
+  asg("assessment", "2026-12-07", "10:00", "Quiz III", "In class, LE2", "Assessment of learning difficulties I–III. Held during the Monday 10:00–12:50 slot."),
+  asg("assessment", "2026-12-14", "23:59", "Integrative report 2 · WISC-IV(HK) and HKT-P(III) / JS(II)", "Moodle", "25% of the course."),
 
   cls("rm", "2026-09-07", "15:00", "17:50", "CPD-3.41", "Week 1 · Foundations of quantitative research I; intro to jamovi & visualising data"),
   cls("rm", "2026-09-14", "15:00", "17:50", "CPD-3.41", "Week 2 · Foundations of quantitative research II; t-tests and correlation"),
