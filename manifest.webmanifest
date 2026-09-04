@@ -1,0 +1,19 @@
+{
+  "name": "EP Course Calendar",
+  "short_name": "EP Calendar",
+  "description": "HKU Educational Psychology classes and assignment deadlines, with reminders 2 days before due dates.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f1ec",
+  "theme_color": "#1c1917",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

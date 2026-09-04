@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1c1917" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="EP Calendar" />
+  <title>EP Course Calendar</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div>
+        <p class="kicker">HKU MSocSc Educational Psychology</p>
+        <h1>Course calendar</h1>
+        <p class="sub">Classes, visits, and assignment deadlines from the five course outlines.</p>
+        <p class="key"><span><b>Dark</b> = class / visit</span><span><b>Light</b> = assignment due</span></p>
+      </div>
+      <div class="month-nav">
+        <button id="prev" type="button">←</button>
+        <h2 id="monthLabel">September 2026</h2>
+        <button id="next" type="button">→</button>
+        <button id="today" type="button">Today</button>
+      </div>
+    </header>
+
+    <div class="remind-bar">
+      <p id="remindStatus">Turn on reminders to get a notification 2 days before each deadline.</p>
+      <button id="enableReminders" type="button">Enable reminders</button>
+      <button id="downloadIcs" type="button">Add to Calendar (.ics)</button>
+    </div>
+
+    <div class="legend" id="legend"></div>
+
+    <div class="layout">
+      <section class="calendar">
+        <div class="cal-grid" id="grid"></div>
+      </section>
+      <aside class="side">
+        <h3 id="sideTitle">2</h3>
+        <div class="when" id="sideWhen"></div>
+        <div id="sideList"></div>
+      </aside>
+    </div>
+  </div>
+  <script src="data.js"></script>
+  <script src="reminders.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

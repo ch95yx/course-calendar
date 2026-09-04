@@ -1,0 +1,158 @@
+const COURSES = {
+  intervention: {
+    id: "intervention",
+    code: "PSYC7014",
+    short: "Intervention I",
+    name: "Psychoeducational Intervention I",
+    hue: "red",
+  },
+  sen: {
+    id: "sen",
+    code: "PSYC7026",
+    short: "SEN I",
+    name: "Children with Special Needs",
+    hue: "blue",
+  },
+  rm: {
+    id: "rm",
+    code: "PSYC7019 / 6002",
+    short: "RM & Stats I",
+    name: "Research Methods and Statistics I",
+    hue: "teal",
+  },
+  skills: {
+    id: "skills",
+    code: "PSYC7016",
+    short: "Skills Training",
+    name: "Skills Training Seminar I",
+    hue: "purple",
+  },
+  thesis: {
+    id: "thesis",
+    code: "PSYC7028",
+    short: "Dissertation",
+    name: "Dissertation Research",
+    hue: "amber",
+  },
+};
+
+const EVENTS = [
+  cls("intervention", "2026-09-02", "10:00", "12:50", "KB132", "Week 1 · Course introduction; EPs and psychoeducational intervention"),
+  cls("intervention", "2026-09-09", "10:00", "12:50", "KB132", "Week 2 · Values and professional ethics in intervention (Dr. Kathy Wong)"),
+  cls("intervention", "2026-09-16", "10:00", "12:50", "KB132", "Week 3 · Person-centred counselling (Dr. Matthew Chu)"),
+  cls("intervention", "2026-09-23", "10:00", "12:50", "KB132", "Week 4 · Intake interview"),
+  cls("intervention", "2026-09-30", "10:00", "12:50", "KB132", "Week 5 · Counselling skills (Dr. Matthew Chu)"),
+  cls("intervention", "2026-10-07", "10:00", "12:50", "KB132", "Week 6 · Challenging skills and problems identification"),
+  brk("intervention", "2026-10-14", "Reading week · no class"),
+  cls("intervention", "2026-10-21", "10:00", "12:50", "KB132", "Week 7 · Goal setting and implementation"),
+  cls("intervention", "2026-10-28", "10:00", "12:50", "KB132", "Week 8 · Behavioural therapy I"),
+  cls("intervention", "2026-11-04", "10:00", "12:50", "KB132", "Week 9 · Behavioural therapy II"),
+  cls("intervention", "2026-11-11", "10:00", "12:50", "KB132", "Week 10 · Behavioural therapy III; preparation for presentation"),
+  cls("intervention", "2026-12-08", "10:00", "12:50", "KB132", "Week 11 · Presentation (Tue AM)"),
+  cls("intervention", "2026-12-09", "10:00", "12:50", "KB132", "Week 12 · Presentation"),
+
+  asg("intervention", "2026-09-08", "14:00", "Assignment 1 · Weekly question (Week 2)", "Moodle forum", "Post ≥1 question (or a response) related to this week’s readings. Max 100 words."),
+  asg("intervention", "2026-09-15", "14:00", "Assignment 1 · Weekly question (Week 3)", "Moodle forum", "Due the day before class, 2:00 p.m."),
+  asg("intervention", "2026-09-22", "14:00", "Assignment 1 · Weekly question (Week 4)", "Moodle forum", "Due the day before class, 2:00 p.m."),
+  asg("intervention", "2026-09-29", "14:00", "Assignment 1 · Weekly question (Week 5)", "Moodle forum", "Due the day before class, 2:00 p.m."),
+  asg("intervention", "2026-10-06", "14:00", "Assignment 1 · Weekly question (Week 6)", "Moodle forum", "Due the day before class, 2:00 p.m."),
+  asg("intervention", "2026-10-20", "14:00", "Assignment 1 · Weekly question (Week 7)", "Moodle forum", "Due the day before class, 2:00 p.m."),
+  asg("intervention", "2026-10-27", "14:00", "Assignment 1 · Weekly question (Week 8)", "Moodle forum", "Due the day before class, 2:00 p.m."),
+  asg("intervention", "2026-11-03", "14:00", "Assignment 1 · Weekly question (Week 9)", "Moodle forum", "Due the day before class, 2:00 p.m."),
+  asg("intervention", "2026-11-10", "14:00", "Assignment 1 · Weekly question (Week 10)", "Moodle forum", "Due the day before class, 2:00 p.m."),
+  asg("intervention", "2026-11-18", "23:55", "Assignment 2 · Analysis of a therapy session", "Moodle", "1,500–1,800 words. Watch the Sophia school-based humanistic counselling video, then discuss challenges, person-centred techniques, and merits/weaknesses of the approach."),
+  asg("intervention", "2026-11-27", "23:59", "Assignment 3 · Programme summary (for classmates)", "In class / Moodle", "Prepare a behaviour-modification programme summary for distribution before the Dec 8–9 presentations."),
+  asg("intervention", "2026-12-11", "23:55", "Assignment 3 · Behaviour modification programme report", "Moodle", "Max ~10 pages excluding appendices. Presentations are 8–9 Dec."),
+
+  cls("sen", "2026-09-02", "14:00", "16:50", "KKLG101, KK Leung Building", "Week 1 · Orientation and basic concepts"),
+  cls("sen", "2026-09-09", "14:00", "16:50", "KKLG101, KK Leung Building", "Week 2 · Inclusive education; early identification and intervention"),
+  cls("sen", "2026-09-16", "14:00", "16:50", "KKLG101, KK Leung Building", "Week 3 · Students with or at-risk for developmental delays"),
+  cls("sen", "2026-09-23", "14:00", "16:50", "KKLG101, KK Leung Building", "Week 4 · Intellectual disabilities (mild) — Ms Janice Chan"),
+  cls("sen", "2026-09-30", "14:00", "16:50", "KKLG101, KK Leung Building", "Week 5 · Intellectual disabilities (moderate to severe) — Mr Byran Lie"),
+  cls("sen", "2026-10-07", "14:00", "16:50", "KKLG101, KK Leung Building", "Week 6 · Gifted and talented"),
+  brk("sen", "2026-10-14", "Reading week · no Wednesday class"),
+  cls("sen", "2026-10-26", "14:00", "16:50", "CPD-3.41", "Week 7 · Speech and language disorder — Mr Ikey Cheung (rescheduled; swapped with RM/PSYC6002)", "That week has two SEN lessons: Mon 26 Oct and Wed 28 Oct. Pre-lecture question for this Monday class is due Tue 20 Oct (not Sun 25 Oct)."),
+  cls("sen", "2026-10-28", "14:00", "16:50", "KKLG101, KK Leung Building", "Week 8 · Visual / hearing impairments", "Second SEN lesson this week. Pre-lecture question for this Wednesday class is due Tue 27 Oct."),
+  cls("sen", "2026-11-04", "14:00", "16:50", "KKLG101, KK Leung Building", "Week 9 · Physical impairments"),
+  cls("sen", "2026-11-11", "14:00", "16:50", "KKLG101, KK Leung Building", "Week 10 · SpLD in reading and writing: concepts and theories"),
+  cls("sen", "2026-11-18", "14:00", "16:50", "KKLG101, KK Leung Building", "Week 11 · SpLD in reading and writing: intervention"),
+  cls("sen", "2026-11-25", "14:00", "16:50", "KKLG101, KK Leung Building", "Week 12 · Your group presentation · SpLD in mathematics", "1-hour workshop format. Bring: handout for Jacqueline (last page = how work is shared); handout for the class; DSM-5-TR & ICD-11 excerpts. Individual project must use a different SEN type."),
+
+  asg("sen", "2026-09-09", "23:59", "Group project · Choose age group", "Moodle", "Each group decides preschool / primary / secondary by 9 September."),
+  asg("sen", "2026-09-23", "23:59", "Individual project · SEN type and age group for approval", "Moodle", "Must differ from your group topic (SpLD in mathematics, presented 25 Nov)."),
+  asg("sen", "2026-09-15", "12:00", "Pre-lecture question (Week 3)", "Moodle", "From Week 3: submit by Tuesday noon. 10 weeks; submit at least 8 (two free passes)."),
+  asg("sen", "2026-09-22", "12:00", "Pre-lecture question (Week 4)", "Moodle", "Tuesday noon before Wednesday class."),
+  asg("sen", "2026-09-29", "12:00", "Pre-lecture question (Week 5)", "Moodle", "Tuesday noon before Wednesday class."),
+  asg("sen", "2026-10-06", "12:00", "Pre-lecture question (Week 6)", "Moodle", "Tuesday noon before Wednesday class."),
+  asg("sen", "2026-10-20", "12:00", "Pre-lecture question (for Mon 26 Oct class)", "Moodle", "Jacqueline confirmed: do not post on Sun 25 Oct. Post by Tuesday noon 20 Oct for the Monday 26 Oct lesson. There is a second question due 27 Oct for the Wednesday 28 Oct lesson."),
+  asg("sen", "2026-10-27", "12:00", "Pre-lecture question (for Wed 28 Oct class)", "Moodle", "Jacqueline confirmed: post this question by Tuesday noon 27 Oct for the Wednesday 28 Oct lesson (in addition to the 20 Oct question for Monday 26 Oct)."),
+  asg("sen", "2026-11-03", "12:00", "Pre-lecture question (Week 9)", "Moodle", "Tuesday noon before Wednesday class."),
+  asg("sen", "2026-11-10", "12:00", "Pre-lecture question (Week 10)", "Moodle", "Tuesday noon before Wednesday class."),
+  asg("sen", "2026-11-17", "12:00", "Pre-lecture question (Week 11)", "Moodle", "Tuesday noon before Wednesday class."),
+  asg("sen", "2026-11-24", "12:00", "Pre-lecture question (Week 12)", "Moodle", "Tuesday noon before Wednesday class."),
+  asg("sen", "2026-11-18", "23:59", "Group presentation outline (SpLD in mathematics)", "Email to Jacqueline", "Due one week before your 25 Nov presentation."),
+  asg("sen", "2026-11-25", "23:59", "Peer evaluation of Week 11 presentation", "As instructed", "Week 12 presenters evaluate the group that presented the week before (Week 11: SpLD reading/writing intervention)."),
+  asg("sen", "2026-12-02", "23:59", "Individual project report", "Moodle", "Max 2,000 words excluding references/appendices. Double-line spacing. Topic must not be SpLD in mathematics (your group presentation topic)."),
+  asg("sen", "2026-12-09", "23:59", "Group presentation write-up (SpLD in mathematics)", "Moodle", "Due within two weeks after 25 Nov: (1) PSU promotional material on the topic for parents/public; (2) compiled list of relevant resources."),
+
+  cls("rm", "2026-09-07", "15:00", "17:50", "CPD-3.41", "Week 1 · Foundations of quantitative research I; intro to jamovi & visualising data"),
+  cls("rm", "2026-09-14", "15:00", "17:50", "CPD-3.41", "Week 2 · Foundations of quantitative research II; t-tests and correlation"),
+  cls("rm", "2026-09-21", "15:00", "17:50", "CPD-3.41", "Week 3 · ANOVA I · One-way ANOVA and ANCOVA"),
+  cls("rm", "2026-09-28", "15:00", "17:50", "CPD-3.41", "Week 4 · ANOVA II · Factorial and mixed-design ANOVA"),
+  asg("rm", "2026-10-05", "15:00", "Lab Test I", "CPD-3.41", "Held in the usual Monday slot (3:00–5:50 p.m.). 30% of the course."),
+  brk("rm", "2026-10-12", "Week 6 · Reading week · no class"),
+  cls("rm", "2026-10-21", "14:00", "16:50", "KKLG106", "Week 7 · Regression I · Simple and multiple linear regression (rescheduled from Monday; swapped venue with SEN)"),
+  brk("rm", "2026-10-26", "Week 8 · No class (Monday slot given to SEN Week 7 swap)"),
+  cls("rm", "2026-11-02", "15:00", "17:50", "CPD-3.41", "Week 9 · Regression II · Hierarchical linear regression"),
+  asg("rm", "2026-11-09", "15:00", "Lab Test II", "CPD-3.41", "Held in the usual Monday slot (3:00–5:50 p.m.). 30% of the course."),
+  cls("rm", "2026-11-16", "15:00", "17:50", "CPD-3.41", "Week 11 · Path analysis I · Moderation"),
+  cls("rm", "2026-11-23", "15:00", "17:50", "CPD-3.41", "Week 12 · Path analysis II · Mediation"),
+  asg("rm", "2026-11-30", "15:00", "Final exam", "CPD-3.41", "Usual Monday slot unless the instructor announces otherwise. 40% of the course."),
+
+  cls("skills", "2026-09-10", "10:00", "11:30", "", "IT briefing about PSU"),
+  cls("skills", "2026-09-10", "15:30", "16:00", "", "Collect test tool"),
+  cls("skills", "2026-09-22", "09:30", "11:30", "Caritas Pelletier School, Clear Water Bay Rd, Kowloon", "Orientation visit 1 · Caritas Pelletier School", "Meet 9:20 a.m. at the school entrance. Coordinator: Galen Liu."),
+  cls("skills", "2026-09-29", "10:00", "11:30", "Heep Hong Society ISC, 19 Sandy Bay Road, Pokfulam", "Orientation visit 2 · Heep Hong Society ISC", "Meet 9:50 a.m. at the ISC entrance. Coordinator: Natalie Tsui."),
+  cls("skills", "2026-10-09", "10:00", "12:50", "CPD-3.28", "Orientation · Induction on PSU operation and hotline handling (joint with CP)", "Meet 10:00 a.m. Coordinator: Kathy Wong."),
+  cls("skills", "2026-10-27", "10:00", "12:00", "HKRSS Tai Po Secondary School, Fu Heng Estate, Tai Po", "Orientation visit 4 · HKRSS Tai Po Secondary School", "Meet 9:50 a.m. at the school entrance. Coordinator: Matthew Chu."),
+  cls("skills", "2026-11-26", "10:00", "12:50", "LE4", "Orientation talk · EDB Educational Psychology Services", "Meet 10:00 a.m. Speaker: Mrs Jacqueline Ho. Coordinator: Rachelle Li."),
+  cls("skills", "2026-09-18", "10:00", "12:50", "CPD 3.28 (breakout 4.36–4.41)", "Workshop 1 · Sharing of free interview", "Kathy S. & course instructors."),
+  cls("skills", "2026-09-21", null, null, "TBA (see class announcement)", "Lecture · Practice of WISC-IV (HK)", "Listed on the Skills outline under the 25 Sep WISC workshop; time not specified."),
+  cls("skills", "2026-09-25", "10:00", "12:50", "CPD-3.28", "Workshop 2 · Practice of WISC-IV (HK) — AM (joint with CP)"),
+  cls("skills", "2026-09-25", "14:00", "16:50", "LE5", "Workshop 2 · Practice of WISC-IV (HK) — PM (joint with CP)"),
+  cls("skills", "2026-10-16", "10:00", "12:50", "CPD 3.28 (breakout 4.36–4.41, 4.55)", "Workshop 3 · Micro skills: intake interview", "Kathy S. & course instructors. Counts toward the 30% workshop participation mark."),
+  cls("skills", "2026-10-16", "14:00", "16:50", "CPD-2.37", "Workshop 4 · PSU case allocation"),
+  cls("skills", "2026-10-23", "10:00", "12:50", "CPD-3.28", "Workshop 5 · WPPSI-IV (HK)", "Ms Janice Tsang, Child Assessment Service. Joint with CP."),
+  cls("skills", "2026-10-23", "14:00", "16:50", "LE5", "Workshop 6 · Demonstration of intake for PSU case", "Mr Richard Ng. Joint with CP."),
+  cls("skills", "2026-10-30", "10:00", "12:50", "CPD 3.28 (breakout 4.36–4.41, 4.55)", "Workshop 7 · Micro skills: counselling skills", "Matthew & course instructors. Counts toward the 30% workshop participation mark."),
+  cls("skills", "2026-11-13", "10:00", "12:50", "CPD 3.28 (breakout 4.36–4.41)", "Workshop 8 · Micro skills: take two for counselling", "Kathy S. & course instructors. Counts toward the 30% workshop participation mark."),
+
+  asg("skills", "2026-10-09", "23:59", "WISC-IV (HK) protocol 1 of 4", "Submit to Kathy Wong", "Protocols are due 2 weeks after practice. Clear documentation and accurate scoring. One WISC case also needs an observer checklist."),
+  asg("skills", "2026-10-16", "23:59", "WISC-IV (HK) protocol 2 of 4", "Submit to Kathy Wong", "Due 2 weeks after practice."),
+  asg("skills", "2026-10-23", "23:59", "WISC-IV (HK) protocol 3 of 4", "Submit to Kathy Wong", "Due 2 weeks after practice."),
+  asg("skills", "2026-10-30", "23:59", "WISC-IV (HK) protocol 4 of 4", "Submit to Kathy Wong", "Due 2 weeks after practice. Include observer checklist for one case."),
+  asg("skills", "2026-11-06", "23:59", "WPPSI-IV (HK) protocol", "Submit to Matthew Chu", "1 protocol; due 2 weeks after the 23 Oct practice."),
+  asg("skills", "2026-12-03", "23:59", "Observation & reflection on orientation visits", "Moodle / as instructed", "≤4 pages, double-line spacing. 20% of the course. Child Assessment Service visit date is still TBC."),
+
+  asg("thesis", "2026-09-30", "23:59", "Supervisor Preference Form", "Department", "Submit by the end of September. Results announced 15 October 2026."),
+  asg("thesis", "2026-10-15", "23:59", "Supervisor assignment announced", "Department", "After this, finalise the research topic and a meeting schedule with your supervisor."),
+  asg("thesis", "2027-04-30", "23:59", "Preliminary draft of study proposal", "Supervisor / RM2", "Complete a preliminary draft (as RM2 assignment); get feedback from supervisor, RM instructor, and 2nd examiner. Outline lists “April 2027”."),
+  asg("thesis", "2027-05-31", "23:59", "Tentative research proposal (end of Year 1)", "Supervisor", "Literature review, hypotheses, and methods. Outline: end of first academic year (2027)."),
+  asg("thesis", "2027-05-31", "23:59", "Apply for ethics approval", "Departmental Research Ethics Committee", "Required for all dissertation projects. Same window as the Year 1 proposal."),
+  asg("thesis", "2028-03-31", "23:59", "Submit thesis title to the Faculty", "Faculty of Social Sciences", "Outline lists end of March 2028."),
+  asg("thesis", "2028-07-15", "23:59", "Dissertation submission", "Moodle (PSYC7028)", "Single PDF, 23:59. Late penalty 2 marks per calendar day if supervisor is told ≥24 hours ahead; otherwise F."),
+];
+
+function cls(course, date, start, end, location, title, notes) {
+  return { course, type: "class", date, start, end, location, title, notes: notes || "" };
+}
+function asg(course, date, due, title, location, notes) {
+  return { course, type: "assignment", date, start: due, end: null, location: location || "", title, notes: notes || "" };
+}
+function brk(course, date, title) {
+  return { course, type: "break", date, start: null, end: null, location: "", title, notes: "" };
+}
+
+EVENTS.forEach((e, i) => {
+  e.id = `${e.course}-${e.type}-${e.date}-${i}`;
+});
