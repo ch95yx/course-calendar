@@ -24,21 +24,25 @@ function fmtDueTime(t) {
   return min ? `${hr}:${String(min).padStart(2, "0")} ${ampm}` : `${hr} ${ampm}`;
 }
 
-function assignmentEvents() {
-  return EVENTS.filter((e) => e.type === "assignment");
+function assignmentEvents(store) {
+  const list = (typeof mergedEvents === "function")
+    ? mergedEvents(store)
+    : EVENTS;
+  return list.filter((e) => e.type === "assignment");
 }
 
-function remindersForDay(now) {
+function remindersForDay(now, store) {
   now = now || new Date();
-  return assignmentEvents().filter((e) => daysUntil(e.date, now) === REMINDER_DAYS_BEFORE);
+  return assignmentEvents(store).filter((e) => daysUntil(e.date, now) === REMINDER_DAYS_BEFORE);
 }
 
 function nextDeadlineReminders(now) {
   now = now || new Date();
-  return assignmentEvents()
+  const store = (typeof loadStoreSync === "function") ? loadStoreSync() : emptyStore();
+  return assignmentEvents(store)
     .map((e) => ({ event: e, days: daysUntil(e.date, now) }))
     .filter((x) => x.days >= 0)
-    .sort((a, b) => a.days - b.days || a.event.start.localeCompare(b.event.start));
+    .sort((a, b) => a.days - b.days || String(a.event.start || "").localeCompare(String(b.event.start || "")));
 }
 
 async function loadNotifiedIds() {
@@ -59,7 +63,7 @@ async function saveNotifiedIds(ids) {
 }
 
 function notificationPayload(event) {
-  const course = COURSES[event.course];
+  const course = COURSES[event.course] || COURSES.personal;
   const time = fmtDueTime(event.start);
   return {
     title: `Due in ${REMINDER_DAYS_BEFORE} days · ${course.short}`,
@@ -70,7 +74,8 @@ function notificationPayload(event) {
 }
 
 async function fireDueReminders(registration, now) {
-  const due = remindersForDay(now);
+  const store = await loadStoreAsync();
+  const due = remindersForDay(now, store);
   if (!due.length) return { fired: 0, due: 0 };
   const shown = new Set(await loadNotifiedIds());
   let fired = 0;

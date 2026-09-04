@@ -1,16 +1,17 @@
-const CACHE_NAME = "ep-calendar-v7";
+const CACHE_NAME = "ep-calendar-v8";
 const PRECACHE = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
   "./data.js",
+  "./store.js",
   "./reminders.js",
   "./manifest.webmanifest",
   "./icon.svg",
 ];
 
-importScripts("./data.js", "./reminders.js");
+importScripts("./data.js", "./store.js", "./reminders.js");
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -21,7 +22,7 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE_NAME && k !== NOTIFIED_CACHE).map((k) => caches.delete(k)))
+      Promise.all(keys.filter((k) => k !== CACHE_NAME && k !== NOTIFIED_CACHE && k !== STORE_CACHE).map((k) => caches.delete(k)))
     ).then(() => self.clients.claim())
   );
 });

@@ -55,7 +55,7 @@ function fmtTime(t) {
 }
 
 function visibleEvents() {
-  return EVENTS.filter((e) => !state.hidden.has(e.course));
+  return mergedEvents().filter((e) => !state.hidden.has(e.course));
 }
 
 function eventsOn(iso) {
@@ -173,7 +173,7 @@ function renderCalendar() {
     cell.innerHTML = `<div class="num">${date.getDate()}</div><div class="pills"></div><div class="dots"></div>`;
     const pills = cell.querySelector(".pills");
     shown.forEach((e) => {
-      const hue = COURSES[e.course].hue;
+      const hue = (COURSES[e.course] || COURSES.personal).hue;
       const p = document.createElement("div");
       p.className = `pill ${e.type} ${hue}`;
       p.textContent = e.title.replace(/^Week \d+ · /, "");
@@ -188,7 +188,7 @@ function renderCalendar() {
     const dots = cell.querySelector(".dots");
     events.slice(0, 4).forEach((e) => {
       const d = document.createElement("i");
-      d.className = `dot ${e.type} ${COURSES[e.course].hue}`;
+      d.className = `dot ${e.type} ${(COURSES[e.course] || COURSES.personal).hue}`;
       dots.appendChild(d);
     });
     cell.addEventListener("click", () => {
@@ -214,12 +214,13 @@ function renderSide() {
   document.getElementById("sideWhen").textContent = fmtLong(iso);
   const list = document.getElementById("sideList");
   const events = eventsOn(iso);
+  const addBtn = `<button class="add-task" type="button" data-action="add">+ Add task</button>`;
   if (!events.length) {
-    list.innerHTML = `<p class="empty">Nothing scheduled this day (for the courses you have visible).</p>`;
+    list.innerHTML = `${addBtn}<p class="empty">Nothing scheduled this day. Add a task or class to save it on this calendar.</p>`;
     return;
   }
-  list.innerHTML = events.map((e) => {
-    const c = COURSES[e.course];
+  list.innerHTML = addBtn + events.map((e) => {
+    const c = COURSES[e.course] || COURSES.personal;
     const time = e.type === "assignment"
       ? (e.start ? `Due ${fmtTime(e.start)}` : "Deadline")
       : e.start
@@ -229,12 +230,99 @@ function renderSide() {
     const notes = e.notes ? `<p class="notes">${e.notes}</p>` : "";
     return `<article class="card ${c.hue} ${e.type}">
       <div class="tag">${c.code} · ${typeLabel(e.type)}</div>
-      <h4>${e.title}</h4>
+      <h4>${escapeHtml(e.title)}</h4>
       <div class="meta">${time}</div>
       ${loc}
       ${notes}
+      <div class="card-actions">
+        <button type="button" data-action="edit" data-id="${e.id}">Edit</button>
+        <button type="button" class="danger" data-action="delete" data-id="${e.id}">Delete</button>
+      </div>
     </article>`;
   }).join("");
+}
+
+function escapeHtml(text) {
+  return String(text || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function findEventById(id) {
+  return mergedEvents().find((e) => e.id === id);
+}
+
+function openEventForm(event) {
+  const form = document.getElementById("eventForm");
+  const dialog = document.getElementById("eventDialog");
+  document.getElementById("eventDialogTitle").textContent = event ? "Edit task" : "Add task";
+  form.elements.id.value = event ? event.id : "";
+  form.elements.title.value = event ? event.title : "";
+  form.elements.date.value = event ? event.date : state.selected;
+  form.elements.start.value = event && event.start ? event.start : "";
+  form.elements.end.value = event && event.end ? event.end : "";
+  form.elements.location.value = event ? event.location || "" : "";
+  form.elements.notes.value = event ? event.notes || "" : "";
+  form.elements.type.value = event ? event.type : "assignment";
+  form.elements.course.value = event ? event.course : "personal";
+  if (typeof dialog.showModal === "function") dialog.showModal();
+  else dialog.setAttribute("open", "");
+}
+
+function closeEventForm() {
+  const dialog = document.getElementById("eventDialog");
+  if (typeof dialog.close === "function") dialog.close();
+  else dialog.removeAttribute("open");
+}
+
+async function saveEventFromForm(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const payload = {
+    title: form.elements.title.value.trim(),
+    date: form.elements.date.value,
+    start: form.elements.start.value || null,
+    end: form.elements.end.value || null,
+    location: form.elements.location.value.trim(),
+    notes: form.elements.notes.value.trim(),
+    type: form.elements.type.value,
+    course: form.elements.course.value,
+  };
+  if (!payload.title || !payload.date) return;
+  const store = loadStoreSync();
+  const existingId = form.elements.id.value;
+  const original = existingId ? findEventById(existingId) : null;
+  if (original && original.builtIn) {
+    store.overrides[original.id] = payload;
+  } else if (original && original.custom) {
+    store.custom = store.custom.map((e) => e.id === original.id ? Object.assign({}, e, payload) : e);
+  } else {
+    store.custom.push(Object.assign({ id: `custom-${Date.now()}` }, payload, { custom: true }));
+  }
+  await persistStore(store);
+  state.selected = payload.date;
+  const d = parseISO(payload.date);
+  state.year = d.getFullYear();
+  state.month = d.getMonth();
+  closeEventForm();
+  render();
+}
+
+async function deleteEvent(id) {
+  const item = findEventById(id);
+  if (!item) return;
+  if (!confirm(`Delete “${item.title}”?`)) return;
+  const store = loadStoreSync();
+  if (item.custom) {
+    store.custom = store.custom.filter((e) => e.id !== id);
+  } else {
+    store.deleted.push(id);
+    delete store.overrides[id];
+  }
+  await persistStore(store);
+  render();
 }
 
 function reminderStatusText() {
@@ -246,7 +334,7 @@ function reminderStatusText() {
     const when = next.days === 0 ? "today" : next.days === 1 ? "tomorrow" : `in ${next.days} days`;
     const remindIn = next.days - REMINDER_DAYS_BEFORE;
     const remind = remindIn <= 0 ? "reminder window is now" : `alert ${remindIn} day${remindIn === 1 ? "" : "s"} before that`;
-    nextLine = `Next: ${COURSES[next.event.course].short} — ${next.event.title} (${when}; ${remind}).`;
+    nextLine = `Next: ${(COURSES[next.event.course] || COURSES.personal).short} — ${next.event.title} (${when}; ${remind}).`;
   }
   if (file) {
     return `Open this app over http:// (not as a file) so notifications can work. ${nextLine}`;
@@ -297,7 +385,7 @@ function downloadDeadlineCalendar() {
     const due = parseISODate(e.date);
     const [hh, mm] = (e.start || "23:59").split(":");
     due.setHours(Number(hh), Number(mm), 0, 0);
-    const course = COURSES[e.course];
+    const course = COURSES[e.course] || COURSES.personal;
     lines.push("BEGIN:VEVENT");
     lines.push(`UID:${e.id}@ep-calendar`);
     lines.push(`DTSTAMP:${icsStamp(new Date(), "00:00", false)}`);
@@ -388,6 +476,18 @@ document.getElementById("enableReminders").addEventListener("click", () => {
   askAndNotify().catch((err) => alert(err.message || String(err)));
 });
 document.getElementById("downloadIcs").addEventListener("click", downloadDeadlineCalendar);
+document.getElementById("sideList").addEventListener("click", (event) => {
+  const btn = event.target.closest("button[data-action]");
+  if (!btn) return;
+  const action = btn.getAttribute("data-action");
+  if (action === "add") openEventForm(null);
+  if (action === "edit") openEventForm(findEventById(btn.getAttribute("data-id")));
+  if (action === "delete") deleteEvent(btn.getAttribute("data-id"));
+});
+document.getElementById("eventForm").addEventListener("submit", (event) => {
+  saveEventFromForm(event).catch((err) => alert(err.message || String(err)));
+});
+document.getElementById("cancelEvent").addEventListener("click", closeEventForm);
 
 (function enableSwipe() {
   const cal = document.querySelector(".calendar");

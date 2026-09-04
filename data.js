@@ -34,6 +34,13 @@ const COURSES = {
     name: "Dissertation Research",
     hue: "amber",
   },
+  personal: {
+    id: "personal",
+    code: "Mine",
+    short: "My tasks",
+    name: "Personal tasks and schedule",
+    hue: "slate",
+  },
 };
 
 const EVENTS = [

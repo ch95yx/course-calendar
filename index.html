@@ -55,7 +55,57 @@
       </aside>
     </div>
   </div>
+
+  <dialog id="eventDialog">
+    <form id="eventForm">
+      <h2 id="eventDialogTitle">Add task</h2>
+      <input type="hidden" name="id" />
+      <label>Title
+        <input name="title" type="text" required placeholder="e.g. Revise intake notes" />
+      </label>
+      <label>Date
+        <input name="date" type="date" required />
+      </label>
+      <div class="form-row">
+        <label>Start / due time
+          <input name="start" type="time" />
+        </label>
+        <label>End
+          <input name="end" type="time" />
+        </label>
+      </div>
+      <label>Location
+        <input name="location" type="text" placeholder="Room or Moodle" />
+      </label>
+      <label>Type
+        <select name="type">
+          <option value="assignment">Task / deadline</option>
+          <option value="class">Class / session</option>
+          <option value="break">Note / no class</option>
+        </select>
+      </label>
+      <label>Calendar
+        <select name="course">
+          <option value="personal">My tasks</option>
+          <option value="intervention">Intervention I</option>
+          <option value="sen">SEN I</option>
+          <option value="rm">RM &amp; Stats I</option>
+          <option value="skills">Skills Training</option>
+          <option value="thesis">Dissertation</option>
+        </select>
+      </label>
+      <label>Notes
+        <textarea name="notes" rows="3" placeholder="Optional details"></textarea>
+      </label>
+      <div class="form-actions">
+        <button type="button" id="cancelEvent">Cancel</button>
+        <button type="submit" class="primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
   <script src="data.js"></script>
+  <script src="store.js"></script>
   <script src="reminders.js"></script>
   <script src="app.js"></script>
 </body>
