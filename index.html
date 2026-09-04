@@ -3,9 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#1c1917" />
+  <meta name="theme-color" content="#f4f1ec" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="EP Calendar" />
+  <meta name="format-detection" content="telephone=no" />
   <title>EP Course Calendar</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
@@ -18,16 +21,20 @@
       <div>
         <p class="kicker">HKU MSocSc Educational Psychology</p>
         <h1>Course calendar</h1>
-        <p class="sub">Classes, visits, and assignment deadlines from the five course outlines.</p>
-        <p class="key"><span><b>Dark</b> = class / visit</span><span><b>Light</b> = assignment due</span></p>
+        <p class="sub desktop-only">Classes, visits, and assignment deadlines from the five course outlines.</p>
+        <p class="key desktop-only"><span><b>Dark</b> = class / visit</span><span><b>Light</b> = assignment due</span></p>
       </div>
       <div class="month-nav">
-        <button id="prev" type="button">←</button>
+        <button id="prev" type="button" aria-label="Previous month">‹</button>
         <h2 id="monthLabel">September 2026</h2>
-        <button id="next" type="button">→</button>
+        <button id="next" type="button" aria-label="Next month">›</button>
         <button id="today" type="button">Today</button>
       </div>
     </header>
+
+    <div class="ios-install" id="iosInstall" hidden>
+      Tap <b>Share</b> then <b>Add to Home Screen</b> so this works like an app (and reminders can fire).
+    </div>
 
     <div class="remind-bar">
       <p id="remindStatus">Turn on reminders to get a notification 2 days before each deadline.</p>
@@ -41,7 +48,7 @@
       <section class="calendar">
         <div class="cal-grid" id="grid"></div>
       </section>
-      <aside class="side">
+      <aside class="side" id="dayPanel">
         <h3 id="sideTitle">2</h3>
         <div class="when" id="sideWhen"></div>
         <div id="sideList"></div>

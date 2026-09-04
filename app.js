@@ -1,4 +1,5 @@
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const WEEKDAYS_SHORT = ["M", "T", "W", "T", "F", "S", "S"];
 const MONTHS = [
   "January","February","March","April","May","June",
   "July","August","September","October","November","December",
@@ -75,6 +76,31 @@ function typeLabel(type) {
   return "No class";
 }
 
+function isPhone() {
+  return window.matchMedia("(max-width: 700px)").matches;
+}
+
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+}
+
+function isStandalone() {
+  return window.navigator.standalone === true ||
+    window.matchMedia("(display-mode: standalone)").matches;
+}
+
+function goMonth(delta) {
+  const d = new Date(state.year, state.month + delta, 1);
+  state.year = d.getFullYear();
+  state.month = d.getMonth();
+  const daysInMonth = new Date(state.year, state.month + 1, 0).getDate();
+  const selected = parseISO(state.selected);
+  const keep = Math.min(selected.getDate(), daysInMonth);
+  state.selected = toISO(new Date(state.year, state.month, keep));
+  render();
+}
+
 function mondayIndex(jsDay) {
   return (jsDay + 6) % 7;
 }
@@ -126,7 +152,8 @@ function renderCalendar() {
 
   const grid = document.getElementById("grid");
   grid.innerHTML = "";
-  WEEKDAYS.forEach((name) => {
+  const labels = isPhone() ? WEEKDAYS_SHORT : WEEKDAYS;
+  labels.forEach((name) => {
     const h = document.createElement("div");
     h.className = "dow";
     h.textContent = name;
@@ -136,12 +163,14 @@ function renderCalendar() {
 
   cells.forEach(({ date, out }) => {
     const iso = toISO(date);
-    const cell = document.createElement("div");
+    const cell = document.createElement("button");
+    cell.type = "button";
     cell.className = "cell" + (out ? " out" : "") + (iso === todayISO ? " today" : "") + (iso === state.selected ? " selected" : "");
+    cell.setAttribute("aria-label", fmtLong(iso));
     const events = eventsOn(iso);
     const shown = events.slice(0, 3);
     const extra = events.length - shown.length;
-    cell.innerHTML = `<div class="num">${date.getDate()}</div><div class="pills"></div>`;
+    cell.innerHTML = `<div class="num">${date.getDate()}</div><div class="pills"></div><div class="dots"></div>`;
     const pills = cell.querySelector(".pills");
     shown.forEach((e) => {
       const hue = COURSES[e.course].hue;
@@ -156,6 +185,12 @@ function renderCalendar() {
       m.textContent = `+${extra} more`;
       pills.appendChild(m);
     }
+    const dots = cell.querySelector(".dots");
+    events.slice(0, 4).forEach((e) => {
+      const d = document.createElement("i");
+      d.className = `dot ${e.type} ${COURSES[e.course].hue}`;
+      dots.appendChild(d);
+    });
     cell.addEventListener("click", () => {
       state.selected = iso;
       if (out) {
@@ -163,6 +198,11 @@ function renderCalendar() {
         state.month = date.getMonth();
       }
       render();
+      if (isPhone()) {
+        requestAnimationFrame(() => {
+          document.getElementById("dayPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      }
     });
     grid.appendChild(cell);
   });
@@ -211,6 +251,9 @@ function reminderStatusText() {
   if (file) {
     return `Open this app over http:// (not as a file) so notifications can work. ${nextLine}`;
   }
+  if (isIOS() && !isStandalone()) {
+    return `On iPhone: Add to Home Screen, then enable reminders. Or tap Add to Calendar for lock-screen alerts. ${nextLine}`;
+  }
   if (perm === "granted") return `Reminders on: you will be alerted 2 days before each deadline. ${nextLine}`;
   if (perm === "denied") return `Notifications are blocked in the browser. Allow them in settings, or add the calendar file to iPhone/Mac Calendar. ${nextLine}`;
   return `Turn on reminders to get a notification 2 days before each assignment deadline. ${nextLine}`;
@@ -220,10 +263,8 @@ function renderRemindBar() {
   const p = document.getElementById("remindStatus");
   p.textContent = reminderStatusText();
   p.className = location.protocol === "file:" ? "file-warn" : "";
-  const enable = document.getElementById("enableReminders");
-  enable.textContent = (typeof Notification !== "undefined" && Notification.permission === "granted")
-    ? "Test reminder"
-    : "Enable reminders";
+  const banner = document.getElementById("iosInstall");
+  if (banner) banner.hidden = !(isIOS() && !isStandalone());
 }
 
 function pad2(n) {
@@ -334,18 +375,8 @@ function render() {
   renderRemindBar();
 }
 
-document.getElementById("prev").addEventListener("click", () => {
-  if (state.month === 0) { state.month = 11; state.year -= 1; }
-  else state.month -= 1;
-  state.selected = toISO(new Date(state.year, state.month, 1));
-  render();
-});
-document.getElementById("next").addEventListener("click", () => {
-  if (state.month === 11) { state.month = 0; state.year += 1; }
-  else state.month += 1;
-  state.selected = toISO(new Date(state.year, state.month, 1));
-  render();
-});
+document.getElementById("prev").addEventListener("click", () => goMonth(-1));
+document.getElementById("next").addEventListener("click", () => goMonth(1));
 document.getElementById("today").addEventListener("click", () => {
   const t = new Date();
   state.year = t.getFullYear();
@@ -357,6 +388,25 @@ document.getElementById("enableReminders").addEventListener("click", () => {
   askAndNotify().catch((err) => alert(err.message || String(err)));
 });
 document.getElementById("downloadIcs").addEventListener("click", downloadDeadlineCalendar);
+
+(function enableSwipe() {
+  const cal = document.querySelector(".calendar");
+  let x0 = 0;
+  let y0 = 0;
+  cal.addEventListener("touchstart", (e) => {
+    x0 = e.changedTouches[0].clientX;
+    y0 = e.changedTouches[0].clientY;
+  }, { passive: true });
+  cal.addEventListener("touchend", (e) => {
+    const x1 = e.changedTouches[0].clientX;
+    const y1 = e.changedTouches[0].clientY;
+    const dx = x1 - x0;
+    const dy = y1 - y0;
+    if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+      goMonth(dx < 0 ? 1 : -1);
+    }
+  }, { passive: true });
+})();
 
 if (navigator.serviceWorker) {
   navigator.serviceWorker.addEventListener("message", (event) => {
