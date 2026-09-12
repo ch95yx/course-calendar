@@ -1,4 +1,4 @@
-const CACHE_NAME = "ep-calendar-v12";
+const CACHE_NAME = "ep-calendar-v13";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -9,7 +9,6 @@ const PRECACHE = [
   "./reminders.js",
   "./manifest.webmanifest",
   "./icon.svg",
-  "./group-plans.html",
 ];
 
 importScripts("./data.js", "./store.js", "./reminders.js");
