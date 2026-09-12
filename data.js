@@ -48,6 +48,13 @@ const COURSES = {
     name: "Psychoeducational Assessment I",
     hue: "green",
   },
+  group: {
+    id: "group",
+    code: "Placement",
+    short: "小達人",
+    name: "自我管理小達人小組",
+    hue: "orange",
+  },
 };
 
 const EVENTS = [
@@ -175,6 +182,16 @@ const EVENTS = [
   asg("thesis", "2027-05-31", "23:59", "Apply for ethics approval", "Departmental Research Ethics Committee", "Required for all dissertation projects. Same window as the Year 1 proposal."),
   asg("thesis", "2028-03-31", "23:59", "Submit thesis title to the Faculty", "Faculty of Social Sciences", "Outline lists end of March 2028."),
   asg("thesis", "2028-07-15", "23:59", "Dissertation submission", "Moodle (PSYC7028)", "Single PDF, 23:59. Late penalty 2 marks per calendar day if supervisor is told ≥24 hours ahead; otherwise F."),
+
+  cls("group", "2026-10-06", "15:15", "16:45", "天水圍小學", "第1節 · 我們是自我管理小達人", "15:00 到校接學生。小組時間 15:15–16:45。每組 8 人，對象 ADHD 初小／高小。建立常規、跑車大腦比喻、小組契約、達人徽章。Lesson plan: group-plans.html#s1"),
+  cls("group", "2026-10-13", "15:15", "16:45", "天水圍小學", "第2節 · 專注小達人：打開大腦電筒", "15:00 到校接學生。小組時間 15:15–16:45。每組 8 人，ADHD 初小／高小。全身聆聽、電筒比喻、西蒙說、傳話。家課：課堂貼紙 3 次。group-plans.html#s2"),
+  cls("group", "2026-10-20", "15:15", "16:45", "天水圍小學", "第3節 · 停一停小達人：衝動煞車", "15:00 到校接學生。小組時間 15:15–16:45。每組 8 人，ADHD 初小／高小。凍結舞、紅綠燈三步、延遲滿足、情境角色扮演。group-plans.html#s3"),
+  cls("group", "2026-10-27", "15:15", "16:45", "天水圍小學", "第4節 · 情緒小達人：認識天氣圖", "15:00 到校接學生。小組時間 15:15–16:45。每組 8 人，ADHD 初小／高小。藍綠黃紅天氣、身體掃描、情境配對。本節只辨識，下節才教工具。group-plans.html#s4"),
+  cls("group", "2026-11-03", "15:15", "16:45", "天水圍小學", "第5節 · 冷靜工具箱", "15:00 到校接學生。小組時間 15:15–16:45。每組 8 人，ADHD 初小／高小。星星呼吸、5-4-3-2-1、冷靜角實習、升級短劇。預先知會班主任。group-plans.html#s5"),
+  cls("group", "2026-11-10", "15:15", "16:45", "天水圍小學", "第6節 · 整理小達人：書包與桌面", "15:00 到校接學生。小組時間 15:15–16:45。每組 8 人，ADHD 初小／高小。分類救援、5 步檢核表。之後有三週空檔，家課用 6 個上學日。請學生帶書包。group-plans.html#s6"),
+  cls("group", "2026-12-01", "15:15", "16:45", "天水圍小學", "第7節 · 時間小達人：時間看得見", "15:00 到校接學生。小組時間 15:15–16:45。每組 8 人，ADHD 初小／高小。1 分鐘體驗、視覺時間條、先做後玩。先重溫空檔期間的檢核表。group-plans.html#s7"),
+  cls("group", "2026-12-08", "15:15", "16:45", "天水圍小學", "第8節 · 開工小達人：大山變小石", "15:00 到校接學生。小組時間 15:15–16:45。每組 8 人，ADHD 初小／高小。拆解步驟、5 分鐘開工法、自我對話。預告畢業禮。group-plans.html#s8"),
+  cls("group", "2026-12-15", "15:15", "16:45", "天水圍小學", "第9節 · 達人畢業禮：我的自我管理計劃", "15:00 到校接學生。小組時間 15:15–16:45。每組 8 人，ADHD 初小／高小。五站闖關、校／家各一目標、頒證、班主任交接卡。group-plans.html#s9"),
 ];
 
 function cls(course, date, start, end, location, title, notes) {

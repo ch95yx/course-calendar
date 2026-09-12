@@ -55,13 +55,14 @@ function fmtTime(t) {
 }
 
 function visibleEvents() {
-  return mergedEvents().filter((e) => !state.hidden.has(e.course));
+  return mergedEvents().filter((e) => e.custom || !state.hidden.has(e.course));
 }
 
 function eventsOn(iso) {
   return visibleEvents()
     .filter((e) => e.date === iso)
     .sort((a, b) => {
+      if (!!a.custom !== !!b.custom) return a.custom ? -1 : 1;
       const order = { class: 0, break: 1, assignment: 2 };
       const ta = a.start || "99:99";
       const tb = b.start || "99:99";
@@ -168,7 +169,9 @@ function renderCalendar() {
     cell.className = "cell" + (out ? " out" : "") + (iso === todayISO ? " today" : "") + (iso === state.selected ? " selected" : "");
     cell.setAttribute("aria-label", fmtLong(iso));
     const events = eventsOn(iso);
-    const shown = events.slice(0, 3);
+    const customFirst = events.filter((e) => e.custom);
+    const rest = events.filter((e) => !e.custom);
+    const shown = customFirst.concat(rest).slice(0, isPhone() ? 8 : 3);
     const extra = events.length - shown.length;
     cell.innerHTML = `<div class="num">${date.getDate()}</div><div class="pills"></div><div class="dots"></div>`;
     const pills = cell.querySelector(".pills");
@@ -186,7 +189,7 @@ function renderCalendar() {
       pills.appendChild(m);
     }
     const dots = cell.querySelector(".dots");
-    events.slice(0, 4).forEach((e) => {
+    events.slice(0, 8).forEach((e) => {
       const d = document.createElement("i");
       d.className = `dot ${e.type} ${(COURSES[e.course] || COURSES.personal).hue}`;
       dots.appendChild(d);
@@ -282,39 +285,68 @@ async function saveEventFromForm(event) {
   const form = event.currentTarget;
   const payload = {
     title: form.elements.title.value.trim(),
-    date: form.elements.date.value,
+    date: normalizeDateValue(form.elements.date.value),
     start: form.elements.start.value || null,
     end: form.elements.end.value || null,
     location: form.elements.location.value.trim(),
     notes: form.elements.notes.value.trim(),
     type: form.elements.type.value,
-    course: form.elements.course.value,
+    course: form.elements.course.value || "personal",
+    updatedAt: Date.now(),
   };
-  if (!payload.title || !payload.date) return;
-  const store = loadStoreSync();
+  if (!payload.title || !payload.date) {
+    alert("Please add a title and date so this can be saved.");
+    return;
+  }
+  const store = await hydrateStore();
   const existingId = form.elements.id.value;
   const original = existingId ? findEventById(existingId) : null;
+  let savedId = existingId;
   if (original && original.builtIn) {
     store.overrides[original.id] = payload;
   } else if (original && original.custom) {
     store.custom = store.custom.map((e) => e.id === original.id ? Object.assign({}, e, payload) : e);
   } else {
-    store.custom.push(Object.assign({ id: `custom-${Date.now()}` }, payload, { custom: true }));
+    savedId = `custom-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+    store.custom.push(Object.assign({ id: savedId }, payload, { custom: true }));
   }
   await persistStore(store);
+  const check = mergedEvents().some((e) => e.id === savedId || (e.custom && e.title === payload.title && e.date === payload.date));
+  if (!check) {
+    alert("The task could not be saved on this device. Try staying on this same browser/app (Safari and the Home Screen icon do not share tasks).");
+    return;
+  }
   state.selected = payload.date;
   const d = parseISO(payload.date);
   state.year = d.getFullYear();
   state.month = d.getMonth();
   closeEventForm();
   render();
+  showToast("Saved on this calendar");
+}
+
+function normalizeDateValue(value) {
+  if (!value) return "";
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
+  const d = new Date(value);
+  if (!Number.isNaN(d.getTime())) return toISO(d);
+  return "";
+}
+
+function showToast(text) {
+  const el = document.getElementById("toast");
+  if (!el) return;
+  el.textContent = text;
+  el.hidden = false;
+  clearTimeout(showToast.timer);
+  showToast.timer = setTimeout(() => { el.hidden = true; }, 2200);
 }
 
 async function deleteEvent(id) {
   const item = findEventById(id);
   if (!item) return;
   if (!confirm(`Delete “${item.title}”?`)) return;
-  const store = loadStoreSync();
+  const store = await hydrateStore();
   if (item.custom) {
     store.custom = store.custom.filter((e) => e.id !== id);
   } else {
@@ -520,10 +552,21 @@ if (navigator.serviceWorker) {
   });
 }
 
-render();
-registerApp()
-  .then((reg) => {
-    if (reg && Notification.permission === "granted") fireDueReminders(reg);
-    renderRemindBar();
-  })
-  .catch(() => {});
+function boot() {
+  render();
+  registerApp()
+    .then((reg) => {
+      if (reg && Notification.permission === "granted") fireDueReminders(reg);
+      renderRemindBar();
+    })
+    .catch(() => {});
+}
+
+hydrateStore().then(boot).catch(boot);
+
+window.addEventListener("pageshow", () => {
+  hydrateStore().then(render).catch(() => {});
+});
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") hydrateStore().then(render).catch(() => {});
+});

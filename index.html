@@ -21,7 +21,7 @@
       <div>
         <p class="kicker">HKU MSocSc Educational Psychology</p>
         <h1>Course calendar</h1>
-        <p class="sub desktop-only">Classes, visits, and assignment deadlines from the five course outlines.</p>
+        <p class="sub desktop-only">Classes, visits, placement group, and assignment deadlines. <a href="group-plans.html">自我管理小達人 lesson plans</a></p>
         <p class="key desktop-only"><span><b>Dark</b> = class / visit</span><span><b>Light</b> = assignment due</span></p>
       </div>
       <div class="month-nav">
@@ -86,13 +86,14 @@
       </label>
       <label>Calendar
         <select name="course">
+          <option value="personal" selected>My tasks</option>
           <option value="assessment">Assessment I</option>
-          <option value="personal">My tasks</option>
           <option value="intervention">Intervention I</option>
           <option value="sen">SEN I</option>
           <option value="rm">RM &amp; Stats I</option>
           <option value="skills">Skills Training</option>
           <option value="thesis">Dissertation</option>
+          <option value="group">自我管理小達人</option>
         </select>
       </label>
       <label>Notes
@@ -108,6 +109,7 @@
   <script src="data.js"></script>
   <script src="store.js"></script>
   <script src="reminders.js"></script>
+  <div class="toast" id="toast" hidden></div>
   <script src="app.js"></script>
 </body>
 </html>

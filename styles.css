@@ -27,6 +27,9 @@
   --slate-class: #334155;
   --slate-asg: #94a3b8;
   --slate-soft: #f1f5f9;
+  --orange-class: #c2410c;
+  --orange-asg: #fdba74;
+  --orange-soft: #fff7ed;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -259,6 +262,9 @@ button.active, .chip.active {
 .pill.class.slate { background: var(--slate-class); }
 .pill.assignment.slate { background: var(--slate-asg); color: #1e293b; }
 .pill.break.slate { background: var(--slate-soft); color: var(--slate-class); border: 1px dashed var(--slate-asg); }
+.pill.class.orange { background: var(--orange-class); }
+.pill.assignment.orange { background: var(--orange-asg); color: #9a3412; }
+.pill.break.orange { background: var(--orange-soft); color: var(--orange-class); border: 1px dashed var(--orange-asg); }
 .more {
   font-family: "Avenir Next", "Segoe UI", sans-serif;
   font-size: 11px;
@@ -300,6 +306,9 @@ button.active, .chip.active {
 .dot.class.slate { background: var(--slate-class); }
 .dot.assignment.slate { background: var(--slate-asg); }
 .dot.break.slate { background: var(--slate-asg); opacity: 0.45; }
+.dot.class.orange { background: var(--orange-class); }
+.dot.assignment.orange { background: var(--orange-asg); }
+.dot.break.orange { background: var(--orange-asg); opacity: 0.45; }
 
 .ios-install {
   font-family: -apple-system, "Avenir Next", sans-serif;
@@ -344,6 +353,8 @@ button.active, .chip.active {
 .card.green.assignment { border-left-color: var(--green-asg); background: #f7fef9; }
 .card.slate.class, .card.slate.break { border-left-color: var(--slate-class); background: var(--slate-soft); }
 .card.slate.assignment { border-left-color: var(--slate-asg); background: #f8fafc; }
+.card.orange.class, .card.orange.break { border-left-color: var(--orange-class); background: var(--orange-soft); }
+.card.orange.assignment { border-left-color: var(--orange-asg); background: #fffaf5; }
 .tag {
   font-family: "Avenir Next", "Segoe UI", sans-serif;
   font-size: 10px;
@@ -532,3 +543,19 @@ dialog::backdrop { background: rgba(28, 25, 23, 0.35); }
     padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
   }
 }
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(18px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  background: #1c1917;
+  color: #fffcf7;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  font-size: 14px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  z-index: 40;
+  box-shadow: var(--shadow);
+}
+.toast[hidden] { display: none; }

@@ -1,4 +1,4 @@
-const CACHE_NAME = "ep-calendar-v9";
+const CACHE_NAME = "ep-calendar-v12";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -9,6 +9,7 @@ const PRECACHE = [
   "./reminders.js",
   "./manifest.webmanifest",
   "./icon.svg",
+  "./group-plans.html",
 ];
 
 importScripts("./data.js", "./store.js", "./reminders.js");
@@ -30,19 +31,17 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (event.request.method !== "GET" || url.origin !== self.location.origin) return;
+  if (url.pathname === STORE_URL) return;
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const fetchPromise = fetch(event.request)
-        .then((res) => {
-          if (res && res.ok) {
-            const copy = res.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-          }
-          return res;
-        })
-        .catch(() => cached);
-      return cached || fetchPromise;
-    })
+    fetch(event.request)
+      .then((res) => {
+        if (res && res.ok) {
+          const copy = res.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+        }
+        return res;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
 
