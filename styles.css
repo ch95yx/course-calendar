@@ -30,6 +30,9 @@
   --orange-class: #c2410c;
   --orange-asg: #fdba74;
   --orange-soft: #fff7ed;
+  --pink-class: #9d174d;
+  --pink-asg: #f9a8d4;
+  --pink-soft: #fdf2f8;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -265,6 +268,9 @@ button.active, .chip.active {
 .pill.class.orange { background: var(--orange-class); }
 .pill.assignment.orange { background: var(--orange-asg); color: #9a3412; }
 .pill.break.orange { background: var(--orange-soft); color: var(--orange-class); border: 1px dashed var(--orange-asg); }
+.pill.class.pink { background: var(--pink-class); }
+.pill.assignment.pink { background: var(--pink-asg); color: #831843; }
+.pill.break.pink { background: var(--pink-soft); color: var(--pink-class); border: 1px dashed var(--pink-asg); }
 .more {
   font-family: "Avenir Next", "Segoe UI", sans-serif;
   font-size: 11px;
@@ -309,6 +315,9 @@ button.active, .chip.active {
 .dot.class.orange { background: var(--orange-class); }
 .dot.assignment.orange { background: var(--orange-asg); }
 .dot.break.orange { background: var(--orange-asg); opacity: 0.45; }
+.dot.class.pink { background: var(--pink-class); }
+.dot.assignment.pink { background: var(--pink-asg); }
+.dot.break.pink { background: var(--pink-asg); opacity: 0.45; }
 
 .ios-install {
   font-family: -apple-system, "Avenir Next", sans-serif;
@@ -355,6 +364,8 @@ button.active, .chip.active {
 .card.slate.assignment { border-left-color: var(--slate-asg); background: #f8fafc; }
 .card.orange.class, .card.orange.break { border-left-color: var(--orange-class); background: var(--orange-soft); }
 .card.orange.assignment { border-left-color: var(--orange-asg); background: #fffaf5; }
+.card.pink.class, .card.pink.break { border-left-color: var(--pink-class); background: var(--pink-soft); }
+.card.pink.assignment { border-left-color: var(--pink-asg); background: #fff7fb; }
 .tag {
   font-family: "Avenir Next", "Segoe UI", sans-serif;
   font-size: 10px;

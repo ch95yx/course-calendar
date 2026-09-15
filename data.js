@@ -23,9 +23,16 @@ const COURSES = {
   skills: {
     id: "skills",
     code: "PSYC7016",
-    short: "Skills Training",
+    short: "Skills I",
     name: "Skills Training Seminar I",
     hue: "purple",
+  },
+  skills2: {
+    id: "skills2",
+    code: "PSYC7017",
+    short: "Skills II",
+    name: "Skills Training Seminar II",
+    hue: "pink",
   },
   thesis: {
     id: "thesis",
@@ -174,6 +181,18 @@ const EVENTS = [
   asg("skills", "2026-10-30", "23:59", "WISC-IV (HK) protocol 4 of 4", "Submit to Kathy Wong", "Due 2 weeks after practice. Include observer checklist for one case."),
   asg("skills", "2026-11-06", "23:59", "WPPSI-IV (HK) protocol", "Submit to Matthew Chu", "1 protocol; due 2 weeks after the 23 Oct practice."),
   asg("skills", "2026-12-03", "23:59", "Observation & reflection on orientation visits", "Moodle / as instructed", "≤4 pages, double-line spacing. 20% of the course. Child Assessment Service visit date is still TBC."),
+
+  cls("skills2", "2026-11-06", "10:00", "12:50", "CPD-3.28", "SK-II · Vineland-III and SB-V", "Assessment skills workshop. Priscilla Kung (PL/Ls). Usual AM slot 10:00–12:50."),
+  cls("skills2", "2026-11-06", "14:00", "16:50", "LE5", "SK-II · Merrill-Palmer-Revised (M-P-R)", "Assessment skills workshop 1. Galen / Rachelle. Joint session with CP."),
+  cls("skills2", "2026-11-20", "10:00", "12:50", "CPD-3.28", "SK-II · HKT-P(III) seminar", "Assessment skills workshop 2. Joint session with CP."),
+  cls("skills2", "2026-11-20", "14:00", "16:50", "KK202", "SK-II · HKT-JS(II) seminar", "Assessment skills workshop 3. Joint session with CP."),
+  cls("skills2", "2026-11-27", "10:00", "12:50", "CPD-3.28 and 6 PSU rooms", "SK-II · Feedback for PSU assessment cases", "Intervention skills workshop 1."),
+  cls("skills2", "2026-11-27", "14:00", "16:50", "TBC and 6 PSU rooms", "SK-II · Practicum briefing (mentorship and project); WISC", "Venue TBC."),
+  asg("skills2", "2026-11-06", "23:59", "ABAS-III protocol", "Submit to Dr. Kitty Yeung", "40% of SK-II (with the other protocols)."),
+  asg("skills2", "2026-11-20", "23:59", "M-P-R protocol", "Submit to Dr. Kitty Yeung", "Due 2 weeks after the 6 Nov practice."),
+  asg("skills2", "2026-12-04", "23:59", "HKT-P(III) protocol", "Submit to Dr. Kitty Yeung", "Due 2 weeks after the 20 Nov practice. Also observe one classmate’s HKT-P(III) or HKT-JS(II) and submit one observation checklist."),
+  asg("skills2", "2026-12-11", "23:59", "HKT-JS(II) protocol", "Submit to Dr. Kitty Yeung", "Due 2 weeks after the 20 Nov practice."),
+  asg("skills2", "2027-05-09", "23:59", "SK-II learning portfolio", "Submit to Dr. Melody Xu", "~1,500 words. 20% of the course. Semester 2 workshops/visits are still TBC."),
 
   asg("thesis", "2026-09-30", "23:59", "Supervisor Preference Form", "Department", "Submit by the end of September. Results announced 15 October 2026."),
   asg("thesis", "2026-10-15", "23:59", "Supervisor assignment announced", "Department", "After this, finalise the research topic and a meeting schedule with your supervisor."),
