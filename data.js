@@ -162,6 +162,7 @@ const EVENTS = [
   cls("skills", "2026-09-22", "09:30", "11:30", "Caritas Pelletier School, Clear Water Bay Rd, Kowloon", "Orientation visit 1 · Caritas Pelletier School", "Meet 9:20 a.m. at the school entrance. Coordinator: Galen Liu."),
   cls("skills", "2026-09-29", "10:00", "11:30", "Heep Hong Society ISC, 19 Sandy Bay Road, Pokfulam", "Orientation visit 2 · Heep Hong Society ISC", "Meet 9:50 a.m. at the ISC entrance. Coordinator: Natalie Tsui."),
   cls("skills", "2026-10-09", "10:00", "12:50", "CPD-3.28", "Orientation · Induction on PSU operation and hotline handling (joint with CP)", "Meet 10:00 a.m. Coordinator: Kathy Wong."),
+  cls("skills", "2026-10-11", "13:00", null, "天水圍", "WISC-IV", ""),
   cls("skills", "2026-10-27", "10:00", "12:00", "HKRSS Tai Po Secondary School, Fu Heng Estate, Tai Po", "Orientation visit 4 · HKRSS Tai Po Secondary School", "Meet 9:50 a.m. at the school entrance. Coordinator: Matthew Chu."),
   cls("skills", "2026-11-26", "10:00", "12:50", "LE4", "Orientation talk · EDB Educational Psychology Services", "Meet 10:00 a.m. Speaker: Mrs Jacqueline Ho. Coordinator: Rachelle Li."),
   cls("skills", "2026-09-18", "10:00", "12:50", "CPD 3.28 (breakout 4.36–4.41)", "Workshop 1 · Sharing of free interview", "Kathy S. & course instructors."),
