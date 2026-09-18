@@ -1,4 +1,4 @@
-const CACHE_NAME = "ep-calendar-v18";
+const CACHE_NAME = "ep-calendar-v19";
 const PRECACHE = [
   "./",
   "./index.html",
