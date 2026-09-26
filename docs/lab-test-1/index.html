@@ -44,6 +44,7 @@
   <input id="q" type="search" placeholder="Search: Levene, sphericity, partial, whisker, η², Welch…" autocomplete="off">
   <span id="count"></span>
   <nav>
+    <a href="#exam">On the day</a>
     <a href="#choose">Which test</a>
     <a href="#desc">Descriptives</a>
     <a href="#tind">Independent t</a>
@@ -61,6 +62,176 @@
   </nav>
 </header>
 <main>
+
+<section id="exam" data-search>
+<h2>On the day — scenario, test, numbers, interpretation</h2>
+<div class="do">
+<p>You get one dataset and several scenarios. Each scenario is three decisions: which analysis, which statistics to report, how to interpret them. Design picks the test. The output picks the row you are allowed to quote. α = .05 unless a question says otherwise.</p>
+</div>
+
+<h3>Step 1 — which analysis</h3>
+<div class="card">
+<table>
+<tr><th>The scenario says</th><th>Run this</th><th>Do not run</th></tr>
+<tr><td>Describe the scores, or “plot the distribution”</td><td>Descriptives, histogram, boxplot, Q-Q</td><td>A hypothesis test, unless they also ask whether groups differ</td></tr>
+<tr><td>Two continuous variables, “is there a relationship?”</td><td>Pearson correlation</td><td>A t-test. A t-test compares means. It does not relate two scores.</td></tr>
+<tr><td>Same question, but “after controlling for” a third variable</td><td>Partial correlation, and the simple correlation first</td><td>Semi-partial, unless they say “unique contribution” or “remove Z from only one variable”</td></tr>
+<tr><td>“Unique association” / semi-partial / part correlation</td><td>Semi-partial. Say which variable Z was removed from</td><td>Calling it partial. The two off-diagonal cells can differ.</td></tr>
+<tr><td>Two groups, different people, one continuous outcome</td><td>Independent-samples t</td><td>ANOVA. Paired t. Correlation.</td></tr>
+<tr><td>Same people, two times or two conditions</td><td>Paired t</td><td>Independent t. There is no grouping variable and no Levene.</td></tr>
+<tr><td>Three or more groups, different people</td><td>One-way independent ANOVA, then post hoc</td><td>A stack of t-tests. Three groups already make the Type I error 14.26%.</td></tr>
+<tr><td>Same people, three or more conditions</td><td>Repeated-measures ANOVA, then Holm</td><td>Paired t on every pair. Independent ANOVA.</td></tr>
+</table>
+<p>Gender, drug, and tutor are grouping variables when they split people into groups. A grouping variable is the independent variable only if the study manipulated it. The outcome always goes in Dependent Variable. An ID column is never an analysis variable.</p>
+</div>
+
+<h3>Step 2 — the p rule, then the size rule</h3>
+<div class="card">
+<p><span class="k">p decides whether you reject H0. Effect size decides how big the result is. They are separate sentences.</span></p>
+<table>
+<tr><th>What jamovi shows</th><th>What you write</th><th>What you must not write</th></tr>
+<tr><td>p &lt; .05</td><td>Significant. Reject H0. That gives some support to the alternative, not proof.</td><td>“Proved”, “caused” (unless the design is an experiment and you are careful), “important”.</td></tr>
+<tr><td>p &gt; .05, including .051, .058, .150</td><td>Not significant. Fail to reject H0.</td><td>“There is no difference” or “there is no relationship”. Absence of significance is not evidence of absence.</td></tr>
+<tr><td>p printed as &lt; .001</td><td>p &lt; .001</td><td>p = .000 or p = 0</td></tr>
+<tr><td>95% CI for a mean difference includes 0</td><td>Agrees with a non-significant t</td><td>Quoting a CI from the other t row (Student vs Welch)</td></tr>
+<tr><td>95% CI excludes 0</td><td>Agrees with a significant t. The sign must match which mean is higher.</td><td>A direction that contradicts the means</td></tr>
+</table>
+<p>Class case you will be asked in this form: sleep and attention, N = 100, r = .35, p = .051. Medium relationship. At α = .05 you do <span class="k">not</span> reject H0. You still report the medium effect. .049 and .051 are not different kinds of science. Significance is not importance.</p>
+</div>
+<div class="card">
+<p><span class="k">Cohen’s d</span> (mean difference in SD units). Guidelines, not laws. Slides: 0.2 small, 0.5 medium, 0.8 large.</p>
+<table>
+<tr><th>|d|</th><th>Say this</th></tr>
+<tr><td>Below 0.2</td><td>Smaller than the small benchmark</td></tr>
+<tr><td>0.2</td><td>Small</td></tr>
+<tr><td>Between 0.2 and 0.5</td><td>Between small and medium</td></tr>
+<tr><td>0.5</td><td>Medium</td></tr>
+<tr><td>Between 0.5 and 0.8</td><td>Between medium and large. Class grades: d = .74 is this band.</td></tr>
+<tr><td>0.8 or above</td><td>Large. Class paired test: d = 1.45 is large.</td></tr>
+</table>
+<p>Use the absolute value for the size word. The sign, or the two means, gives the direction.</p>
+<p><span class="k">Pearson’s r.</span> Size uses |r|. Sign is a separate word (positive or negative).</p>
+<table>
+<tr><th>|r|</th><th>Say this</th></tr>
+<tr><td>Below .10</td><td>Below the small benchmark</td></tr>
+<tr><td>≥ .10 and below .30</td><td>Small</td></tr>
+<tr><td>≥ .30 and below .50</td><td>Medium. r = .35 is medium.</td></tr>
+<tr><td>≥ .50</td><td>Large. .63, .90, .57, .664, and .618 are all large.</td></tr>
+</table>
+<p><span class="k">η² and partial η² have no small / medium / large cutoff in this course.</span> Report the proportion. η² = 0.71 means the grouping variable explains 71% of the outcome variance. Partial η² is the RM one, because it ignores between-person variance. In a one-way RM, η² and generalised η² print the same number. Still name partial η².</p>
+</div>
+
+<h3>Step 3 — which row you are allowed to quote</h3>
+<div class="card">
+<table>
+<tr><th>Check</th><th>p &gt; .05</th><th>p &lt; .05</th></tr>
+<tr><td>Levene (independent t or independent ANOVA)</td><td>Equal variances. Quote Student’s t, or the ordinary ANOVA. Post hoc: LSD if the ANOVA is significant and there are at most 3 groups. Tukey if more groups or you want the correction.</td><td>Unequal variances. Quote Welch’s t, or Welch’s F. Post hoc: Games–Howell. Not Tukey. Not LSD.</td></tr>
+<tr><td>Shapiro–Wilk</td><td>Does not by itself prove normality. Prefer the Q-Q plot.</td><td>Flags non-normality, and it over-calls. Do not change test on Shapiro alone. If the Q-Q bends, say normality was not met.</td></tr>
+<tr><td>Mauchly (RM ANOVA)</td><td>Sphericity met. Quote the uncorrected F.</td><td>Sphericity violated. Read ε. ε &gt; .75 → Huynh–Feldt row. ε ≤ .75 → Greenhouse–Geisser row. Copy df from that row.</td></tr>
+<tr><td>Omnibus F</td><td>Stop. Do not hunt for a winning pair. Write that the groups / conditions did not differ significantly.</td><td>Then post hoc. A significant F can still have every pair p &gt; .05. Report that. Do not invent a winner.</td></tr>
+<tr><td>Each post hoc pair</td><td>Those two do not differ significantly.</td><td>Those two differ. Name who is higher from the means.</td></tr>
+</table>
+<p>Pearson assumptions are pictures, not a p-value. Straight cloud → linearity. One ellipse → bivariate normality. Even residual spread → homoscedasticity. Fan → heteroscedasticity, switch to Spearman or Kendall and say why. U-shape is a failed straight line. Spearman does not fix a U. Ambiguous residual plot: say it is ambiguous, pick a side, give the reason.</p>
+<p>After a partial correlation, compare with the simple r. Weaker but still significant → partial confounder. No longer significant → confounder. Stronger → suppressor. Sign flips → negative suppressor.</p>
+</div>
+
+<h3>What to report, by test</h3>
+<div class="card">
+<table>
+<tr><th>Test</th><th>Copy these, in this order</th></tr>
+<tr><td>Descriptives</td><td>N, mean, SD. Median if the mean is pulled by skew. Name the plot feature they asked about (skew, outlier, whisker vs fence).</td></tr>
+<tr><td>Independent t</td><td>Both means and SDs. Q-Q met or not. Levene F(df1, df2), p, met or violated. Then only one row: Student or Welch. t(df), p, 95% CI, Cohen’s d plus the size word. Who was higher.</td></tr>
+<tr><td>Paired t</td><td>Both means and SDs. Q-Q. t(df), p, 95% CI, d plus the size word. Which time was higher. No Levene.</td></tr>
+<tr><td>Correlation</td><td>r, p, positive or negative, small / medium / large from |r|. One sentence each for independence, linearity, bivariate normality, homoscedasticity.</td></tr>
+<tr><td>Partial or semi-partial</td><td>Simple r and p, then the controlled r and p, then what changed, then the confounder label. For semi-partial, name the cell.</td></tr>
+<tr><td>One-way ANOVA</td><td>Every group’s mean and SD. Levene. Q-Q. F(df1, df2), p, η² as a proportion. Named post hoc with t(df) and p for every pair, including the non-significant ones. Who differed.</td></tr>
+<tr><td>RM ANOVA</td><td>Every condition’s mean and SD. Mauchly χ²(df), p. ε and the correction row if Mauchly fails. F from the row you used, p, partial η². Holm (or the named correction) for every pair.</td></tr>
+</table>
+</div>
+
+<h3>Worked examples</h3>
+<div class="card">
+<p class="k">Example A — pick the test before you click</p>
+<ul>
+<li>“Do students in tutor A’s class score higher than tutor B’s?” Two groups, different people, grade is continuous. Independent t.</li>
+<li>“Did the same 20 students score higher on test 2 than test 1?” Same people, two measures. Paired t.</li>
+<li>“Do joyzepam, anxifree, and placebo differ in mood?” Three groups, different people. One-way ANOVA, not three t-tests.</li>
+<li>“Did the same children differ across speech, conceptual, and syntax?” Same people, three conditions. RM ANOVA.</li>
+<li>“Is sleep related to grumpiness?” Two continuous variables. Pearson r.</li>
+<li>“Is stress still related to exam score after holding study time constant?” Partial r, after you have the simple r.</li>
+</ul>
+</div>
+
+<div class="card">
+<p class="k">Example B — independent t, significant, Levene met (class: Anastasia vs Bernadette)</p>
+<p><span class="k">Analysis.</span> Independent-samples t. Two tutors, different students, grade is continuous.</p>
+<p><span class="k">Which row.</span> Levene F(1, 31) = 2.49, p = .125. p &gt; .05, so homogeneity is met. Quote Student’s t. Ignore the Welch row.</p>
+<p><span class="k">Numbers.</span> Anastasia 74.53 (SD 9.00), Bernadette 69.06 (SD 5.77). t(31) = 2.12, p = .043, 95% CI [0.20, 10.76], d = .74.</p>
+<p><span class="k">Interpretation.</span> p = .043 is below .05, so reject H0: the class means differ. The CI excludes 0 and is positive in the direction of Anastasia’s higher mean. d = .74 sits between 0.5 and 0.8, so between medium and large. Anastasia’s class scored higher. Significance here is not the same claim as “the difference is large”; the size word comes from d, and d is not yet at the large benchmark of 0.8.</p>
+<pre>The mean grade in Anastasia’s class was 74.53 (SD = 9.00), whereas the mean in Bernadette’s class was 69.06 (SD = 5.77). Normality of errors was checked with a Q-Q plot of the residuals and was met. Homogeneity of variance was checked with Levene’s test, F(1, 31) = 2.49, p = .125, and was met. Because Levene’s test was not significant, Student’s independent-samples t-test was used. There was a significant difference, t(31) = 2.12, p = .043, 95% CI [0.20, 10.76], Cohen’s d = .74 (between medium and large), such that Anastasia’s class had higher grades than Bernadette’s class.</pre>
+</div>
+
+<div class="card">
+<p class="k">Example C — same output, if Levene had failed (practice rule, not a class result)</p>
+<p>Suppose the means were unchanged but Levene was F(1, 31) = 8.10, p = .008. p &lt; .05, so variances are unequal. You must not report t(31) = 2.12. Open the Welch row and copy that t, that df (it will not be 31), that p, that CI, and that d. Write that homogeneity was violated and Welch’s t was used. Welch has a slight loss of power. The p rule and the d bands stay the same.</p>
+</div>
+
+<div class="card">
+<p class="k">Example D — not significant, and the effect is small (practice output, not from the slides)</p>
+<table>
+<tr><th></th><th>Group A</th><th>Group B</th></tr>
+<tr><td>Mean (SD)</td><td>12.40 (2.10)</td><td>11.90 (4.80)</td></tr>
+</table>
+<p>Levene F(1, 40) = 6.20, p = .017. Student’s t(40) = 0.55, p = .585, d = 0.17, 95% CI [−1.20, 2.20]. Welch’s t(28.4) = 0.48, p = .635, d = 0.15, 95% CI [−1.55, 2.55].</p>
+<p><span class="k">Which row.</span> Levene p = .017 &lt; .05, so Welch only.</p>
+<p><span class="k">Interpretation.</span> Welch p = .635 &gt; .05, so fail to reject H0. The CI includes 0, which agrees. d = 0.15 is below 0.2, so smaller than the small benchmark. Group A’s mean is a little higher, but you do not claim a difference, and you do not claim the groups are the same.</p>
+<pre>The mean in Group A was 12.40 (SD = 2.10), whereas the mean in Group B was 11.90 (SD = 4.80). Homogeneity of variance was violated, Levene’s F(1, 40) = 6.20, p = .017, so Welch’s t-test was used. The difference was not significant, t(28.4) = 0.48, p = .635, 95% CI [−1.55, 2.55], Cohen’s d = 0.15 (smaller than small). There was no statistically significant difference in means.</pre>
+</div>
+
+<div class="card">
+<p class="k">Example E — paired t, significant, large d (class)</p>
+<p>Test 1 = 56.98 (SD 6.62), test 2 = 58.38 (SD 6.41). Same students. t(19) = 6.48, so 20 people. p &lt; .001. CI [0.95, 1.86] excludes 0. d = 1.45 is above 0.8, so large. Scores were higher on test 2. No Levene sentence.</p>
+<pre>The mean of the first test was 56.98 (SD = 6.62), whereas the mean of the second test was 58.38 (SD = 6.41). Normality of errors was checked with a Q-Q plot and was met. A paired-samples t-test showed a significant difference, t(19) = 6.48, p &lt; .001, 95% CI [0.95, 1.86], Cohen’s d = 1.45 (large), such that scores were higher on the second test.</pre>
+</div>
+
+<div class="card">
+<p class="k">Example F — p &gt; .05 with a medium effect (class: sleep and attention)</p>
+<p>N = 100, r = .35, p = .051. |r| is at least .30 and below .50, so medium. p is above .05, so you do not reject H0.</p>
+<pre>There was a non-significant positive medium relationship between sleep duration and attention, r = .35, p = .051. As sleep increased, attention increased. At α = .05 the null hypothesis was not rejected. The effect is still medium, so this is not evidence that the relationship is absent. .049 and .051 would not be treated as different kinds of result.</pre>
+</div>
+
+<div class="card">
+<p class="k">Example G — significant correlations, size from |r| (class: Dan)</p>
+<ul>
+<li>Dan’s sleep with baby’s sleep, r = .63, p &lt; .001. Positive, large. As Dan’s sleep increased, the baby’s sleep increased.</li>
+<li>Dan’s sleep with grumpiness, r = −.90, p &lt; .001. Negative, large. |r| = .90. As Dan’s sleep increased, grumpiness decreased.</li>
+<li>Baby’s sleep with grumpiness, r = −.57, p &lt; .001. Negative, large.</li>
+</ul>
+<p>Add the assumption sentence from the scatterplot and the residual plot. A fan means you report Spearman or Kendall instead, and you say Pearson’s homoscedasticity failed.</p>
+</div>
+
+<div class="card">
+<p class="k">Example H — partial correlation, sign flip (class)</p>
+<p>Simple r(stress, exam) = .664, p &lt; .001, positive large. After daily study time, partial r = −.618, p &lt; .001, negative large. It did not weaken. The sign flipped, and it is still significant. That is a negative suppressor, not a confounder.</p>
+<pre>The simple relationship between stress and exam performance was positive and large, r = .664, p &lt; .001. After controlling for daily study time, the partial correlation was r = −.618, p &lt; .001, negative and large. The relationship flipped direction. This pattern is a negative suppressor.</pre>
+</div>
+
+<div class="card">
+<p class="k">Example I — ANOVA, one pair not significant (class: drugs)</p>
+<p>Three drugs, different people. Levene F(2, 15) = 1.45, p = .266 &gt; .05, so ordinary ANOVA, not Welch. Three groups and a significant F, so Fisher’s LSD is allowed. F(2, 15) = 18.61, p &lt; .001. η² = 0.71 means 71% of mood variance is explained by drug. There is no Cohen band for that .71.</p>
+<ul>
+<li>Joyzepam &gt; anxifree, t(15) = 4.36, p &lt; .001. Significant.</li>
+<li>Joyzepam &gt; placebo, t(15) = 5.88, p &lt; .001. Significant.</li>
+<li>Anxifree vs placebo, t(15) = 1.52, p = .150. p &gt; .05, so this pair is not significant. The slide once printed p &lt; .001 here. The correct value is .150. Do not say the two drugs are proven equal. Say they did not differ significantly.</li>
+</ul>
+<p>The write-up on the slide was also marked wrong because the means and SDs were missing. Put every group’s mean and SD in the first sentence even though this summary does not repeat those means.</p>
+</div>
+
+<div class="card">
+<p class="k">Example J — RM ANOVA, omnibus significant, no pair significant (class)</p>
+<p>Speech 7.17 (SD 1.47), Conceptual 6.17 (1.47), Syntax 4.33 (1.63). Mauchly χ² = 0.85, p = .720 &gt; .05, so sphericity is met and you quote the uncorrected F. You do not apply ε. F(2, 10) = 6.39, p = .013, so reject the omnibus H0: the three conditions are not all equal. Partial η² = .581. Tukey pairs: p = .381, .058, and .102. Every pair is above .05, including Speech vs Syntax at .058. The omnibus test found a difference somewhere, and no pairwise comparison reached .05. Do not crown Syntax as significantly lower.</p>
+</div>
+</section>
 
 <section id="choose" data-search>
 <h2>1. Which test — decide this first</h2>
