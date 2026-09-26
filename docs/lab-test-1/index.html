@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PSYC7019 Lab Test 1 — revision sheet</title>
+<style>
+  :root { --ink:#1c1915; --muted:#5c564c; --line:#e4ddd0; --paper:#f7f4ee; --card:#fffdf9; --blue:#1d4e89; --green:#1f6b45; --amber:#8a5a00; --red:#8d2a2a; --chip:#efe8da; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin:0; color:var(--ink); background:var(--paper); font:17px/1.45 "Iowan Old Style", Palatino, Georgia, serif; }
+  header { position:sticky; top:0; z-index:20; background:#1c1915; color:#f7f4ee; padding:10px 16px 12px; }
+  header h1 { margin:0 0 6px; font-size:18px; font-weight:700; letter-spacing:0; }
+  header p { margin:0 0 8px; font-size:13px; color:#d9d0c2; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  #q { width:100%; max-width:720px; font:16px/1.3 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; padding:8px 10px; border:0; border-radius:6px; }
+  nav { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  nav a { color:#f7f4ee; background:#3a342c; text-decoration:none; font:12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; padding:6px 8px; border-radius:999px; }
+  main { max-width:980px; margin:0 auto; padding:18px 16px 80px; }
+  section { margin:0 0 22px; }
+  h2 { font-size:22px; margin:28px 0 10px; padding-top:8px; border-top:2px solid var(--ink); }
+  h3 { font-size:18px; margin:16px 0 8px; color:var(--blue); }
+  p, li { margin:0 0 8px; }
+  ul, ol { margin:0 0 10px; padding-left:1.2em; }
+  .card, .trap, .do, .formula { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin:0 0 10px; }
+  .trap { background:#fff6df; border-color:#e6d3a1; }
+  .do { background:#eef7f1; border-color:#c9e4d4; }
+  .formula { background:#f3f6fb; border-color:#d5e0ef; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:15px; line-height:1.55; }
+  .k { font-weight:700; }
+  table { width:100%; border-collapse:collapse; background:var(--card); margin:0 0 12px; font-size:15.5px; }
+  th, td { border:1px solid var(--line); padding:6px 8px; vertical-align:top; text-align:left; }
+  th { background:#efe8da; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size:13px; }
+  .tag { display:inline-block; background:var(--chip); border-radius:999px; padding:1px 8px; font:12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin-right:4px; }
+  .hide { display:none !important; }
+  pre { white-space:pre-wrap; margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size:15px; }
+  img.fig { width:100%; height:auto; display:block; margin:8px 0 4px; border:1px solid var(--line); border-radius:8px; background:#fff; }
+  .small { color:var(--muted); font-size:14px; }
+  #count { font:12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:#d9d0c2; margin-left:8px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>PSYC7019 Lab Test 1 · open-book sheet</h1>
+  <p>28 Sep, 3pm, CPD-3.41 · 2 hours · fill-in + short answer · jamovi · one Word file. Scope: descriptives, graphs, t-tests, correlation (bivariate, partial, semi-partial), one-way ANOVA. This file works offline. Use the box or Ctrl+F.</p>
+  <input id="q" type="search" placeholder="Search: Levene, sphericity, partial, whisker, η², Welch…" autocomplete="off">
+  <span id="count"></span>
+  <nav>
+    <a href="#choose">Which test</a>
+    <a href="#report">What to write</a>
+    <a href="#formula">Formulas</a>
+    <a href="#jamovi">jamovi clicks</a>
+    <a href="#plots">Read a plot</a>
+    <a href="#templates">Write-up lines</a>
+    <a href="#l1">Lecture 1</a>
+    <a href="#l2">Lecture 2</a>
+    <a href="#partial">Partial / semi</a>
+    <a href="#l3">ANOVA</a>
+    <a href="#traps">Traps</a>
+    <a href="#gloss">A–Z</a>
+  </nav>
+</header>
+<main>
+
+<section id="choose" data-search>
+<h2>1. Which test — decide this first</h2>
+<div class="card">
+<p><span class="k">Question shape → test.</span> Design decides the test. Check assumptions before you trust p.</p>
+<table>
+<tr><th>Question</th><th>Design</th><th>Test</th><th>If an assumption fails</th></tr>
+<tr><td>Describe the sample</td><td>Any</td><td>Descriptives + histogram / boxplot</td><td>—</td></tr>
+<tr><td>Two variables, is there a relationship?</td><td>No third variable</td><td>Pearson r</td><td>Normality or homoscedasticity fails → Spearman or Kendall’s tau-b. A U-shape is a linearity problem, not a rank-correlation fix. Time-linked data → autocorrelation, do not use Pearson.</td></tr>
+<tr><td>Relationship of X and Y after holding Z constant</td><td>Z affects both</td><td>Partial r</td><td>Same correlation logic. Also say what happened to r (weaker / gone / stronger / flipped).</td></tr>
+<tr><td>Unique link of one variable after removing Z from only one of them</td><td>Usually remove Z from the predictor</td><td>Semi-partial r</td><td>Say which variable Z was removed from. This is the building block of regression.</td></tr>
+<tr><td>Are two means different?</td><td>Different people</td><td>Independent-samples t</td><td>Levene fails → Welch’s t (slight loss of power).</td></tr>
+<tr><td>Are two means different?</td><td>Same people, two times / conditions</td><td>Paired t</td><td>No Levene. Independence of pairs is a design check.</td></tr>
+<tr><td>Are 3+ means different?</td><td>Different people</td><td>One-way independent ANOVA</td><td>Levene fails → Welch’s F, then Games–Howell (not Tukey, not LSD).</td></tr>
+<tr><td>Are 3+ means different?</td><td>Same people, 3+ conditions</td><td>One-way repeated-measures ANOVA</td><td>Mauchly fails → Greenhouse–Geisser if ε ≤ .75, Huynh–Feldt if ε &gt; .75.</td></tr>
+</table>
+<p class="small">Two groups only: t-test, not ANOVA. If you run both, F = t². Three or more groups: do not run a pile of t-tests. That inflates Type I error. Factorial ANOVA, ANCOVA, and regression are later weeks. Lance’s email does not put them on this test.</p>
+</div>
+<div class="trap">
+<p><span class="k">Post hoc, independent ANOVA</span></p>
+<ul>
+<li><span class="k">None (Fisher’s LSD):</span> only if the ANOVA is significant <em>and</em> there are at most 3 groups.</li>
+<li><span class="k">Tukey HSD:</span> equal variances.</li>
+<li><span class="k">Games–Howell:</span> unequal variances. Pair it with Welch’s F.</li>
+</ul>
+<p><span class="k">Post hoc, repeated-measures ANOVA</span> — least conservative → most conservative: None, Tukey, <span class="k">Holm (best balance of power and error control)</span>, Bonferroni, Scheffé.</p>
+</div>
+</section>
+
+<section id="report" data-search>
+<h2>2. What every answer must contain</h2>
+<div class="do">
+<ol>
+<li><span class="k">Descriptives.</span> Mean (SD) for every group or every variable. The drug write-up on the slide was marked wrong because these were missing.</li>
+<li><span class="k">Assumptions.</span> Name each one, how you checked it, and whether it was met. If not, name the fallback you actually used.</li>
+<li><span class="k">The test.</span> Name it. Statistic with df, p, effect size. For a t-test also the CI.</li>
+<li><span class="k">Direction in words.</span> Who was higher, or whether the relationship is positive or negative.</li>
+<li><span class="k">Follow-up only if needed.</span> Name the post hoc correction. If the overall F is significant but no pair is, say that. Do not invent a winner.</li>
+</ol>
+<p>Copy numbers from jamovi. The slide once printed anxifree vs placebo as p &lt; .001 and then corrected it to <span class="k">p = .150</span>. A wrong p is a wrong answer. If p is shown as &lt; .001, write p &lt; .001, not p = .000.</p>
+</div>
+<div class="card">
+<p><span class="k">Words for size (Cohen, as on the slides).</span> These are guidelines, not laws.</p>
+<table>
+<tr><th></th><th>Small</th><th>Medium</th><th>Large</th></tr>
+<tr><td>Cohen’s d</td><td>0.2</td><td>0.5</td><td>0.8</td></tr>
+<tr><td>Pearson’s r</td><td>≥ .10</td><td>≥ .30</td><td>≥ .50</td></tr>
+</table>
+<p>A value between two cutoffs: say “between medium and large”. The slides do <span class="k">not</span> give small/medium/large cutoffs for η². Report η² as a proportion of variance: η² = 0.71 means 71% of the outcome variance is explained by the model.</p>
+<p><span class="k">p is not importance.</span> Sleep and attention, N = 100, r = .35 (medium), p = .051. At α = .05 you do <span class="k">not</span> reject H0. You also do not conclude “there is no relationship”. Report the effect size. .049 and .051 are not different kinds of science.</p>
+</div>
+</section>
+
+<section id="formula" data-search>
+<h2>3. Formulas and df</h2>
+<div class="formula">
+Mean: x̄ = Σx / n<br>
+Slide example: 22+40+53+57+93+98+103+108+116+121+234 = 1045. n = 11. Mean = 1045/11 = 95.<br>
+Median, odd n: middle score after sorting. Those 11 scores → 98.<br>
+Median, even n: average of the two middle scores. Drop 234 → (93+98)/2 = 95.5.<br>
+Mode: most frequent score. There can be more than one.<br><br>
+Deviance (error) = x − mean<br>
+SS = Σ (x − mean)² &nbsp;&nbsp; (square first, so plus and minus do not cancel)<br>
+Variance s² = SS / (n − 1) &nbsp;&nbsp; the −1 is degrees of freedom<br>
+SD s = √variance<br>
+Range = highest − lowest<br>
+IQR = Q3 − Q1 = middle 50% &nbsp;&nbsp; quartiles are the 25th, 50th, and 75th percentiles<br><br>
+SE = s / √N &nbsp;&nbsp; (symbol on the slide: σₓ̄ = s / √N)<br>
+95% CI ≈ mean ± 1.96 × SE<br>
+99% CI ≈ mean ± 2.576 × SE<br><br>
+Covariance = Σ (x − x̄)(y − ȳ) / (N − 1)<br>
+Pearson r = covariance / (sₓ × sᵧ) &nbsp;&nbsp; r is always between −1 and +1<br><br>
+F = MS_model / MS_residual = explained variance / unexplained variance<br>
+MS = SS / df<br>
+SS_total = SS_model + SS_residual<br>
+η² = SS_model / SS_total<br>
+Partial η² = SS_effect / (SS_effect + SS_error)<br>
+Two groups only: F = t² &nbsp;&nbsp; (square the t, not the F)<br><br>
+Power = 1 − β<br>
+Familywise error = 1 − (1 − α)^m &nbsp;&nbsp; m = number of tests<br>
+Number of pairwise tests = k(k − 1) / 2
+</div>
+<table>
+<tr><th>Situation</th><th>df</th><th>Class example</th></tr>
+<tr><td>Sample variance / SD</td><td>n − 1</td><td>Estimating the mean costs 1 df</td></tr>
+<tr><td>Independent t</td><td>N − 2</td><td>t(31) → N = 33. Levene was F(1, 31)</td></tr>
+<tr><td>Paired t</td><td>n − 1 (pairs)</td><td>t(19) → 20 people</td></tr>
+<tr><td>One-way ANOVA, model</td><td>k − 1</td><td>F(2, 15) → 3 groups</td></tr>
+<tr><td>One-way ANOVA, residual</td><td>N − k</td><td>F(2, 15) → N = 18. Post hoc t also uses df = 15</td></tr>
+<tr><td>RM ANOVA, effect</td><td>k − 1</td><td>F(2, 10) → 3 conditions</td></tr>
+<tr><td>RM ANOVA, error</td><td>(k − 1)(n − 1)</td><td>F(2, 10) → n = 6, because 2 × 5 = 10. Post hoc t(5) = n − 1</td></tr>
+<tr><td>Mauchly, 3 conditions</td><td>2</td><td>Slide writes χ²(5). Copy the df jamovi prints.</td></tr>
+</table>
+<div class="card">
+<p><span class="k">z distribution:</span> mean 0, SD 1. Lookup tool for the normal curve. ±1.96 cuts off the middle 95% (2.5% in each tail). ±2.576 cuts off the middle 99%.</p>
+<p><span class="k">Familywise table from the slide</span> (α = .05 each test):</p>
+<table>
+<tr><th>Groups</th><th>t-tests</th><th>Type I error</th><th>Groups</th><th>t-tests</th><th>Type I error</th></tr>
+<tr><td>2</td><td>1</td><td>5%</td><td>6</td><td>15</td><td>53.67%</td></tr>
+<tr><td>3</td><td>3</td><td>14.26%</td><td>7</td><td>21</td><td>65.94%</td></tr>
+<tr><td>4</td><td>6</td><td>26.49%</td><td>8</td><td>28</td><td>76.22%</td></tr>
+<tr><td>5</td><td>10</td><td>40.13%</td><td>9</td><td>36</td><td>84.22%</td></tr>
+<tr><td>10</td><td>45</td><td>90.06%</td><td></td><td></td><td></td></tr>
+</table>
+<p>Worked check: 3 tests → 1 − .95³ = .1426 = 14.26%.</p>
+</div>
+</section>
+
+<section id="jamovi" data-search>
+<h2>4. jamovi clicks</h2>
+<div class="card">
+<p><span class="k">Before any analysis.</span> Double-click a column header. Set the measure: grouping variable = Nominal (or Ordinal). Outcome = Continuous. A wrong type sends you to the wrong menu. Data types: Integer, Decimal, Text. Do not analyse an ID column.</p>
+</div>
+<table>
+<tr><th>Job</th><th>Menu</th><th>What to tick</th></tr>
+<tr><td>Descriptives and graphs</td><td>Analyses → Exploration → Descriptives</td><td>Variables. Split by = grouping factor. Statistics: N, Mean, Median, Mode, SD, Variance, Range, Min, Max, SE, Skewness, Kurtosis, Quartiles. Plots: Histogram, Box plot, Q-Q, Bar if categorical.</td></tr>
+<tr><td>Scatterplot</td><td>Same Descriptives plots, or the scatter option if it is on your build. Linear regression also shows the cloud via residuals.</td><td>Look for a straight cloud, an ellipse, and even vertical spread.</td></tr>
+<tr><td>Independent t</td><td>Analyses → T-Tests → Independent Samples T-Test</td><td>Dependent variable. Grouping variable. Student’s if variances equal; Welch’s if not. Hypothesis: Group 1 ≠ Group 2 (two-tailed) unless the question is directional. Additional: Mean difference, CI, Effect size (Cohen’s d), Descriptives. Assumptions: Homogeneity (Levene), Normality, Q-Q plot.</td></tr>
+<tr><td>Paired t</td><td>Analyses → T-Tests → Paired Samples T-Test</td><td>Put the two measures in one pair. Student’s. Mean difference, CI, Cohen’s d, Descriptives. Normality + Q-Q. There is no Levene.</td></tr>
+<tr><td>Pearson / Spearman / Kendall</td><td>Analyses → Regression → Correlation Matrix</td><td>Pearson by default. Switch to Spearman or Kendall’s tau-b if bivariate normality or homoscedasticity fails. Report significance. Flag significant. Hypothesis “Correlated” = two-tailed. “Positively / negatively correlated” = one-tailed.</td></tr>
+<tr><td>Partial or semi-partial</td><td>Analyses → Regression → Partial Correlation</td><td>Variables = the two you care about. Control variables = Z. Pearson. <span class="k">Correlation type: Partial or Semipartial.</span> The default is Partial — change it if the question wants semi-partial. Report significance. Read the note under the table (“controlling for …”).</td></tr>
+<tr><td>Residual plot (homoscedasticity)</td><td>Analyses → Regression → Linear Regression</td><td>Dependent = outcome Y. Covariates = predictor X. Assumption checks: Q-Q and Residual plots. Use the <span class="k">first plot, Fitted vs residuals.</span> You do not need the regression write-up unless they ask for it.</td></tr>
+<tr><td>One-way independent ANOVA</td><td>Analyses → ANOVA → One-Way ANOVA</td><td>Dependent. Grouping variable. Equal variances, or Welch if Levene fails. Effect size η². Post hoc: None / Tukey / Games–Howell. Assumptions: Homogeneity, Normality, Q-Q. Descriptives.</td></tr>
+<tr><td>One-way RM ANOVA</td><td>Analyses → ANOVA → Repeated Measures ANOVA</td><td>Name the factor, set the number of levels, drag each measure into a level. Effect size: tick <span class="k">Partial η²</span> (η² and Generalised η² match each other in a one-way RM). Sphericity (Mauchly) and Q-Q. Post hoc: Holm unless told otherwise.</td></tr>
+</table>
+<div class="trap">
+<p><span class="k">Semi-partial is not symmetric.</span> Partial r(X,Y) equals partial r(Y,X). Semi-partial does not. The two off-diagonal cells can differ because Z is removed from only one variable. Read the cell that removes Z from the variable the question names (usually the predictor), and say so in the answer.</p>
+</div>
+</section>
+
+<section id="plots" data-search>
+<h2>5. How to read a plot</h2>
+<h3>Boxplot whiskers — three rules on the slide</h3>
+<div class="card">
+<ol>
+<li>Find the IQR.</li>
+<li>Theoretical whisker = <span class="k">1.5 × IQR from the edge of the box</span> (that line is the fence).</li>
+<li><span class="k">Then pull the whisker back to the closest observed score inside the fence.</span></li>
+</ol>
+<p>Points beyond the fence are outliers. The fence is not the whisker. The whisker is a real data point. The depression-by-gender slide writes the numbers 18, 19, and 20.5 next to this rule: those marks are about the fence versus the retracted whisker, not “the whisker always ends at 1.5 × IQR”.</p>
+<p><span class="k">Practice.</span> Q1 = 8, Q3 = 16, IQR = 8. Upper fence = 16 + 12 = 28. If the largest score that is still ≤ 28 is 18, the upper whisker stops at 18. A score of 40 is an outlier.</p>
+<p>The box itself is Q1 to Q3. The line inside the box is the median. Comparing boxplots: look at medians, spread (box + whiskers), and outliers. A mean can sit far from the median when there is skew or an outlier (slide mean = 95, median = 98, with 234 in the set).</p>
+<img class="fig" src="plot-examples/06-boxplot.png" alt="Boxplot showing the 1.5 IQR fence above the whisker, and an outlier at 30.">
+</div>
+<h3>Histogram</h3>
+<div class="card">
+<p>How often each value occurred. Describe four things: <span class="k">central tendency, dispersion, skewness, kurtosis.</span> A bell shape is the normal distribution. Another name: <span class="k">Gaussian</span>.</p>
+<ul>
+<li><span class="k">Positive / right skew:</span> long tail to the right. Usual pattern: mean &gt; median.</li>
+<li><span class="k">Negative / left skew:</span> long tail to the left. Usual pattern: mean &lt; median.</li>
+<li><span class="k">Kurtosis (slide definition):</span> the degree to which scores cluster at the ends of the distribution. Picture labels: <span class="k">Leptokurtic</span> = tall sharp peak. <span class="k">Platykurtic</span> = flat.</li>
+<li>More than one peak → more than one mode (bimodal / multimodal).</li>
+</ul>
+</div>
+<h3>Scatterplot — correlation assumptions you can see</h3>
+<div class="card">
+<table>
+<tr><th>Look at</th><th>Met</th><th>Violated</th></tr>
+<tr><td>Linearity</td><td>Cloud follows a straight line</td><td>A curve or a U. Pearson is the wrong model. Rank correlations also miss a U-shape.</td></tr>
+<tr><td>Bivariate normality</td><td>Roughly one elliptical cloud</td><td>A clump, a fan of outliers, or a shape that is not an ellipse</td></tr>
+<tr><td>Homoscedasticity</td><td>Vertical spread looks similar all along X</td><td>Spread grows (a fan) or clearly changes along X</td></tr>
+<tr><td>r itself</td><td colspan="2">0 = round cloud. +1 = perfect line up. −1 = perfect line down. .33 mild, .66 clearer. Sign = direction. Size uses .10 / .30 / .50.</td></tr>
+</table>
+<img class="fig" src="plot-examples/01-scatter-correlation-size.png" alt="Scatterplots for r of 0, .33, .66, and 1, positive and negative.">
+<img class="fig" src="plot-examples/02-scatter-assumptions.png" alt="Scatterplots showing linearity, bivariate normality, and homoscedasticity met and violated.">
+<img class="fig" src="plot-examples/03-scatter-tricky.png" alt="Tricky scatterplots: strong negative, a few outliers, a rising curve, and a small sample.">
+</div>
+<h3>Q-Q plot — normality of errors</h3>
+<div class="do">
+<p>Points hug the diagonal → normality met. A bend, or a clear departure at the ends → not met. Small samples: the ends are sparse, so do not call a violation from one or two end points. A low Shapiro–Wilk p means “not normal”, but Alvin wants the picture. Write-ups in class say “checked via Q-Q plot of the residuals and met”.</p>
+<p>Shapiro–Wilk wording on the slides: Lecture 2 says it is <span class="k">extremely conservative</span> (a tiny departure gets called a violation). Lecture 3 says it is <span class="k">too liberal</span>. Both sentences mean the same practical thing: it declares non-normality too easily. Prefer the Q-Q plot. If a blank quotes a lecture, match that lecture’s adjective, then still choose the Q-Q plot.</p>
+<img class="fig" src="plot-examples/05-qq-plots.png" alt="Q-Q plots: points on the line, ends peeling off, and a skewed bend.">
+</div>
+<h3>Residual plot — homoscedasticity (Lance’s supplement)</h3>
+<div class="card">
+<p><span class="k">Homoscedasticity:</span> the vertical spread of points around the regression line is the same at all levels of X.</p>
+<ul>
+<li><span class="k">Fitted</span> = predicted Y. Put X into the regression equation and the result is a fitted value.</li>
+<li><span class="k">Residual</span> = prediction error. Its vertical spread copies the vertical spread around the line.</li>
+<li>Similar vertical spread across fitted values → homoscedasticity reasonably met.</li>
+<li><span class="k">Fan</span> (spread grows as fitted values grow) → heteroscedasticity. Alvin’s word for this pattern is “fan”.</li>
+<li>Spread larger in the middle than at the ends → ambiguous. The ends often have fewer people.</li>
+</ul>
+<p><span class="k">If the plot is ambiguous, write three things:</span> (1) it is ambiguous, (2) which side you lean to, (3) why. Example: “Despite some unevenness, the vertical spread of the residuals looks similar across fitted values, so I take homoscedasticity as reasonably met.” Both Alvin’s and Lance’s readings of one real plot were accepted when the reason was clear.</p>
+<p>Second plot = raw Y vs residuals. Same kind of reading, not the usual one. Third plot = raw X vs residuals. In <span class="k">simple</span> regression (one predictor) this matches the fitted plot, because each X maps to one fitted Y. In multiple regression they can look very different, because fitted Y depends on several predictors.</p>
+<p>A residual cloud that <span class="k">trends</span> up or down is a different problem (the slide calls it a <span class="k">bias assumption</span> — the model is systematically off, more like failed linearity). That is not the same sentence as “heteroscedastic”.</p>
+<p>Small samples and empty ends: hard to judge. A large sample with only a few extreme points can still be homoscedastic. Wild bootstrap and simulated Q-Q confidence bands are named on the slides as beyond this course.</p>
+<img class="fig" src="plot-examples/04-residual-plots.png" alt="Residual plots: even spread, a fan, a middle bulge, and a curved bias pattern.">
+</div>
+</section>
+
+<section id="templates" data-search>
+<h2>6. Write-up lines — swap in your numbers</h2>
+<div class="card">
+<p class="k">Independent t</p>
+<pre>The mean [outcome] in [group 1] was __ (SD = __), whereas the mean in [group 2] was __ (SD = __). Normality of errors was checked with a Q-Q plot of the residuals and was met / not met. Homogeneity of variance was checked with Levene’s test, F(__, __) = __, p = __, and was met / violated. [Because Levene’s test was not significant, Student’s independent-samples t-test was used. / Because homogeneity was violated, Welch’s t-test was used.] There was a significant / non-significant difference, t(__) = __, p = __, 95% CI [__, __], Cohen’s d = __ (small / medium / large / between …), such that [group] had higher [outcome] than [group].</pre>
+</div>
+<div class="card">
+<p class="k">Paired t</p>
+<pre>The mean of [time 1] was __ (SD = __), whereas the mean of [time 2] was __ (SD = __). Normality of errors was checked with a Q-Q plot of the residuals and was met. A paired-samples t-test showed a significant / non-significant difference, t(__) = __, p = __, 95% CI [__, __], Cohen’s d = __, such that scores were higher at [time].</pre>
+</div>
+<div class="card">
+<p class="k">Pearson r</p>
+<pre>There was a significant / non-significant [positive / negative] and [small / medium / large] relationship between [X] and [Y], r = __, p = __. As [X] increased, [Y] increased / decreased. Assumptions: independence holds by design / is violated because …; the scatterplot showed a linear / curved pattern; the cloud was consistent / not consistent with bivariate normality; homoscedasticity was met / violated on the residual plot (say why).</pre>
+</div>
+<div class="card">
+<p class="k">Partial r, plus confounder language</p>
+<pre>The simple relationship between [X] and [Y] was [direction] and [size], r = __, p = __. After controlling for [Z], the partial correlation was r = __, p = __. The relationship weakened / was no longer significant / strengthened / flipped direction. This pattern is a partial confounder / confounder / suppressor / negative suppressor.</pre>
+</div>
+<div class="card">
+<p class="k">One-way independent ANOVA</p>
+<pre>Means (SDs): [group A] __ (__), [group B] __ (__), [group C] __ (__). Homogeneity of variance was met / violated, Levene’s F(__, __) = __, p = __. Normality of errors was checked with a Q-Q plot and was met / not met. A one-way independent ANOVA [or Welch’s F] showed a significant / non-significant effect of [IV] on [DV], F(__, __) = __, p = __, η² = __. Post hoc [Fisher’s LSD / Tukey / Games–Howell]: [pair], t(__) = __, p = __; … In words: [who differed from whom, and who did not].</pre>
+</div>
+<div class="card">
+<p class="k">One-way repeated-measures ANOVA</p>
+<pre>[Condition A] M = __ (SD = __), [B] M = __ (SD = __), [C] M = __ (SD = __). Mauchly’s test indicated that sphericity was met / violated, χ²(__) = __, p = __. [If violated: ε = __. Because ε was above / not above .75, the Huynh–Feldt / Greenhouse–Geisser correction was used.] Normality of errors was checked with a Q-Q plot and was met. There was a significant / non-significant effect of condition, F(__, __) = __, p = __, partial η² = __. Post hoc [Holm / Tukey / …]: [pairs with t, df, p]. If no pair is significant, write that the omnibus test was significant but no pairwise comparison reached .05.</pre>
+</div>
+<div class="card">
+<p class="small k">Class model numbers, so the grammar is familiar. Your test data will be different.</p>
+<ul>
+<li>Independent t, Anastasia vs Bernadette: 74.53 (SD 9.00) vs 69.06 (SD 5.77). Levene F(1, 31) = 2.49, p = .125, met. t(31) = 2.12, p = .043, CI [0.20, 10.76], d = .74. Anastasia higher.</li>
+<li>Paired t: test 1 = 56.98 (6.62), test 2 = 58.38 (6.41). t(19) = 6.48, p &lt; .001, CI [0.95, 1.86], d = 1.45. Second test higher.</li>
+<li>Dan’s sleep with baby’s sleep r = .63; dan’s sleep with grumpiness r = −.90; baby’s sleep with grumpiness r = −.57. All p &lt; .001, all large.</li>
+<li>Stress and exam performance r = .664, p &lt; .001, positive large. After daily study time, partial r = −.618, p &lt; .001, negative large. That flip is a <span class="k">negative suppressor</span>.</li>
+<li>Drug ANOVA: Levene F(2, 15) = 1.45, p = .266, met. F(2, 15) = 18.61, p &lt; .001, η² = 0.71. LSD: joyzepam &gt; anxifree, t(15) = 4.36, p &lt; .001; joyzepam &gt; placebo, t(15) = 5.88, p &lt; .001; anxifree vs placebo, t(15) = 1.52, <span class="k">p = .150</span>.</li>
+<li>RM, successful trials: Speech 7.17 (1.47), Conceptual 6.17 (1.47), Syntax 4.33 (1.63). Mauchly χ² = 0.85, p = .720, met. F(2, 10) = 6.39, p = .013, partial η² = .581. Tukey pairs: p = .381, .058, .102. Omnibus yes, no pair at .05.</li>
+</ul>
+</div>
+</section>
+
+<section id="l1" data-search>
+<h2>7. Lecture 1 — everything on the slides</h2>
+<h3>Why the course, and the research steps</h3>
+<div class="card">
+<p>Models of applied psychology: <span class="k">Scientist–Practitioner (Boulder)</span>, <span class="k">Clinical Scientist (Bloomington)</span>, <span class="k">Practitioner–Scholar (Vail)</span>. Outcomes: (A) apply methods and statistics to applied questions; (B) critically evaluate other people’s designs and analyses.</p>
+<p><span class="k">Theory:</span> a well-substantiated explanation of a broad phenomenon. <span class="k">Hypothesis:</span> a proposed explanation of a narrow set of observations, not yet tested. <span class="k">Prediction:</span> the operationalisation of the hypothesis — conceptual → observable.</p>
+<p><span class="k">Variable:</span> something that can vary. We measure variables to test hypotheses.</p>
+<ul>
+<li><span class="k">IV:</span> assumed cause. Manipulated.</li>
+<li><span class="k">DV:</span> assumed effect. Should change as a function of the IV.</li>
+<li>If you do <span class="k">not</span> manipulate (observational / correlational), say <span class="k">predictor</span> and <span class="k">outcome</span>. Calling those IV and DV implies a cause you did not create.</li>
+</ul>
+<p>Assigned to smoke vs not, then stress measured → IV/DV. Number of cigarettes a day, merely recorded → predictor, not an IV.</p>
+</div>
+<h3>Levels of measurement (NOIR)</h3>
+<div class="card">
+<p><span class="k">Level of measurement:</span> the relationship between the thing being measured and the numbers that stand for it. Two families: categorical and continuous.</p>
+<table>
+<tr><th>Level</th><th>Rule</th><th>Class examples</th></tr>
+<tr><td>Binary</td><td>Two categories</td><td>Yes/no, true/false</td></tr>
+<tr><td>Nominal</td><td>Labels. Order does not matter</td><td>Mammals, reptiles, insects</td></tr>
+<tr><td>Ordinal</td><td>Order matters. Gaps are not equal</td><td>Low, moderate, high. DASS-21 items are ordinal Likert.</td></tr>
+<tr><td>Interval</td><td>Equal spacing. No true zero</td><td>°C, °F. A visual analogue stress scale 0–100 is typically treated as interval: 0 means “no stress on this scale”, not a physical absence.</td></tr>
+<tr><td>Ratio</td><td>Equal spacing and a true, meaningful zero</td><td>Kelvin (0 = no thermal energy). Stopwatch reaction time (0 = no time elapsed).</td></tr>
+</table>
+<p>Time of day: 0 is not “no time”. Not ratio. Summed DASS-21 scores are often <em>treated as</em> interval. That is a convention. You cannot take a meaningful mean of nominal labels. Pearson r wants interval/ratio (continuous) variables.</p>
+</div>
+<h3>Measurement error, reliability, validity</h3>
+<div class="card">
+<p><span class="k">Measured value = true value + error.</span></p>
+<p><span class="k">Reliability:</span> the instrument can be interpreted consistently; same results under identical conditions. Height-app scans 171, 171, 171 → reliable. 171, 150, 200 → not.</p>
+<ul>
+<li><span class="k">Test–retest:</span> similar scores at different times.</li>
+<li><span class="k">Internal consistency:</span> items on a scale measure the same thing.</li>
+<li><span class="k">Inter-rater:</span> different raters give similar scores.</li>
+</ul>
+<p><span class="k">Validity:</span> it measures what it claims to measure. <span class="k">For an instrument to be valid, it must first be reliable.</span> Reliability is necessary, not sufficient. A scale that is always 2 kg too heavy is reliable and not valid. An unreliable height app cannot be a valid measure of height.</p>
+<ul>
+<li><span class="k">Criterion validity:</span> compared with a benchmark. <span class="k">Concurrent</span> = benchmark now. <span class="k">Predictive</span> = benchmark later. Often there is no objective benchmark.</li>
+<li><span class="k">Content validity:</span> items represent the construct and cover all of it. The “6 types of depression” slide is this question: does the scale tap every facet?</li>
+<li><span class="k">Convergent validity:</span> correlates with measures of the same or similar constructs.</li>
+<li><span class="k">Divergent validity:</span> does not correlate with measures of unrelated constructs.</li>
+</ul>
+</div>
+<h3>Research design</h3>
+<div class="card">
+<table>
+<tr><th></th><th>Correlational / observational</th><th>Experimental</th></tr>
+<tr><td>What you do</td><td>Observe what naturally happens</td><td>Manipulate one variable, watch another</td></tr>
+<tr><td>Names</td><td>Predictor, outcome</td><td>IV, DV</td></tr>
+<tr><td>Causality</td><td>Limited evidence. Textbook says “nothing about cause”; Alvin says limited, not zero.</td><td>Stronger evidence if the design is rigorous</td></tr>
+<tr><td>Ecological validity</td><td>Often high (a natural view)</td><td>Often low (the lab is artificial)</td></tr>
+<tr><td>Time</td><td>Cross-sectional or longitudinal</td><td>—</td></tr>
+</table>
+<p><span class="k">Confounder:</span> an outside factor that produces or inflates the relationship you see. Ice cream sales and sunburn share heat / summer. One slide simply labels <span class="k">Age</span> as that hidden factor. You cannot fully rule confounders out of observational data, so you cannot claim a clean cause. Partial correlation is the later statistical attempt to hold one of them constant.</p>
+<ul>
+<li><span class="k">Between-groups:</span> different people in different conditions.</li>
+<li><span class="k">Within-subjects:</span> the same people in every condition.</li>
+<li><span class="k">Mixed:</span> both. A randomised controlled trial can be mixed (treatment vs control, measured before and after).</li>
+</ul>
+<p><span class="k">Randomisation</span> (between-groups): allocate people to conditions at random so differences that are not the manipulation are minimised. It does not create ecological validity.</p>
+<p><span class="k">Unwanted effects in within-subjects designs:</span></p>
+<ul>
+<li><span class="k">Carryover:</span> condition 1 spills into condition 2.</li>
+<li><span class="k">Practice:</span> they improve because the task is familiar.</li>
+<li><span class="k">Boredom:</span> they are bored.</li>
+<li><span class="k">Fatigue:</span> they are tired.</li>
+</ul>
+<p><span class="k">Counterbalancing:</span> run every order of conditions, and randomly assign people to orders. That spreads order effects. It does not delete them from the person.</p>
+</div>
+<h3>Descriptive statistics</h3>
+<div class="card">
+<p>After you collect data, look at the sample before any p-value.</p>
+<p><span class="k">Frequency distribution</span> (histogram) describes the sample you collected. A <span class="k">probability distribution</span> describes how likely scores are in the population. Inference lives in the second world, and gets there through the central limit theorem (Lecture 2).</p>
+<p><span class="k">Central tendency</span> — where the centre is.</p>
+<ul>
+<li><span class="k">Mean:</span> arithmetic average. Pulled by outliers and skew. Slide: sum 1045 / 11 = 95.</li>
+<li><span class="k">Median:</span> middle score when ranked. Better when the distribution is skewed. Slide: 98; or 95.5 if n is even.</li>
+<li><span class="k">Mode:</span> most frequent score. A distribution can have several modes.</li>
+</ul>
+<p><span class="k">Dispersion</span> — spread. <span class="k">Not</span> dispersion: mean, median, mode (those are centre), and skew / kurtosis (those are shape).</p>
+<ul>
+<li><span class="k">Range:</span> highest and lowest. One outlier wrecks it.</li>
+<li><span class="k">IQR:</span> middle 50%.</li>
+<li><span class="k">Variance:</span> average squared distance from the mean, divided by n − 1. How dispersed scores are around the mean.</li>
+<li><span class="k">SD:</span> square root of variance, back in the original units. Wide histogram = large SD. Narrow histogram = small SD.</li>
+</ul>
+<p><span class="k">Skewness:</span> asymmetry. <span class="k">Kurtosis:</span> clustering at the ends. Leptokurtic vs platykurtic, as on the picture.</p>
+<p>jamovi tutorial path: install → open the data file → check variable types → Descriptives → plots (histogram, boxplot) → scatterplot → do the same for the second variable (class used anxiety).</p>
+</div>
+</section>
+
+<section id="l2" data-search>
+<h2>8. Lecture 2 — inference, t-tests, correlation</h2>
+<h3>Population, sample, CLT, SE, CI</h3>
+<div class="card">
+<p>We want a claim about a <span class="k">population</span> (as wide or as narrow as the question). We almost never measure everyone, so we take a <span class="k">sample</span> and use <span class="k">inferential statistics</span>.</p>
+<p><span class="k">Central limit theorem:</span> if you take enough large random samples from any population, the distribution of the <span class="k">sample means</span> becomes Gaussian. The textbook slogan “large means N ≥ 30” is not generally true. It depends on the shape of the population. The true statement is <span class="k">asymptotic</span>: as N grows, the sampling distribution of the mean approaches normal. <span class="k">The population does not have to be normal.</span> That slido statement is false. For a small N and a strange population, the sampling distribution may still be non-normal.</p>
+<p><span class="k">Descriptive</span> statistics describe the sample you have. <span class="k">Inferential</span> statistics use that sample to talk about the population. Invoking the CLT lets us build t-tests, correlations, regression, and ANOVA.</p>
+<p>Each sample has its own mean and SD. That is <span class="k">sampling variation</span>. The frequency distribution of those sample means is the <span class="k">sampling distribution</span>. The SD of that distribution is the <span class="k">standard error of the mean (SE / SEM)</span>. We do not collect hundreds of samples. We approximate SE from the one sample we have: SE = s / √N.</p>
+<ul>
+<li>Large SE relative to the mean: sample means jump around. This sample may be a poor portrait of the population.</li>
+<li>Small SE: sample means cluster. This sample is more likely to reflect the population.</li>
+</ul>
+<p>SE is a <span class="k">point</span> story about precision. A <span class="k">confidence interval</span> is an <span class="k">interval estimate</span>: boundaries around where we believe the population mean lies. Wider CI = more uncertainty. For large samples, about 95% of the sampling distribution sits within ±1.96 SE. Phrase it as: we are 95% confident the population mean lies between A and B. The procedure captures the true mean in 95% of repeated samples.</p>
+</div>
+<h3>NHST, errors, power, effect size</h3>
+<div class="card">
+<p>Modern psychology uses <span class="k">null hypothesis significance testing</span>, a blend of the Fisher framework and the Neyman–Pearson framework.</p>
+<ul>
+<li><span class="k">H0:</span> the effect is absent.</li>
+<li><span class="k">H1:</span> the effect is present.</li>
+<li>You do not prove H1. You <span class="k">reject H0</span> (some support for H1) or <span class="k">fail to reject H0</span>. Failing to reject is not “H0 is true”.</li>
+</ul>
+<p><span class="k">Test statistic:</span> a number whose frequency under the null is known. Fit a model, then ask how often a result this extreme would appear if there were no effect. That tail probability is p.</p>
+<p><span class="k">One-tailed:</span> directional hypothesis. <span class="k">Two-tailed:</span> non-directional. Use two-tailed unless the question states a direction. In jamovi, “≠” or “Correlated” is two-tailed.</p>
+<table>
+<tr><th></th><th>Reality: no effect</th><th>Reality: effect exists</th></tr>
+<tr><td>We conclude there is an effect</td><td><span class="k">Type I error</span>, rate α. False positive.</td><td>Correct detection. This rate is power = 1 − β.</td></tr>
+<tr><td>We conclude there is no effect</td><td>Correct.</td><td><span class="k">Type II error</span>, rate β. A miss.</td></tr>
+</table>
+<ul>
+<li>α is usually <span class="k">.05</span>. In 100 experiments where nothing is real, about 5 look significant.</li>
+<li>β is usually <span class="k">.20</span>. In 100 experiments where an effect is real, about 20 miss it. Power is then .80.</li>
+<li>Tightening one error inflates the other. Psychology is stricter about Type I (“the lesser of the two evils”).</li>
+<li>Many tests on the same data inflate Type I error. That rate across the family of tests is the <span class="k">familywise error rate</span>. This is why ANOVA exists.</li>
+</ul>
+<p><span class="k">Effect size:</span> magnitude and/or direction of the observed effect. Statistical significance does not mean the effect is important. Cohen’s d and Pearson’s r cutoffs are in the formula section.</p>
+<p><span class="k">Sample size:</span> to plan N you need the test, the effect size, α, and β. Tool named on the slide: <span class="k">G*Power</span>.</p>
+<p><span class="k">Every inferential model:</span> Outcome = Model + Error. The model is only as good as its assumptions. If they are violated, do not trust the result. Check assumptions before the p-value.</p>
+</div>
+<h3>t-tests</h3>
+<div class="card">
+<p>Use a t-test when the question is whether the average of an outcome differs between two conditions. Example on the slide: is anxiety higher in parents than in non-parents?</p>
+<table>
+<tr><th></th><th>Independent-samples t</th><th>Paired-samples t</th></tr>
+<tr><td>Who</td><td>Different people in each condition</td><td>Same people measured twice. Repeated measures break independence, so the independent t is illegal.</td></tr>
+<tr><td>H0</td><td>The two population means are identical. Difference = 0.</td><td>The mean difference is 0.</td></tr>
+<tr><td>H1</td><td>The means are not identical.</td><td>The means are not identical.</td></tr>
+<tr><td>Assumptions</td><td>1. Independence — look at the design. 2. Normality of errors — Q-Q of residuals. 3. Homogeneity of variance — Levene.</td><td>1. Independence of pairs — design. 2. Normality of errors — Q-Q. No Levene.</td></tr>
+<tr><td>Fallback</td><td>Welch’s t if Levene is significant. Slight loss of power. Welch does not assume equal variances.</td><td>—</td></tr>
+<tr><td>Upgrade when groups &gt; 2</td><td>One-way independent ANOVA</td><td>One-way RM ANOVA</td></tr>
+</table>
+<p><span class="k">Degrees of freedom:</span> how many data points are still free to vary after mathematical constraints. Every parameter you estimate costs one df. The pie chart: estimating the mean, and the t-test’s parameters, use a thin slice; almost all df stay as residual df.</p>
+<p>Levene: p &gt; .05 means the assumption is <span class="k">not</span> violated (the slide’s phrase: “great .05, so the assumption is not violated”). p &lt; .05 means it is violated.</p>
+</div>
+<h3>Covariance and correlation</h3>
+<div class="card">
+<p>Variance of one variable is how far scores sit from their own mean. If two variables are related, when one moves away from its mean the other should move the same way (positive covariance) or the opposite way (negative covariance). The crisp-packet / advert graph shows paired deviations; products with the same sign build a positive covariance.</p>
+<p>Covariance cannot be compared across studies because it depends on the units (packets vs grams). <span class="k">Standardising</span> it produces <span class="k">Pearson’s r</span>, which must lie between −1 and +1. r is a standardised covariance.</p>
+<p><span class="k">Assumptions of Pearson correlation:</span></p>
+<ol>
+<li><span class="k">Independence</span> — design. <span class="k">Autocorrelation</span> is the correlation of an observation with a later observation at a lag. Sleep tonight is tied to sleep tomorrow, so the days are not independent people. Named alternatives: AR, MA, ARMA, ARIMA. You only need to spot the problem.</li>
+<li><span class="k">Linearity</span> — scatterplot.</li>
+<li><span class="k">Bivariate normality</span> — scatterplot.</li>
+<li><span class="k">Homoscedasticity</span> — scatterplot, but residuals are easier.</li>
+</ol>
+<p>If bivariate normality and/or homoscedasticity fail, use a non-parametric correlation: <span class="k">Spearman</span> or <span class="k">Kendall’s tau-b</span>.</p>
+<p><span class="k">Correlation is not regression.</span> Correlation is a symmetric standardised association. Regression is a directional prediction model. They are related, and with two variables the significance tests are close, but you do not report them as the same thing. Semi-partial correlation is what later becomes a predictor’s unique contribution in regression (Week 7).</p>
+</div>
+</section>
+
+<section id="partial" data-search>
+<h2>9. Partial and semi-partial — Lance’s supplement + Lecture 3 recap</h2>
+<div class="card">
+<p>Both ask about X and Y <span class="k">after a third variable Z</span>. If there is no Z, there is only a simple correlation.</p>
+<p>Think of circles (or squares, as on Field’s exam diagram) as variance.</p>
+<ul>
+<li>Simple r = the overlap of X and Y. On the exam-anxiety slide that overlap is <span class="k">19.4%</span> of exam-performance variance. Revision time’s slice is marked <span class="k">15.7%</span>, and each predictor also has a unique slice. A further panel shows variance accounted for by <span class="k">both</span> exam anxiety and revision time, versus unique anxiety and unique revision.</li>
+<li><span class="k">Partial correlation:</span> remove Z from <span class="k">both</span> X and Y. Keep only the remaining X–Y overlap (the brown area). Compare that overlap with the <span class="k">remaining</span> variance of the outcome after Z is removed (the area inside the thick line, not the whole circle). You can describe it from X’s remaining variance or from Y’s; use the outcome.</li>
+<li><span class="k">Semi-partial correlation:</span> remove Z from <span class="k">only one</span> variable (the supplement’s picture removes Z from X, the predictor). The overlap you keep is still the brown area, but you compare it with the <span class="k">whole</span> outcome circle, because Z was not removed from Y.</li>
+</ul>
+<p>Partial tends to be <span class="k">larger</span> than semi-partial, because the same brown area is judged against a smaller denominator (what is left of Y, not all of Y).</p>
+<p>The other semi-partial, if X is the outcome and you remove Z from Y: delete the Z–Y overlap, and compare the remaining X–Y overlap with the whole of X.</p>
+</div>
+<div class="trap">
+<p><span class="k">After you control Z, name what happened.</span></p>
+<table>
+<tr><th>What happens to the X–Y relationship</th><th>Name</th></tr>
+<tr><td>It weakens</td><td>Partial confounder</td></tr>
+<tr><td>It is no longer significant</td><td>Confounder</td></tr>
+<tr><td>It strengthens</td><td>Suppressor</td></tr>
+<tr><td>The sign flips</td><td>Negative suppressor</td></tr>
+</table>
+<p>Stress and exams start positive and large (r = .664). After daily study time they are negative and large (r = −.618). Study time was hiding a negative stress–performance link: people who study more are both more stressed and do better. That is a <span class="k">negative suppressor</span>, not a confounder that simply erases the relationship. The slido “is daily study time a confounder?” is answered by that pattern.</p>
+</div>
+</section>
+
+<section id="l3" data-search>
+<h2>10. Lecture 3 — one-way ANOVA</h2>
+<div class="card">
+<p>Recap line you may need to paraphrase: we never know the population mean. Inference makes a claim anyway, with a stated error rate. “We reject H0, assuming we are wrong 5 times out of 100.”</p>
+<p><span class="k">Do not run many t-tests</span> for 3+ groups. For 3 groups that is group1–2, 2–3, and 1–3. Each at α = .05 inflates the familywise error (14.26% for 3 tests, and the table climbs from there). You can adjust p-values (Bonferroni is the example on the slide). ANOVA is the more effective control, because it asks one overall question first.</p>
+<ul>
+<li>t-test H0: two means are equal.</li>
+<li>ANOVA H0: all the population means are identical. The difference among them is zero.</li>
+<li>ANOVA H1: at least one mean differs. A difference <span class="k">somewhere</span>.</li>
+<li>ANOVA is an <span class="k">omnibus</span> test. It does not say which groups differ. Post hoc tests do that.</li>
+</ul>
+</div>
+<h3>The variance split</h3>
+<div class="card">
+<p><span class="k">Total SS:</span> all the variation in the outcome (DV). <span class="k">Model SS:</span> how much of that the IV explains. <span class="k">Residual SS:</span> how much the IV does not explain. Divide an SS by its df and you get a <span class="k">mean square</span>.</p>
+<p><span class="k">F</span> replaces t. F is how good the model is compared with how bad it is: explained variance vs unexplained variance. A significant F means there is a difference somewhere.</p>
+<p><span class="k">Independent ANOVA picture:</span> total variance splits into variance explained by the model (green, between groups — that is where the experimental effect shows up) and unexplained variance (orange, errors / residuals).</p>
+<p><span class="k">Repeated-measures picture:</span></p>
+<ul>
+<li>Total variability</li>
+<li>→ between-participant variation (green). Individual differences. Not the experimental effect.</li>
+<li>→ within-participant variation (orange), which itself splits into the effect of the experiment (yellow) and error (variability the experiment does not explain).</li>
+</ul>
+<p>In RM ANOVA the effect lives in the <span class="k">within-participant</span> variance. Between-person differences are set aside. That is why repeated measures are often more powerful, and why partial η² ignores the green slice.</p>
+</div>
+<h3>One-way independent ANOVA</h3>
+<div class="card">
+<p>Upgraded independent t. Different people, two or more conditions. Example shape: several drugs, different participants in each.</p>
+<p>Assumptions: (1) independence — design; (2) normality of errors — Q-Q; (3) homogeneity of variance — Levene. If Levene is violated, report <span class="k">Welch’s F</span>.</p>
+<p>Post hoc tests are pairwise comparisons, like t-tests but modified, and they still need error control. Why bother with ANOVA if post hoc also corrects?</p>
+<ol>
+<li><span class="k">Pooled error variance.</span> The post hoc uses information from every group, so the error estimate is more stable. Separate t-tests use only the two groups in that pair.</li>
+<li><span class="k">Two-stage error control.</span> Imagine three ANOVAs (negative affect, positive affect, stress) each comparing ADHD, ASD, and MDD. First control error across the three ANOVAs, then control error inside each ANOVA with the post hoc. A flat list of t-tests has no such stages.</li>
+</ol>
+</div>
+<h3>One-way repeated-measures ANOVA</h3>
+<div class="card">
+<p>Same people in two or more conditions. Independence of observations is violated, so use RM ANOVA, not the independent ANOVA.</p>
+<p>The extra assumption is <span class="k">sphericity</span>, not homogeneity of variance. Slide wording: variances across conditions are equal. More precisely, it is the variances of the <span class="k">differences between conditions</span> that are equal. Test: <span class="k">Mauchly’s test</span>. Report χ²(df), p. p &gt; .05 → met.</p>
+<p>The slide titled “Assumptions of One-way Independent ANOVA” that lists subject independence, normality, and sphericity is the <span class="k">RM</span> list. Trust the bullets. Subject independence means people are independent of each other.</p>
+<p>If sphericity is violated:</p>
+<table>
+<tr><th>Correction</th><th>Strength</th><th>Girden (1992)</th></tr>
+<tr><td>Greenhouse–Geisser</td><td>Stronger, more conservative</td><td>Use when ε ≤ .75</td></tr>
+<tr><td>Huynh–Feldt</td><td>Weaker</td><td>Use when ε &gt; .75</td></tr>
+</table>
+<p><span class="k">Effect sizes.</span> In a one-way RM, η² and generalised η² give the same number. They diverge once more factors are added (factorial ANOVA, not this test). <span class="k">Partial η²</span> is the one that matches what the RM test is doing, because it ignores between-subject variance (the green portion). Tick partial η² in jamovi.</p>
+<p>Post hoc order, least → most conservative: None, Tukey, Holm, Bonferroni, Scheffé. Holm is the balanced default.</p>
+<p><span class="k">Omnibus vs pairs.</span> The speech / conceptual / syntax example has a significant F and no significant Tukey pair (the closest is p = .058). Report both facts. Do not say two conditions differ.</p>
+</div>
+<div class="card">
+<p><span class="k">t and ANOVA with two groups.</span> The last slide says “square the F-statistic” after you run gender and study time both ways. The identity you should see is <span class="k">t² = F</span>. Square the t from the t-test and compare it with the ANOVA F on <span class="k">tutorial1_data.csv</span>. With exactly two groups they match. With more than two groups, ANOVA is not a t-test.</p>
+</div>
+</section>
+
+<section id="traps" data-search>
+<h2>11. Traps already planted in class</h2>
+<div class="trap">
+<ul>
+<li>Whisker ≠ 1.5 × IQR. Retract to a real score.</li>
+<li>“Population must be normal for the sampling distribution of means to be normal” → false.</li>
+<li>N ≥ 30 is a slogan. Say asymptotic, and that it depends on the population shape.</li>
+<li>Another name for the normal distribution → Gaussian.</li>
+<li>Mean, median, and mode are not dispersion.</li>
+<li>Reliable does not imply valid. Unreliable cannot be valid.</li>
+<li>Predictor ≠ IV unless you manipulated it.</li>
+<li>Correlational research: Alvin’s line is “limited evidence for cause”, not “zero”.</li>
+<li>p = .051 with a medium r: do not reject at .05, and do not say there is no effect.</li>
+<li>Fail to reject H0 ≠ accept H0.</li>
+<li>Shapiro–Wilk over-calls non-normality. Use the Q-Q plot. Lecture 2 says “extremely conservative”; Lecture 3 says “too liberal”.</li>
+<li>Levene p &gt; .05 means homogeneity is met.</li>
+<li>Correlation ≠ regression. t-test ≠ ANOVA, except F = t² when there are two groups. Square the t.</li>
+<li>Partial removes Z from both. Semi-partial removes Z from one. Partial is usually larger. Semi-partial is the regression piece. Change jamovi’s correlation type off the Partial default.</li>
+<li>Sign flip after control = negative suppressor (stress / study time / exams).</li>
+<li>Ambiguous residual plot: admit it, pick a side, give the reason. Fan = hetero. A sloping cloud = bias / wrong model, not the same as hetero.</li>
+<li>LSD only if F is significant and k ≤ 3. More groups, or unequal variances → not LSD. Unequal variances → Welch + Games–Howell.</li>
+<li>Drug write-up: missing means/SDs, and anxifree vs placebo is p = .150.</li>
+<li>RM write-up: significant F, non-significant pairs. Report partial η². Mauchly df on the slide is χ²(5); with 3 conditions the usual df is 2. Copy jamovi.</li>
+<li>ε &gt; .75 → Huynh–Feldt. Otherwise Greenhouse–Geisser.</li>
+<li>Slide 92’s heading says independent ANOVA; the bullets are repeated measures.</li>
+<li>Small N: do not over-call Q-Q or residual violations. Ends are sparse.</li>
+<li>First submission is final. One Word file, with the jamovi output pasted in. No GenAI, no messaging.</li>
+</ul>
+</div>
+</section>
+
+<section id="gloss" data-search>
+<h2>12. Keyword lines for fill-in-the-blank</h2>
+<table>
+<tr><th>Term</th><th>One line</th></tr>
+<tr><td>α</td><td>The Type I error rate you accept. Usually .05.</td></tr>
+<tr><td>β</td><td>The Type II error rate you accept. Usually .20.</td></tr>
+<tr><td>Alternative hypothesis</td><td>An effect is present. You support it only by rejecting H0.</td></tr>
+<tr><td>Asymptotic</td><td>As N increases, the sampling distribution of the mean approaches normal.</td></tr>
+<tr><td>Autocorrelation</td><td>An observation correlates with a later observation. Independence fails. AR, MA, ARMA, ARIMA.</td></tr>
+<tr><td>Between-groups</td><td>Different people in different conditions.</td></tr>
+<tr><td>Bivariate normality</td><td>The two variables together form a normal, elliptical cloud.</td></tr>
+<tr><td>Bonferroni</td><td>A p-value adjustment for many tests. On the RM post hoc list it is stricter than Holm.</td></tr>
+<tr><td>Boredom effect</td><td>Performance changes because the person is bored of the first condition.</td></tr>
+<tr><td>Carryover</td><td>The effect of condition 1 spills into condition 2.</td></tr>
+<tr><td>Central limit theorem</td><td>Sample means form a normal distribution if samples are large and random, even when the population is not normal.</td></tr>
+<tr><td>Central tendency</td><td>Mean, median, mode. Where the centre sits.</td></tr>
+<tr><td>Cohen’s d</td><td>Standardised mean difference. 0.2 / 0.5 / 0.8.</td></tr>
+<tr><td>Concurrent validity</td><td>Criterion measured at the same time.</td></tr>
+<tr><td>Confidence interval</td><td>An interval estimate for the population mean. Wider = more uncertain. 95% uses 1.96 SE.</td></tr>
+<tr><td>Confounder</td><td>A third variable that accounts for an X–Y link. After control, the link is no longer significant. If it only weakens, say partial confounder.</td></tr>
+<tr><td>Content validity</td><td>Items represent the whole construct.</td></tr>
+<tr><td>Convergent validity</td><td>Correlates with the same or similar constructs.</td></tr>
+<tr><td>Counterbalancing</td><td>All orders of conditions; people randomly assigned to orders.</td></tr>
+<tr><td>Covariance</td><td>Shared deviation from the two means. Sign = direction. Size depends on units.</td></tr>
+<tr><td>Criterion validity</td><td>Checked against a benchmark. Concurrent or predictive.</td></tr>
+<tr><td>Degrees of freedom</td><td>Scores still free to vary after constraints. Each estimated parameter costs 1 df.</td></tr>
+<tr><td>Dependent variable</td><td>Assumed effect. Changes with the IV.</td></tr>
+<tr><td>Deviance</td><td>Score minus the mean. Also called error.</td></tr>
+<tr><td>Dispersion</td><td>Spread: range, IQR, variance, SD. Not the mean.</td></tr>
+<tr><td>Divergent validity</td><td>Does not correlate with unrelated constructs.</td></tr>
+<tr><td>Ecological validity</td><td>How much the study resembles real life. Correlations often high, experiments often low.</td></tr>
+<tr><td>Effect size</td><td>How big and in what direction. Separate from p.</td></tr>
+<tr><td>Familywise error rate</td><td>Type I error across a set of tests on the same data. 1 − (1 − α)^m.</td></tr>
+<tr><td>Fatigue effect</td><td>Performance changes because the person is tired.</td></tr>
+<tr><td>Fisher’s LSD</td><td>Uncorrected pairwise tests. Only if the ANOVA is significant and there are ≤ 3 groups. jamovi label: None.</td></tr>
+<tr><td>Fitted value</td><td>Predicted Y from the regression equation.</td></tr>
+<tr><td>Frequency distribution</td><td>Describes the sample.</td></tr>
+<tr><td>F statistic</td><td>MS model / MS residual. A difference somewhere.</td></tr>
+<tr><td>Games–Howell</td><td>Post hoc that does not assume equal variances.</td></tr>
+<tr><td>Gaussian</td><td>Another name for the normal distribution.</td></tr>
+<tr><td>Generalised η²</td><td>Equals η² in one-way RM ANOVA. They split in factorial ANOVA.</td></tr>
+<tr><td>Greenhouse–Geisser</td><td>Stronger sphericity correction. Use when ε ≤ .75.</td></tr>
+<tr><td>Holm</td><td>RM post hoc with a good balance of power and Type I control.</td></tr>
+<tr><td>Homogeneity of variance</td><td>Group variances are equal. Levene. If it fails: Welch.</td></tr>
+<tr><td>Homoscedasticity</td><td>Vertical spread around the line is similar at every level of X.</td></tr>
+<tr><td>Huynh–Feldt</td><td>Weaker sphericity correction. Use when ε &gt; .75.</td></tr>
+<tr><td>Hypothesis</td><td>A narrow proposed explanation, not yet tested.</td></tr>
+<tr><td>Independent variable</td><td>Assumed cause. You manipulate it.</td></tr>
+<tr><td>Inter-rater reliability</td><td>Different raters, similar scores.</td></tr>
+<tr><td>Internal consistency</td><td>Items measure the same thing.</td></tr>
+<tr><td>Interquartile range</td><td>Q3 − Q1. Middle 50%.</td></tr>
+<tr><td>Interval scale</td><td>Equal gaps, no true zero. °C, °F.</td></tr>
+<tr><td>Kurtosis</td><td>How much scores cluster at the ends. Leptokurtic = peaked. Platykurtic = flat.</td></tr>
+<tr><td>Leptokurtic</td><td>The sharp, tall histogram on the kurtosis slide.</td></tr>
+<tr><td>Levene’s test</td><td>Test of equal variances. p &gt; .05 → assumption met.</td></tr>
+<tr><td>Level of measurement</td><td>How numbers represent the thing: nominal, ordinal, interval, ratio.</td></tr>
+<tr><td>Linearity</td><td>The X–Y cloud is straight. Check the scatterplot.</td></tr>
+<tr><td>Mauchly’s test</td><td>Test of sphericity.</td></tr>
+<tr><td>Mean</td><td>Sum divided by n.</td></tr>
+<tr><td>Mean square</td><td>Sum of squares divided by its df.</td></tr>
+<tr><td>Measurement error</td><td>Measured value minus true value. Measured = true + error.</td></tr>
+<tr><td>Median</td><td>Middle ranked score, or the average of the two middle scores.</td></tr>
+<tr><td>Mixed design</td><td>Between-groups and within-subjects together. An RCT can be one.</td></tr>
+<tr><td>Mode</td><td>Most frequent score. Can be multiple.</td></tr>
+<tr><td>Model SS</td><td>Variation in the DV explained by the IV.</td></tr>
+<tr><td>Negative suppressor</td><td>Controlling Z flips the sign of the X–Y relationship.</td></tr>
+<tr><td>Nominal</td><td>Labels. Order does not matter.</td></tr>
+<tr><td>Normality of errors</td><td>Residuals are normal. Judge with a Q-Q plot.</td></tr>
+<tr><td>Null hypothesis</td><td>The effect is absent.</td></tr>
+<tr><td>Omnibus test</td><td>An overall test. ANOVA. Not a named pair.</td></tr>
+<tr><td>One-tailed test</td><td>A directional hypothesis.</td></tr>
+<tr><td>Operationalisation</td><td>Turning the hypothesis into something you can observe. That product is the prediction.</td></tr>
+<tr><td>Ordinal</td><td>Ordered categories, unequal gaps.</td></tr>
+<tr><td>Outcome</td><td>The variable you predict when you did not manipulate the cause.</td></tr>
+<tr><td>Partial correlation</td><td>r between X and Y after Z is removed from both.</td></tr>
+<tr><td>Partial η²</td><td>SS effect / (SS effect + SS error). Ignores between-subject variance. Prefer it for RM ANOVA.</td></tr>
+<tr><td>Platykurtic</td><td>The flat histogram on the kurtosis slide.</td></tr>
+<tr><td>Point estimate</td><td>A single number, such as the sample mean. A CI is the interval version.</td></tr>
+<tr><td>Power</td><td>1 − β. The chance of detecting a real effect. Often .80.</td></tr>
+<tr><td>Practice effect</td><td>Performance changes because the task is familiar.</td></tr>
+<tr><td>Prediction</td><td>The operationalised, observable form of a hypothesis.</td></tr>
+<tr><td>Predictive validity</td><td>Criterion measured later.</td></tr>
+<tr><td>Predictor</td><td>The variable you use to predict an outcome when you did not manipulate it.</td></tr>
+<tr><td>Probability distribution</td><td>Likelihood of scores in the population. Basis of inference.</td></tr>
+<tr><td>Q-Q plot</td><td>Residuals against the quantiles of a normal distribution. Hug the line = normal.</td></tr>
+<tr><td>Randomisation</td><td>Chance allocation to conditions, to reduce unwanted between-group differences.</td></tr>
+<tr><td>Range</td><td>Highest score and lowest score.</td></tr>
+<tr><td>Ratio scale</td><td>Equal gaps and a true zero. Kelvin, stopwatch time.</td></tr>
+<tr><td>Reliability</td><td>Consistency. Test–retest, internal consistency, inter-rater.</td></tr>
+<tr><td>Residual</td><td>Outcome minus model. Unexplained variation. Also the vertical miss on a residual plot.</td></tr>
+<tr><td>Residual SS</td><td>Variation the model does not explain.</td></tr>
+<tr><td>Sampling distribution</td><td>The distribution of a statistic (here, sample means) across samples.</td></tr>
+<tr><td>Sampling variation</td><td>Samples differ in their means and SDs.</td></tr>
+<tr><td>Scheffé</td><td>The most conservative post hoc on the RM list.</td></tr>
+<tr><td>Semi-partial correlation</td><td>r after Z is removed from only one variable. Basis of regression. Usually smaller than the partial r.</td></tr>
+<tr><td>Shapiro–Wilk</td><td>A significance test of normality. Over-sensitive. Do not let it overrule a clean Q-Q plot.</td></tr>
+<tr><td>Skewness</td><td>Asymmetry. Right tail = positive. Left tail = negative.</td></tr>
+<tr><td>Sphericity</td><td>Equal variances of the differences between repeated conditions. Mauchly.</td></tr>
+<tr><td>Standard deviation</td><td>Square root of the variance. Spread in the original units.</td></tr>
+<tr><td>Standard error</td><td>SD of the sampling distribution of the mean. s / √N.</td></tr>
+<tr><td>Standardisation</td><td>Putting covariance onto a fixed scale so r falls between −1 and +1.</td></tr>
+<tr><td>Sum of squares</td><td>Total squared deviance. Total = model + residual.</td></tr>
+<tr><td>Suppressor</td><td>Controlling Z strengthens the X–Y relationship.</td></tr>
+<tr><td>Test–retest reliability</td><td>Similar scores across time.</td></tr>
+<tr><td>Test statistic</td><td>A statistic with a known distribution under H0.</td></tr>
+<tr><td>Theory</td><td>A well-tested explanation of a broad phenomenon.</td></tr>
+<tr><td>Tukey HSD</td><td>Post hoc that assumes equal variances.</td></tr>
+<tr><td>Two-tailed test</td><td>A non-directional hypothesis. The default.</td></tr>
+<tr><td>Type I error</td><td>You find an effect that is not real.</td></tr>
+<tr><td>Type II error</td><td>You miss an effect that is real.</td></tr>
+<tr><td>Validity</td><td>The instrument measures the intended thing. Requires reliability.</td></tr>
+<tr><td>Variance</td><td>SS / (n − 1). Spread around the mean, in squared units.</td></tr>
+<tr><td>Welch’s F</td><td>ANOVA that does not assume equal variances.</td></tr>
+<tr><td>Welch’s t</td><td>Independent t that does not assume equal variances. Slight loss of power.</td></tr>
+<tr><td>Within-subjects</td><td>The same people in every condition. Needs counterbalancing.</td></tr>
+<tr><td>z distribution</td><td>Normal with mean 0 and SD 1. ±1.96 for 95%, ±2.576 for 99%.</td></tr>
+<tr><td>η²</td><td>SS model / SS total. Proportion of outcome variance explained. Independent ANOVA write-ups use this.</td></tr>
+</table>
+<p class="small">Readings named on the slides, if a blank asks: Field chapters 1, 2, 3, 8, 10, and 12–16. Navarro chapter 11. Books: Navarro &amp; Foxcroft (2025), <em>Learning statistics with jamovi</em>; Field (2024), <em>Discovering statistics using IBM SPSS statistics</em> (6th ed.).</p>
+</section>
+
+</main>
+<script>
+const q = document.getElementById('q');
+const blocks = [...document.querySelectorAll('[data-search]')];
+const count = document.getElementById('count');
+function apply() {
+  const s = q.value.trim().toLowerCase();
+  if (!s) {
+    blocks.forEach(el => el.classList.remove('hide'));
+    count.textContent = '';
+    return;
+  }
+  let n = 0;
+  blocks.forEach(el => {
+    const hit = el.innerText.toLowerCase().includes(s);
+    el.classList.toggle('hide', !hit);
+    if (hit) n++;
+  });
+  count.textContent = n ? n + ' sections' : 'no match';
+}
+q.addEventListener('input', apply);
+</script>
+</body>
+</html>
