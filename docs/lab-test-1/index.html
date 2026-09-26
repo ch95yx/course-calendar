@@ -48,6 +48,7 @@
     <a href="#report">What to write</a>
     <a href="#formula">Formulas</a>
     <a href="#jamovi">jamovi clicks</a>
+    <a href="#steps">Step by step</a>
     <a href="#plots">Read a plot</a>
     <a href="#templates">Write-up lines</a>
     <a href="#l1">Lecture 1</a>
@@ -189,6 +190,188 @@ Number of pairwise tests = k(k − 1) / 2
 </div>
 </section>
 
+<section id="steps" data-search>
+<h2>4b. Every test: click, then read this number</h2>
+<div class="do">
+<p><span class="k">The same rule on every p-value.</span> p &lt; .05 → significant, reject H0. p &gt; .05 → not significant, fail to reject H0. If jamovi prints &lt; .001, write p &lt; .001. Copy the df from the same row as the statistic. Always write the direction in words.</p>
+<p><span class="k">Before every analysis.</span> Double-click the column name. Grouping variable → measure type <span class="k">Nominal</span>. Outcome → <span class="k">Continuous</span>. Do not use the ID column.</p>
+</div>
+
+<h3>Descriptives and graphs</h3>
+<div class="card">
+<p><span class="k">Click:</span> Analyses → Exploration → Descriptives. Move the scores into <span class="k">Variables</span>. If you need a mean for each group, move the group label into <span class="k">Split by</span>.</p>
+<p><span class="k">Tick under Statistics:</span> N, Mean, Median, Mode, Standard deviation, Variance, Minimum, Maximum, Range, Skewness, Kurtosis, Std. error of the mean, Quartiles.</p>
+<p><span class="k">Tick under Plots:</span> Histogram, Box plot, Q-Q. Bar plot only if the variable is categorical.</p>
+<table>
+<tr><th>Number</th><th>Indicator</th></tr>
+<tr><td>Mean and SD</td><td>Put these in the first sentence of every write-up. One pair per group.</td></tr>
+<tr><td>Median vs mean</td><td>Mean pulled above the median → right skew. Mean below the median → left skew. If they differ a lot, also quote the median.</td></tr>
+<tr><td>SD</td><td>Larger SD = scores more spread out. Compare SDs across groups before you trust Levene.</td></tr>
+<tr><td>Skewness</td><td>Positive number = right tail. Negative number = left tail. Near 0 = roughly symmetric.</td></tr>
+<tr><td>Kurtosis</td><td>How much mass sits in the tails. The picture matters more than the number: leptokurtic = peaked, platykurtic = flat.</td></tr>
+<tr><td>Quartiles</td><td>25th = Q1, 50th = median, 75th = Q3. IQR = Q3 − Q1.</td></tr>
+<tr><td>Box plot</td><td>Whisker = last real score inside the fence. Fence = Q1 − 1.5×IQR or Q3 + 1.5×IQR. Point past the fence = outlier.</td></tr>
+<tr><td>Histogram</td><td>One peak = one mode. Two peaks = bimodal. Bell = normal / Gaussian.</td></tr>
+</table>
+</div>
+
+<h3>Independent-samples t-test</h3>
+<div class="card">
+<p><span class="k">Use when</span> the independent variable is categorical with <span class="k">exactly two groups</span>, and the dependent variable is continuous. Different people in each group.</p>
+<p><span class="k">Click:</span> Analyses → T-Tests → Independent Samples T-Test.</p>
+<ul>
+<li><span class="k">Dependent Variables</span> = the outcome (Exam_Performance, mood, grade).</li>
+<li><span class="k">Grouping Variable</span> = the independent variable (Gender, drug, tutor). This is the two-group label.</li>
+<li>Tests: tick <span class="k">Student’s</span> and <span class="k">Welch’s</span>.</li>
+<li>Hypothesis: <span class="k">Group 1 ≠ Group 2</span> (two-tailed) unless the question states a direction.</li>
+<li>Additional Statistics: Mean difference, Confidence interval, Effect size (Cohen’s d), Descriptives, Descriptives plots.</li>
+<li>Assumption Checks: <span class="k">Homogeneity test</span> (this is Levene), Normality test, <span class="k">Q-Q plot</span>.</li>
+</ul>
+<table>
+<tr><th>Read this</th><th>Indicator</th></tr>
+<tr><td>Descriptives: Mean, SD, N</td><td>Report both groups first. The group with the higher mean is the direction.</td></tr>
+<tr><td>Q-Q plot of residuals</td><td>Points hug the line → normality met. Bend, or ends peeling off → not met. Trust the plot more than Shapiro–Wilk.</td></tr>
+<tr><td>Shapiro–Wilk p</td><td>Low p means “not normal”, but it over-calls. Do not switch tests on Shapiro alone.</td></tr>
+<tr><td>Levene’s F and p</td><td><span class="k">p &gt; .05 → variances equal → report Student’s t.</span> <span class="k">p &lt; .05 → variances unequal → report Welch’s t</span> and say homogeneity was violated.</td></tr>
+<tr><td>t, df, p</td><td>From the Student’s row or the Welch’s row, not both. p &lt; .05 = the two means differ.</td></tr>
+<tr><td>Mean difference and 95% CI</td><td>If the CI includes 0, the difference is not significant. The sign of the difference tells you which group is higher. Check that it matches the means.</td></tr>
+<tr><td>Cohen’s d</td><td>0.2 small, 0.5 medium, 0.8 large. Between two cutoffs: say “between medium and large”.</td></tr>
+</table>
+<p>Order in the answer: means (SDs) → Q-Q → Levene → which t you chose → t(df), p, CI, d → who was higher.</p>
+</div>
+
+<h3>Paired-samples t-test</h3>
+<div class="card">
+<p><span class="k">Use when</span> the same people are measured twice. There is no grouping variable.</p>
+<p><span class="k">Click:</span> Analyses → T-Tests → Paired Samples T-Test. Move the two measures into one pair (Happiness_Monday with Happiness_Friday, test 1 with test 2).</p>
+<ul>
+<li>Tests: Student’s. There is no Welch and no Levene.</li>
+<li>Hypothesis: Measure 1 ≠ Measure 2, unless the question is directional.</li>
+<li>Additional Statistics: Mean difference, Confidence interval, Cohen’s d, Descriptives.</li>
+<li>Assumption Checks: Normality, Q-Q plot.</li>
+</ul>
+<table>
+<tr><th>Read this</th><th>Indicator</th></tr>
+<tr><td>Mean and SD of each time</td><td>Report both. Higher mean = the direction.</td></tr>
+<tr><td>Q-Q plot</td><td>Hug the line → normality of the difference scores is met.</td></tr>
+<tr><td>t(df), p</td><td>df = number of people − 1. t(19) means 20 people. p &lt; .05 = the two times differ.</td></tr>
+<tr><td>95% CI of the mean difference</td><td>Includes 0 → not significant.</td></tr>
+<tr><td>Cohen’s d</td><td>Same 0.2 / 0.5 / 0.8 cuts.</td></tr>
+</table>
+</div>
+
+<h3>Pearson, Spearman, Kendall</h3>
+<div class="card">
+<p><span class="k">Use when</span> both variables are continuous and you are not controlling a third variable. Pearson is the default. Spearman or Kendall only if bivariate normality or homoscedasticity fails.</p>
+<p><span class="k">Click:</span> Analyses → Regression → Correlation Matrix. Move both variables into the box.</p>
+<ul>
+<li>Correlation Coefficients: <span class="k">Pearson</span> first. Add Spearman or Kendall’s tau-b only after you have decided Pearson’s assumptions fail.</li>
+<li>Hypothesis: <span class="k">Correlated</span> = two-tailed. “Positively correlated” or “Negatively correlated” = one-tailed. Use two-tailed unless the question states a direction.</li>
+<li>Additional Options: Report significance, Flag significant correlations, N, Confidence interval.</li>
+<li>Plots: Correlation matrix plot, if the button is there. For the assumption pictures, also run the linear regression below.</li>
+</ul>
+<table>
+<tr><th>Read this</th><th>Indicator</th></tr>
+<tr><td>Scatterplot, shape</td><td>Straight cloud → linearity met. U-shape or a clear curve → linearity violated. Pearson is the wrong model. Spearman also misses a U.</td></tr>
+<tr><td>Scatterplot, cloud</td><td>One ellipse → bivariate normality met. Two clumps, or not an ellipse → violated.</td></tr>
+<tr><td>Residual plot (see next block)</td><td>Even vertical spread → homoscedasticity met. Fan → violated. If normality or homoscedasticity fails, report Spearman or Kendall instead of Pearson, and say why.</td></tr>
+<tr><td>r (or rho, or tau-b)</td><td>Sign = direction. Positive: as X goes up, Y goes up. Negative: as X goes up, Y goes down. |r| ≥ .10 small, ≥ .30 medium, ≥ .50 large.</td></tr>
+<tr><td>p</td><td>p &lt; .05 → the correlation is significant. p = .051 is not significant, but a medium r is still a real-sized relationship. Say both.</td></tr>
+<tr><td>N</td><td>How many pairs entered the correlation. Mention it if people were dropped.</td></tr>
+</table>
+<p>A curved-but-always-rising cloud: Pearson linearity is shaky; Spearman can describe that monotonic rise. Time-linked data (sleep today with sleep tomorrow) breaks independence. Name autocorrelation. Do not treat those rows as independent people.</p>
+</div>
+
+<h3>Check homoscedasticity (residual plot)</h3>
+<div class="card">
+<p><span class="k">Click:</span> Analyses → Regression → Linear Regression. This is only to get the plot. You do not write a regression answer unless the question asks for one.</p>
+<ul>
+<li><span class="k">Dependent Variable</span> = the outcome Y.</li>
+<li><span class="k">Covariates</span> = the predictor X. In jamovi, a continuous predictor is a covariate.</li>
+<li>Assumption Checks: tick <span class="k">Q-Q plot of residuals</span> and <span class="k">Residual plots</span>.</li>
+</ul>
+<table>
+<tr><th>Plot</th><th>Indicator</th></tr>
+<tr><td>First plot: Fitted vs residuals</td><td>This is the one you judge. Fitted = predicted Y. Vertical spread similar all the way across → homoscedasticity met. Spread grows into a fan → violated. Wider in the middle, with few points at the ends → say it is ambiguous, pick a side, give the reason.</td></tr>
+<tr><td>Residuals that curve up or down</td><td>Not a fan. The straight line is the wrong model (failed linearity). Call it bias, not heteroscedasticity.</td></tr>
+<tr><td>Q-Q of residuals</td><td>Same normality rule as the t-test.</td></tr>
+</table>
+</div>
+
+<h3>Partial and semi-partial correlation</h3>
+<div class="card">
+<p><span class="k">Click:</span> Analyses → Regression → Partial Correlation.</p>
+<ul>
+<li><span class="k">Variables</span> = the two you care about (stress and exam performance).</li>
+<li><span class="k">Control Variables</span> = Z, the one you are holding constant (daily study time).</li>
+<li>Pearson.</li>
+<li><span class="k">Correlation type: Partial</span> removes Z from both. <span class="k">Semipartial</span> removes Z from only one. The default is Partial. Change it if the question says semi-partial.</li>
+<li>Report significance.</li>
+</ul>
+<p>Also run the ordinary Correlation Matrix first, so you have the simple r to compare with.</p>
+<table>
+<tr><th>Read this</th><th>Indicator</th></tr>
+<tr><td>Simple r and its p</td><td>The relationship before any control. Report direction and Cohen size.</td></tr>
+<tr><td>Partial or semi-partial r and its p</td><td>The relationship after Z. Read the note under the table (“controlling for …”).</td></tr>
+<tr><td>Which cell, if semi-partial</td><td>The two off-diagonal numbers can differ. Use the cell that removes Z from the predictor, and say which variable that was. Partial r is the same either way, and it is usually larger than the semi-partial.</td></tr>
+<tr><td>Compare the two r values</td><td>Weaker but still significant → <span class="k">partial confounder</span>. No longer significant → <span class="k">confounder</span>. Stronger → <span class="k">suppressor</span>. Sign flips → <span class="k">negative suppressor</span>.</td></tr>
+</table>
+</div>
+
+<h3>One-way independent ANOVA</h3>
+<div class="card">
+<p><span class="k">Use when</span> the independent variable has <span class="k">3 or more groups</span> and different people are in each group. Two groups only: use the t-test. If you run both on two groups, t² = F.</p>
+<p><span class="k">Click:</span> Analyses → ANOVA → One-Way ANOVA.</p>
+<ul>
+<li><span class="k">Dependent Variable</span> = the outcome.</li>
+<li><span class="k">Grouping Variable</span> = the independent variable (the groups).</li>
+<li>Variances: leave “Assume equal” on. If Levene fails, switch to <span class="k">Don’t assume equal (Welch’s)</span>.</li>
+<li>Effect Size: <span class="k">η²</span>.</li>
+<li>Descriptives, and a descriptives plot if you want the means pictured.</li>
+<li>Assumption Checks: Homogeneity test, Normality, Q-Q plot.</li>
+<li>Post-Hoc Tests: tick the one the rule allows (below). Do this after you have seen Levene and the omnibus F.</li>
+</ul>
+<table>
+<tr><th>Read this</th><th>Indicator</th></tr>
+<tr><td>Group means and SDs</td><td>Missing these is a wrong write-up. Report every group.</td></tr>
+<tr><td>Q-Q plot</td><td>Hug the line → normality met.</td></tr>
+<tr><td>Levene’s F(df1, df2), p</td><td>p &gt; .05 → equal variances. p &lt; .05 → tick Welch’s, and use Games–Howell, not Tukey and not LSD.</td></tr>
+<tr><td>ANOVA F(df1, df2), p</td><td>This is the omnibus test. p &lt; .05 → the means are not all equal. A difference somewhere. It does not name the pair. df1 = k − 1, df2 = N − k.</td></tr>
+<tr><td>η²</td><td>SS model / SS total. 0.71 means 71% of the outcome variance is explained by the grouping variable. No small/medium/large cutoff was given in class. Report the proportion.</td></tr>
+<tr><td>Post hoc t, df, p for each pair</td><td>p &lt; .05 → those two groups differ. p &gt; .05 → they do not. df here is the residual df (the second df of F), not a new one.</td></tr>
+</table>
+<p><span class="k">Which post hoc button.</span> Levene met and the ANOVA is significant and there are at most 3 groups → <span class="k">None (Fisher’s LSD)</span>. Levene met and more than 3 groups, or you want a correction → <span class="k">Tukey</span>. Levene violated → <span class="k">Games–Howell</span> together with Welch’s F. A significant F with every post hoc p &gt; .05 is allowed. Report that. Do not invent a winning group.</p>
+</div>
+
+<h3>One-way repeated-measures ANOVA</h3>
+<div class="card">
+<p><span class="k">Use when</span> the same people do 3 or more conditions. Two conditions only: paired t.</p>
+<p><span class="k">Click:</span> Analyses → ANOVA → Repeated Measures ANOVA.</p>
+<ul>
+<li>Repeated Measures Factors: type a factor name (Condition). Set Levels to the number of conditions. Label them (Speech, Conceptual, Syntax).</li>
+<li>Drag each measure into its level. There is no grouping variable.</li>
+<li>Effect Size: tick <span class="k">Partial η²</span>. In a one-way RM, η² and generalised η² print the same number. Partial η² is the one to report, because it ignores between-person variance.</li>
+<li>Assumption Checks: <span class="k">Sphericity tests</span> (Mauchly) and Q-Q.</li>
+<li>Post Hoc Tests: put the factor across, and tick <span class="k">Holm</span> unless the question names another correction.</li>
+</ul>
+<table>
+<tr><th>Read this</th><th>Indicator</th></tr>
+<tr><td>Mean and SD of each condition</td><td>Report all of them. The pattern of means is the direction.</td></tr>
+<tr><td>Q-Q plot</td><td>Hug the line → normality met.</td></tr>
+<tr><td>Mauchly χ²(df), p</td><td>p &gt; .05 → sphericity met. Report the uncorrected F. p &lt; .05 → sphericity violated. Read ε (Greenhouse–Geisser epsilon).</td></tr>
+<tr><td>ε</td><td><span class="k">ε &gt; .75 → use the Huynh–Feldt row. ε ≤ .75 → use the Greenhouse–Geisser row.</span> Greenhouse–Geisser is the stronger correction.</td></tr>
+<tr><td>F(df1, df2), p from the row you chose</td><td>p &lt; .05 → conditions differ somewhere. df1 = k − 1. df2 = (k − 1)(n − 1) when sphericity holds. Corrected rows change the df. Copy the row you actually use.</td></tr>
+<tr><td>Partial η²</td><td>Effect / (effect + error). Ignores the between-person slice. .581 is the class example.</td></tr>
+<tr><td>Post hoc t(df), p</td><td>Holm is the balanced default. Order from least to most conservative: None, Tukey, Holm, Bonferroni, Scheffé. p &lt; .05 → that pair differs. A significant F can sit next to every pair p &gt; .05 (Speech vs Syntax was p = .058). Say so.</td></tr>
+</table>
+<p>Mauchly df for 3 conditions is usually 2. The slide once printed χ²(5). Copy whatever jamovi prints.</p>
+</div>
+
+<div class="trap">
+<p><span class="k">Decision in one line while you are clicking.</span> Two continuous variables → Correlation Matrix. Hold a third variable constant → Partial Correlation, and change Partial / Semipartial. Two groups, different people → Independent t, then Levene decides Student vs Welch. Same people, two measures → Paired t. Three or more groups, different people → One-Way ANOVA, then Levene decides Welch + Games–Howell versus Tukey or LSD. Same people, three or more measures → Repeated Measures ANOVA, then Mauchly and ε decide the F row, and Holm is the post hoc.</p>
+</div>
+</section>
+
 <section id="plots" data-search>
 <h2>5. How to read a plot</h2>
 <h3>Boxplot whiskers — three rules on the slide</h3>
@@ -201,6 +384,20 @@ Number of pairwise tests = k(k − 1) / 2
 <p>Points beyond the fence are outliers. The fence is not the whisker. The whisker is a real data point. The depression-by-gender slide writes the numbers 18, 19, and 20.5 next to this rule: those marks are about the fence versus the retracted whisker, not “the whisker always ends at 1.5 × IQR”.</p>
 <p><span class="k">Practice.</span> Q1 = 8, Q3 = 16, IQR = 8. Upper fence = 16 + 12 = 28. If the largest score that is still ≤ 28 is 18, the upper whisker stops at 18. A score of 40 is an outlier.</p>
 <p>The box itself is Q1 to Q3. The line inside the box is the median. Comparing boxplots: look at medians, spread (box + whiskers), and outliers. A mean can sit far from the median when there is skew or an outlier (slide mean = 95, median = 98, with 234 in the set).</p>
+<p><span class="k">Four bands, 25% of the values in each.</span> Below Q1. Q1 to the median. Median to Q3. Above Q3.</p>
+<table>
+<tr><th>Part</th><th>Meaning</th></tr>
+<tr><td>Bottom of the box</td><td>Q1, 25th percentile</td></tr>
+<tr><td>Line in the box</td><td>Median, 50th percentile (Q2)</td></tr>
+<tr><td>Top of the box</td><td>Q3, 75th percentile</td></tr>
+<tr><td>The box</td><td>IQR = Q3 − Q1. Middle 50%</td></tr>
+<tr><td>Lower fence (dashed)</td><td>Q1 − 1.5 × IQR. A cutoff, not a score</td></tr>
+<tr><td>Upper fence (dashed)</td><td>Q3 + 1.5 × IQR. A cutoff, not a score</td></tr>
+<tr><td>Lower whisker</td><td>Stops at the smallest score that is still above the lower fence</td></tr>
+<tr><td>Upper whisker</td><td>Stops at the largest score that is still below the upper fence</td></tr>
+<tr><td>x past a fence</td><td>Outlier. The max or min of the whole data set can be an outlier, so it is not the whisker</td></tr>
+</table>
+<img class="fig" src="plot-examples/07-boxplot-parts.png" alt="Labeled boxplot: quartiles, whiskers, fences, and outliers.">
 <img class="fig" src="plot-examples/06-boxplot.png" alt="Boxplot showing the 1.5 IQR fence above the whisker, and an outlier at 30.">
 </div>
 <h3>Histogram</h3>
