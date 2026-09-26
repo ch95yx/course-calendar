@@ -45,16 +45,17 @@
   <span id="count"></span>
   <nav>
     <a href="#choose">Which test</a>
-    <a href="#report">What to write</a>
+    <a href="#desc">Descriptives</a>
+    <a href="#tind">Independent t</a>
+    <a href="#tpair">Paired t</a>
+    <a href="#corr">Correlation</a>
+    <a href="#part">Partial / semi</a>
+    <a href="#anova">ANOVA</a>
+    <a href="#rm">RM ANOVA</a>
+    <a href="#plots">Plots</a>
     <a href="#formula">Formulas</a>
-    <a href="#jamovi">jamovi clicks</a>
-    <a href="#steps">Step by step</a>
-    <a href="#plots">Read a plot</a>
-    <a href="#templates">Write-up lines</a>
     <a href="#l1">Lecture 1</a>
     <a href="#l2">Lecture 2</a>
-    <a href="#partial">Partial / semi</a>
-    <a href="#l3">ANOVA</a>
     <a href="#traps">Traps</a>
     <a href="#gloss">A–Z</a>
   </nav>
@@ -168,38 +169,17 @@ Number of pairwise tests = k(k − 1) / 2
 </div>
 </section>
 
-<section id="jamovi" data-search>
-<h2>4. jamovi clicks</h2>
-<div class="card">
-<p><span class="k">Before any analysis.</span> Double-click a column header. Set the measure: grouping variable = Nominal (or Ordinal). Outcome = Continuous. A wrong type sends you to the wrong menu. Data types: Integer, Decimal, Text. Do not analyse an ID column.</p>
-</div>
-<table>
-<tr><th>Job</th><th>Menu</th><th>What to tick</th></tr>
-<tr><td>Descriptives and graphs</td><td>Analyses → Exploration → Descriptives</td><td>Variables. Split by = grouping factor. Statistics: N, Mean, Median, Mode, SD, Variance, Range, Min, Max, SE, Skewness, Kurtosis, Quartiles. Plots: Histogram, Box plot, Q-Q, Bar if categorical.</td></tr>
-<tr><td>Scatterplot</td><td>Same Descriptives plots, or the scatter option if it is on your build. Linear regression also shows the cloud via residuals.</td><td>Look for a straight cloud, an ellipse, and even vertical spread.</td></tr>
-<tr><td>Independent t</td><td>Analyses → T-Tests → Independent Samples T-Test</td><td>Dependent variable. Grouping variable. Student’s if variances equal; Welch’s if not. Hypothesis: Group 1 ≠ Group 2 (two-tailed) unless the question is directional. Additional: Mean difference, CI, Effect size (Cohen’s d), Descriptives. Assumptions: Homogeneity (Levene), Normality, Q-Q plot.</td></tr>
-<tr><td>Paired t</td><td>Analyses → T-Tests → Paired Samples T-Test</td><td>Put the two measures in one pair. Student’s. Mean difference, CI, Cohen’s d, Descriptives. Normality + Q-Q. There is no Levene.</td></tr>
-<tr><td>Pearson / Spearman / Kendall</td><td>Analyses → Regression → Correlation Matrix</td><td>Pearson by default. Switch to Spearman or Kendall’s tau-b if bivariate normality or homoscedasticity fails. Report significance. Flag significant. Hypothesis “Correlated” = two-tailed. “Positively / negatively correlated” = one-tailed.</td></tr>
-<tr><td>Partial or semi-partial</td><td>Analyses → Regression → Partial Correlation</td><td>Variables = the two you care about. Control variables = Z. Pearson. <span class="k">Correlation type: Partial or Semipartial.</span> The default is Partial — change it if the question wants semi-partial. Report significance. Read the note under the table (“controlling for …”).</td></tr>
-<tr><td>Residual plot (homoscedasticity)</td><td>Analyses → Regression → Linear Regression</td><td>Dependent = outcome Y. Covariates = predictor X. Assumption checks: Q-Q and Residual plots. Use the <span class="k">first plot, Fitted vs residuals.</span> You do not need the regression write-up unless they ask for it.</td></tr>
-<tr><td>One-way independent ANOVA</td><td>Analyses → ANOVA → One-Way ANOVA</td><td>Dependent. Grouping variable. Equal variances, or Welch if Levene fails. Effect size η². Post hoc: None / Tukey / Games–Howell. Assumptions: Homogeneity, Normality, Q-Q. Descriptives.</td></tr>
-<tr><td>One-way RM ANOVA</td><td>Analyses → ANOVA → Repeated Measures ANOVA</td><td>Name the factor, set the number of levels, drag each measure into a level. Effect size: tick <span class="k">Partial η²</span> (η² and Generalised η² match each other in a one-way RM). Sphericity (Mauchly) and Q-Q. Post hoc: Holm unless told otherwise.</td></tr>
-</table>
-<div class="trap">
-<p><span class="k">Semi-partial is not symmetric.</span> Partial r(X,Y) equals partial r(Y,X). Semi-partial does not. The two off-diagonal cells can differ because Z is removed from only one variable. Read the cell that removes Z from the variable the question names (usually the predictor), and say so in the answer.</p>
-</div>
-</section>
-
 <section id="steps" data-search>
-<h2>4b. Every test: click, then read this number</h2>
+<h2>4. Running each test</h2>
+<p>Each test below is one block: how to run it, which numbers to read, then the sentence to write. Theory, formulas, and the plot pictures are further down. Nothing from those sections has been removed.</p>
 <div class="do">
 <p><span class="k">The same rule on every p-value.</span> p &lt; .05 → significant, reject H0. p &gt; .05 → not significant, fail to reject H0. If jamovi prints &lt; .001, write p &lt; .001. Copy the df from the same row as the statistic. Always write the direction in words.</p>
 <p><span class="k">Before every analysis.</span> Double-click the column name. Grouping variable → measure type <span class="k">Nominal</span>. Outcome → <span class="k">Continuous</span>. Do not use the ID column.</p>
 </div>
 
-<h3>Descriptives and graphs</h3>
+<h3 id="desc">Descriptives and graphs</h3>
 <div class="card">
-<p><span class="k">Click:</span> Analyses → Exploration → Descriptives. Move the scores into <span class="k">Variables</span>. If you need a mean for each group, move the group label into <span class="k">Split by</span>.</p>
+<p><span class="k">How to run.</span> Analyses → Exploration → Descriptives. Move the scores into <span class="k">Variables</span>. If you need a mean for each group, move the group label into <span class="k">Split by</span>.</p>
 <p><span class="k">Tick under Statistics:</span> N, Mean, Median, Mode, Standard deviation, Variance, Minimum, Maximum, Range, Skewness, Kurtosis, Std. error of the mean, Quartiles.</p>
 <p><span class="k">Tick under Plots:</span> Histogram, Box plot, Q-Q. Bar plot only if the variable is categorical.</p>
 <table>
@@ -215,10 +195,10 @@ Number of pairwise tests = k(k − 1) / 2
 </table>
 </div>
 
-<h3>Independent-samples t-test</h3>
+<h3 id="tind">Independent-samples t-test</h3>
 <div class="card">
 <p><span class="k">Use when</span> the independent variable is categorical with <span class="k">exactly two groups</span>, and the dependent variable is continuous. Different people in each group.</p>
-<p><span class="k">Click:</span> Analyses → T-Tests → Independent Samples T-Test.</p>
+<p><span class="k">How to run.</span> Analyses → T-Tests → Independent Samples T-Test.</p>
 <ul>
 <li><span class="k">Dependent Variables</span> = the outcome (Exam_Performance, mood, grade).</li>
 <li><span class="k">Grouping Variable</span> = the independent variable (Gender, drug, tutor). This is the two-group label.</li>
@@ -227,6 +207,7 @@ Number of pairwise tests = k(k − 1) / 2
 <li>Additional Statistics: Mean difference, Confidence interval, Effect size (Cohen’s d), Descriptives, Descriptives plots.</li>
 <li>Assumption Checks: <span class="k">Homogeneity test</span> (this is Levene), Normality test, <span class="k">Q-Q plot</span>.</li>
 </ul>
+<p class="k">How to read</p>
 <table>
 <tr><th>Read this</th><th>Indicator</th></tr>
 <tr><td>Descriptives: Mean, SD, N</td><td>Report both groups first. The group with the higher mean is the direction.</td></tr>
@@ -238,18 +219,22 @@ Number of pairwise tests = k(k − 1) / 2
 <tr><td>Cohen’s d</td><td>0.2 small, 0.5 medium, 0.8 large. Between two cutoffs: say “between medium and large”.</td></tr>
 </table>
 <p>Order in the answer: means (SDs) → Q-Q → Levene → which t you chose → t(df), p, CI, d → who was higher.</p>
+<p class="k">How to write it</p>
+<pre>The mean [outcome] in [group 1] was __ (SD = __), whereas the mean in [group 2] was __ (SD = __). Normality of errors was checked with a Q-Q plot of the residuals and was met / not met. Homogeneity of variance was checked with Levene’s test, F(__, __) = __, p = __, and was met / violated. [Because Levene’s test was not significant, Student’s independent-samples t-test was used. / Because homogeneity was violated, Welch’s t-test was used.] There was a significant / non-significant difference, t(__) = __, p = __, 95% CI [__, __], Cohen’s d = __ (small / medium / large / between …), such that [group] had higher [outcome] than [group].</pre>
+<p class="small">Class example, Anastasia vs Bernadette: 74.53 (SD 9.00) vs 69.06 (SD 5.77). Levene F(1, 31) = 2.49, p = .125, met. t(31) = 2.12, p = .043, CI [0.20, 10.76], d = .74. Anastasia higher.</p>
 </div>
 
-<h3>Paired-samples t-test</h3>
+<h3 id="tpair">Paired-samples t-test</h3>
 <div class="card">
 <p><span class="k">Use when</span> the same people are measured twice. There is no grouping variable.</p>
-<p><span class="k">Click:</span> Analyses → T-Tests → Paired Samples T-Test. Move the two measures into one pair (Happiness_Monday with Happiness_Friday, test 1 with test 2).</p>
+<p><span class="k">How to run.</span> Analyses → T-Tests → Paired Samples T-Test. Move the two measures into one pair (Happiness_Monday with Happiness_Friday, test 1 with test 2).</p>
 <ul>
 <li>Tests: Student’s. There is no Welch and no Levene.</li>
 <li>Hypothesis: Measure 1 ≠ Measure 2, unless the question is directional.</li>
 <li>Additional Statistics: Mean difference, Confidence interval, Cohen’s d, Descriptives.</li>
 <li>Assumption Checks: Normality, Q-Q plot.</li>
 </ul>
+<p class="k">How to read</p>
 <table>
 <tr><th>Read this</th><th>Indicator</th></tr>
 <tr><td>Mean and SD of each time</td><td>Report both. Higher mean = the direction.</td></tr>
@@ -258,18 +243,22 @@ Number of pairwise tests = k(k − 1) / 2
 <tr><td>95% CI of the mean difference</td><td>Includes 0 → not significant.</td></tr>
 <tr><td>Cohen’s d</td><td>Same 0.2 / 0.5 / 0.8 cuts.</td></tr>
 </table>
+<p class="k">How to write it</p>
+<pre>The mean of [time 1] was __ (SD = __), whereas the mean of [time 2] was __ (SD = __). Normality of errors was checked with a Q-Q plot of the residuals and was met. A paired-samples t-test showed a significant / non-significant difference, t(__) = __, p = __, 95% CI [__, __], Cohen’s d = __, such that scores were higher at [time].</pre>
+<p class="small">Class example: test 1 = 56.98 (6.62), test 2 = 58.38 (6.41). t(19) = 6.48, p &lt; .001, CI [0.95, 1.86], d = 1.45. Second test higher.</p>
 </div>
 
-<h3>Pearson, Spearman, Kendall</h3>
+<h3 id="corr">Pearson, Spearman, Kendall</h3>
 <div class="card">
 <p><span class="k">Use when</span> both variables are continuous and you are not controlling a third variable. Pearson is the default. Spearman or Kendall only if bivariate normality or homoscedasticity fails.</p>
-<p><span class="k">Click:</span> Analyses → Regression → Correlation Matrix. Move both variables into the box.</p>
+<p><span class="k">How to run.</span> Analyses → Regression → Correlation Matrix. Move both variables into the box.</p>
 <ul>
 <li>Correlation Coefficients: <span class="k">Pearson</span> first. Add Spearman or Kendall’s tau-b only after you have decided Pearson’s assumptions fail.</li>
 <li>Hypothesis: <span class="k">Correlated</span> = two-tailed. “Positively correlated” or “Negatively correlated” = one-tailed. Use two-tailed unless the question states a direction.</li>
 <li>Additional Options: Report significance, Flag significant correlations, N, Confidence interval.</li>
 <li>Plots: Correlation matrix plot, if the button is there. For the assumption pictures, also run the linear regression below.</li>
 </ul>
+<p class="k">How to read</p>
 <table>
 <tr><th>Read this</th><th>Indicator</th></tr>
 <tr><td>Scatterplot, shape</td><td>Straight cloud → linearity met. U-shape or a clear curve → linearity violated. Pearson is the wrong model. Spearman also misses a U.</td></tr>
@@ -279,12 +268,15 @@ Number of pairwise tests = k(k − 1) / 2
 <tr><td>p</td><td>p &lt; .05 → the correlation is significant. p = .051 is not significant, but a medium r is still a real-sized relationship. Say both.</td></tr>
 <tr><td>N</td><td>How many pairs entered the correlation. Mention it if people were dropped.</td></tr>
 </table>
-<p>A curved-but-always-rising cloud: Pearson linearity is shaky; Spearman can describe that monotonic rise. Time-linked data (sleep today with sleep tomorrow) breaks independence. Name autocorrelation. Do not treat those rows as independent people.</p>
+<p>A curved-but-always-rising cloud: Pearson linearity is shaky; Spearman can describe that monotonic rise. Time-linked data (sleep today with sleep tomorrow) breaks independence. Name autocorrelation. Do not treat those rows as independent people. Alternatives named in class: AR, MA, ARMA, ARIMA. You only need to spot the problem.</p>
+<p class="k">How to write it</p>
+<pre>There was a significant / non-significant [positive / negative] and [small / medium / large] relationship between [X] and [Y], r = __, p = __. As [X] increased, [Y] increased / decreased. Assumptions: independence holds by design / is violated because …; the scatterplot showed a linear / curved pattern; the cloud was consistent / not consistent with bivariate normality; homoscedasticity was met / violated on the residual plot (say why).</pre>
+<p class="small">Class example: dan’s sleep with baby’s sleep r = .63; dan’s sleep with grumpiness r = −.90; baby’s sleep with grumpiness r = −.57. All p &lt; .001, all large.</p>
 </div>
 
 <h3>Check homoscedasticity (residual plot)</h3>
 <div class="card">
-<p><span class="k">Click:</span> Analyses → Regression → Linear Regression. This is only to get the plot. You do not write a regression answer unless the question asks for one.</p>
+<p><span class="k">How to run.</span> Analyses → Regression → Linear Regression. This is only to get the plot. You do not write a regression answer unless the question asks for one.</p>
 <ul>
 <li><span class="k">Dependent Variable</span> = the outcome Y.</li>
 <li><span class="k">Covariates</span> = the predictor X. In jamovi, a continuous predictor is a covariate.</li>
@@ -298,9 +290,9 @@ Number of pairwise tests = k(k − 1) / 2
 </table>
 </div>
 
-<h3>Partial and semi-partial correlation</h3>
+<h3 id="part">Partial and semi-partial correlation</h3>
 <div class="card">
-<p><span class="k">Click:</span> Analyses → Regression → Partial Correlation.</p>
+<p><span class="k">How to run.</span> Analyses → Regression → Partial Correlation.</p>
 <ul>
 <li><span class="k">Variables</span> = the two you care about (stress and exam performance).</li>
 <li><span class="k">Control Variables</span> = Z, the one you are holding constant (daily study time).</li>
@@ -309,6 +301,7 @@ Number of pairwise tests = k(k − 1) / 2
 <li>Report significance.</li>
 </ul>
 <p>Also run the ordinary Correlation Matrix first, so you have the simple r to compare with.</p>
+<p class="k">How to read</p>
 <table>
 <tr><th>Read this</th><th>Indicator</th></tr>
 <tr><td>Simple r and its p</td><td>The relationship before any control. Report direction and Cohen size.</td></tr>
@@ -316,12 +309,16 @@ Number of pairwise tests = k(k − 1) / 2
 <tr><td>Which cell, if semi-partial</td><td>The two off-diagonal numbers can differ. Use the cell that removes Z from the predictor, and say which variable that was. Partial r is the same either way, and it is usually larger than the semi-partial.</td></tr>
 <tr><td>Compare the two r values</td><td>Weaker but still significant → <span class="k">partial confounder</span>. No longer significant → <span class="k">confounder</span>. Stronger → <span class="k">suppressor</span>. Sign flips → <span class="k">negative suppressor</span>.</td></tr>
 </table>
+<p><span class="k">Semi-partial is not symmetric.</span> Partial r(X,Y) equals partial r(Y,X). Semi-partial does not. The two off-diagonal cells can differ because Z is removed from only one variable. Read the cell that removes Z from the variable the question names (usually the predictor), and say so in the answer. Partial tends to be larger because the same overlap is judged against what is left of Y, not all of Y.</p>
+<p class="k">How to write it</p>
+<pre>The simple relationship between [X] and [Y] was [direction] and [size], r = __, p = __. After controlling for [Z], the partial correlation was r = __, p = __. The relationship weakened / was no longer significant / strengthened / flipped direction. This pattern is a partial confounder / confounder / suppressor / negative suppressor.</pre>
+<p class="small">Class example: stress and exam performance r = .664, p &lt; .001, positive large. After daily study time, partial r = −.618, p &lt; .001, negative large. That flip is a negative suppressor.</p>
 </div>
 
-<h3>One-way independent ANOVA</h3>
+<h3 id="anova">One-way independent ANOVA</h3>
 <div class="card">
 <p><span class="k">Use when</span> the independent variable has <span class="k">3 or more groups</span> and different people are in each group. Two groups only: use the t-test. If you run both on two groups, t² = F.</p>
-<p><span class="k">Click:</span> Analyses → ANOVA → One-Way ANOVA.</p>
+<p><span class="k">How to run.</span> Analyses → ANOVA → One-Way ANOVA.</p>
 <ul>
 <li><span class="k">Dependent Variable</span> = the outcome.</li>
 <li><span class="k">Grouping Variable</span> = the independent variable (the groups).</li>
@@ -331,6 +328,7 @@ Number of pairwise tests = k(k − 1) / 2
 <li>Assumption Checks: Homogeneity test, Normality, Q-Q plot.</li>
 <li>Post-Hoc Tests: tick the one the rule allows (below). Do this after you have seen Levene and the omnibus F.</li>
 </ul>
+<p class="k">How to read</p>
 <table>
 <tr><th>Read this</th><th>Indicator</th></tr>
 <tr><td>Group means and SDs</td><td>Missing these is a wrong write-up. Report every group.</td></tr>
@@ -341,12 +339,15 @@ Number of pairwise tests = k(k − 1) / 2
 <tr><td>Post hoc t, df, p for each pair</td><td>p &lt; .05 → those two groups differ. p &gt; .05 → they do not. df here is the residual df (the second df of F), not a new one.</td></tr>
 </table>
 <p><span class="k">Which post hoc button.</span> Levene met and the ANOVA is significant and there are at most 3 groups → <span class="k">None (Fisher’s LSD)</span>. Levene met and more than 3 groups, or you want a correction → <span class="k">Tukey</span>. Levene violated → <span class="k">Games–Howell</span> together with Welch’s F. A significant F with every post hoc p &gt; .05 is allowed. Report that. Do not invent a winning group.</p>
+<p class="k">How to write it</p>
+<pre>Means (SDs): [group A] __ (__), [group B] __ (__), [group C] __ (__). Homogeneity of variance was met / violated, Levene’s F(__, __) = __, p = __. Normality of errors was checked with a Q-Q plot and was met / not met. A one-way independent ANOVA [or Welch’s F] showed a significant / non-significant effect of [IV] on [DV], F(__, __) = __, p = __, η² = __. Post hoc [Fisher’s LSD / Tukey / Games–Howell]: [pair], t(__) = __, p = __; … In words: [who differed from whom, and who did not].</pre>
+<p class="small">Class example, drugs: Levene F(2, 15) = 1.45, p = .266, met. F(2, 15) = 18.61, p &lt; .001, η² = 0.71. LSD: joyzepam &gt; anxifree, t(15) = 4.36, p &lt; .001; joyzepam &gt; placebo, t(15) = 5.88, p &lt; .001; anxifree vs placebo, t(15) = 1.52, p = .150. The slide once printed that last p as &lt; .001. The correct value is .150. The slide write-up was also missing the means and SDs.</p>
 </div>
 
-<h3>One-way repeated-measures ANOVA</h3>
+<h3 id="rm">One-way repeated-measures ANOVA</h3>
 <div class="card">
 <p><span class="k">Use when</span> the same people do 3 or more conditions. Two conditions only: paired t.</p>
-<p><span class="k">Click:</span> Analyses → ANOVA → Repeated Measures ANOVA.</p>
+<p><span class="k">How to run.</span> Analyses → ANOVA → Repeated Measures ANOVA.</p>
 <ul>
 <li>Repeated Measures Factors: type a factor name (Condition). Set Levels to the number of conditions. Label them (Speech, Conceptual, Syntax).</li>
 <li>Drag each measure into its level. There is no grouping variable.</li>
@@ -354,6 +355,7 @@ Number of pairwise tests = k(k − 1) / 2
 <li>Assumption Checks: <span class="k">Sphericity tests</span> (Mauchly) and Q-Q.</li>
 <li>Post Hoc Tests: put the factor across, and tick <span class="k">Holm</span> unless the question names another correction.</li>
 </ul>
+<p class="k">How to read</p>
 <table>
 <tr><th>Read this</th><th>Indicator</th></tr>
 <tr><td>Mean and SD of each condition</td><td>Report all of them. The pattern of means is the direction.</td></tr>
@@ -364,7 +366,10 @@ Number of pairwise tests = k(k − 1) / 2
 <tr><td>Partial η²</td><td>Effect / (effect + error). Ignores the between-person slice. .581 is the class example.</td></tr>
 <tr><td>Post hoc t(df), p</td><td>Holm is the balanced default. Order from least to most conservative: None, Tukey, Holm, Bonferroni, Scheffé. p &lt; .05 → that pair differs. A significant F can sit next to every pair p &gt; .05 (Speech vs Syntax was p = .058). Say so.</td></tr>
 </table>
-<p>Mauchly df for 3 conditions is usually 2. The slide once printed χ²(5). Copy whatever jamovi prints.</p>
+<p>Mauchly df for 3 conditions is usually 2. The slide once printed χ²(5). Copy whatever jamovi prints. Slide 92 is headed “Assumptions of One-way Independent ANOVA” but the bullets (subject independence, normality, sphericity) are the repeated-measures list.</p>
+<p class="k">How to write it</p>
+<pre>[Condition A] M = __ (SD = __), [B] M = __ (SD = __), [C] M = __ (SD = __). Mauchly’s test indicated that sphericity was met / violated, χ²(__) = __, p = __. [If violated: ε = __. Because ε was above / not above .75, the Huynh–Feldt / Greenhouse–Geisser correction was used.] Normality of errors was checked with a Q-Q plot and was met. There was a significant / non-significant effect of condition, F(__, __) = __, p = __, partial η² = __. Post hoc [Holm / Tukey / …]: [pairs with t, df, p]. If no pair is significant, write that the omnibus test was significant but no pairwise comparison reached .05.</pre>
+<p class="small">Class example, successful trials: Speech 7.17 (1.47), Conceptual 6.17 (1.47), Syntax 4.33 (1.63). Mauchly χ² = 0.85, p = .720, met. F(2, 10) = 6.39, p = .013, partial η² = .581. Tukey pairs: p = .381, .058, .102. Omnibus significant, no pair at .05.</p>
 </div>
 
 <div class="trap">
@@ -447,47 +452,8 @@ Number of pairwise tests = k(k − 1) / 2
 </div>
 </section>
 
-<section id="templates" data-search>
-<h2>6. Write-up lines — swap in your numbers</h2>
-<div class="card">
-<p class="k">Independent t</p>
-<pre>The mean [outcome] in [group 1] was __ (SD = __), whereas the mean in [group 2] was __ (SD = __). Normality of errors was checked with a Q-Q plot of the residuals and was met / not met. Homogeneity of variance was checked with Levene’s test, F(__, __) = __, p = __, and was met / violated. [Because Levene’s test was not significant, Student’s independent-samples t-test was used. / Because homogeneity was violated, Welch’s t-test was used.] There was a significant / non-significant difference, t(__) = __, p = __, 95% CI [__, __], Cohen’s d = __ (small / medium / large / between …), such that [group] had higher [outcome] than [group].</pre>
-</div>
-<div class="card">
-<p class="k">Paired t</p>
-<pre>The mean of [time 1] was __ (SD = __), whereas the mean of [time 2] was __ (SD = __). Normality of errors was checked with a Q-Q plot of the residuals and was met. A paired-samples t-test showed a significant / non-significant difference, t(__) = __, p = __, 95% CI [__, __], Cohen’s d = __, such that scores were higher at [time].</pre>
-</div>
-<div class="card">
-<p class="k">Pearson r</p>
-<pre>There was a significant / non-significant [positive / negative] and [small / medium / large] relationship between [X] and [Y], r = __, p = __. As [X] increased, [Y] increased / decreased. Assumptions: independence holds by design / is violated because …; the scatterplot showed a linear / curved pattern; the cloud was consistent / not consistent with bivariate normality; homoscedasticity was met / violated on the residual plot (say why).</pre>
-</div>
-<div class="card">
-<p class="k">Partial r, plus confounder language</p>
-<pre>The simple relationship between [X] and [Y] was [direction] and [size], r = __, p = __. After controlling for [Z], the partial correlation was r = __, p = __. The relationship weakened / was no longer significant / strengthened / flipped direction. This pattern is a partial confounder / confounder / suppressor / negative suppressor.</pre>
-</div>
-<div class="card">
-<p class="k">One-way independent ANOVA</p>
-<pre>Means (SDs): [group A] __ (__), [group B] __ (__), [group C] __ (__). Homogeneity of variance was met / violated, Levene’s F(__, __) = __, p = __. Normality of errors was checked with a Q-Q plot and was met / not met. A one-way independent ANOVA [or Welch’s F] showed a significant / non-significant effect of [IV] on [DV], F(__, __) = __, p = __, η² = __. Post hoc [Fisher’s LSD / Tukey / Games–Howell]: [pair], t(__) = __, p = __; … In words: [who differed from whom, and who did not].</pre>
-</div>
-<div class="card">
-<p class="k">One-way repeated-measures ANOVA</p>
-<pre>[Condition A] M = __ (SD = __), [B] M = __ (SD = __), [C] M = __ (SD = __). Mauchly’s test indicated that sphericity was met / violated, χ²(__) = __, p = __. [If violated: ε = __. Because ε was above / not above .75, the Huynh–Feldt / Greenhouse–Geisser correction was used.] Normality of errors was checked with a Q-Q plot and was met. There was a significant / non-significant effect of condition, F(__, __) = __, p = __, partial η² = __. Post hoc [Holm / Tukey / …]: [pairs with t, df, p]. If no pair is significant, write that the omnibus test was significant but no pairwise comparison reached .05.</pre>
-</div>
-<div class="card">
-<p class="small k">Class model numbers, so the grammar is familiar. Your test data will be different.</p>
-<ul>
-<li>Independent t, Anastasia vs Bernadette: 74.53 (SD 9.00) vs 69.06 (SD 5.77). Levene F(1, 31) = 2.49, p = .125, met. t(31) = 2.12, p = .043, CI [0.20, 10.76], d = .74. Anastasia higher.</li>
-<li>Paired t: test 1 = 56.98 (6.62), test 2 = 58.38 (6.41). t(19) = 6.48, p &lt; .001, CI [0.95, 1.86], d = 1.45. Second test higher.</li>
-<li>Dan’s sleep with baby’s sleep r = .63; dan’s sleep with grumpiness r = −.90; baby’s sleep with grumpiness r = −.57. All p &lt; .001, all large.</li>
-<li>Stress and exam performance r = .664, p &lt; .001, positive large. After daily study time, partial r = −.618, p &lt; .001, negative large. That flip is a <span class="k">negative suppressor</span>.</li>
-<li>Drug ANOVA: Levene F(2, 15) = 1.45, p = .266, met. F(2, 15) = 18.61, p &lt; .001, η² = 0.71. LSD: joyzepam &gt; anxifree, t(15) = 4.36, p &lt; .001; joyzepam &gt; placebo, t(15) = 5.88, p &lt; .001; anxifree vs placebo, t(15) = 1.52, <span class="k">p = .150</span>.</li>
-<li>RM, successful trials: Speech 7.17 (1.47), Conceptual 6.17 (1.47), Syntax 4.33 (1.63). Mauchly χ² = 0.85, p = .720, met. F(2, 10) = 6.39, p = .013, partial η² = .581. Tukey pairs: p = .381, .058, .102. Omnibus yes, no pair at .05.</li>
-</ul>
-</div>
-</section>
-
 <section id="l1" data-search>
-<h2>7. Lecture 1 — everything on the slides</h2>
+<h2>6. Lecture 1 — everything on the slides</h2>
 <h3>Why the course, and the research steps</h3>
 <div class="card">
 <p>Models of applied psychology: <span class="k">Scientist–Practitioner (Boulder)</span>, <span class="k">Clinical Scientist (Bloomington)</span>, <span class="k">Practitioner–Scholar (Vail)</span>. Outcomes: (A) apply methods and statistics to applied questions; (B) critically evaluate other people’s designs and analyses.</p>
@@ -579,7 +545,7 @@ Number of pairwise tests = k(k − 1) / 2
 </section>
 
 <section id="l2" data-search>
-<h2>8. Lecture 2 — inference, t-tests, correlation</h2>
+<h2>7. Lecture 2 — inference, t-tests, correlation</h2>
 <h3>Population, sample, CLT, SE, CI</h3>
 <div class="card">
 <p>We want a claim about a <span class="k">population</span> (as wide or as narrow as the question). We almost never measure everyone, so we take a <span class="k">sample</span> and use <span class="k">inferential statistics</span>.</p>
@@ -649,7 +615,7 @@ Number of pairwise tests = k(k − 1) / 2
 </section>
 
 <section id="partial" data-search>
-<h2>9. Partial and semi-partial — Lance’s supplement + Lecture 3 recap</h2>
+<h2>8. Partial and semi-partial — Lance’s supplement + Lecture 3 recap</h2>
 <div class="card">
 <p>Both ask about X and Y <span class="k">after a third variable Z</span>. If there is no Z, there is only a simple correlation.</p>
 <p>Think of circles (or squares, as on Field’s exam diagram) as variance.</p>
@@ -675,7 +641,7 @@ Number of pairwise tests = k(k − 1) / 2
 </section>
 
 <section id="l3" data-search>
-<h2>10. Lecture 3 — one-way ANOVA</h2>
+<h2>9. Lecture 3 — one-way ANOVA</h2>
 <div class="card">
 <p>Recap line you may need to paraphrase: we never know the population mean. Inference makes a claim anyway, with a stated error rate. “We reject H0, assuming we are wrong 5 times out of 100.”</p>
 <p><span class="k">Do not run many t-tests</span> for 3+ groups. For 3 groups that is group1–2, 2–3, and 1–3. Each at α = .05 inflates the familywise error (14.26% for 3 tests, and the table climbs from there). You can adjust p-values (Bonferroni is the example on the slide). ANOVA is the more effective control, because it asks one overall question first.</p>
@@ -730,7 +696,7 @@ Number of pairwise tests = k(k − 1) / 2
 </section>
 
 <section id="traps" data-search>
-<h2>11. Traps already planted in class</h2>
+<h2>10. Traps already planted in class</h2>
 <div class="trap">
 <ul>
 <li>Whisker ≠ 1.5 × IQR. Retract to a real score.</li>
@@ -761,7 +727,7 @@ Number of pairwise tests = k(k − 1) / 2
 </section>
 
 <section id="gloss" data-search>
-<h2>12. Keyword lines for fill-in-the-blank</h2>
+<h2>11. Keyword lines for fill-in-the-blank</h2>
 <table>
 <tr><th>Term</th><th>One line</th></tr>
 <tr><td>α</td><td>The Type I error rate you accept. Usually .05.</td></tr>
