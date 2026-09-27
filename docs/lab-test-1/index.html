@@ -32,6 +32,16 @@
   pre { white-space:pre-wrap; margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size:15px; }
   img.fig { width:100%; height:auto; display:block; margin:8px 0 4px; border:1px solid var(--line); border-radius:8px; background:#fff; }
   .small { color:var(--muted); font-size:14px; }
+  @media print {
+    header { position: static; }
+    body { background: #fff; }
+    main { max-width: none; padding: 0 8px 24px; }
+    h2 { break-before: page; break-after: avoid; }
+    section:first-of-type h2 { break-before: auto; }
+    h3 { break-after: avoid; }
+    pre, img.fig { break-inside: avoid; }
+    a { color: inherit; }
+  }
 </style>
 </head>
 <body>
@@ -39,16 +49,13 @@
   <h1>PSYC7019 Lab Test 1 · open-book sheet</h1>
   <p>28 Sep, 3pm, CPD-3.41 · 2 hours · fill-in + short answer · jamovi · one Word file. Scope: descriptives, graphs, t-tests, correlation (bivariate, partial, semi-partial), one-way ANOVA. This file works offline.</p>
   <nav>
-    <a href="#exam">On the day</a>
-    <a href="#choose">Which test</a>
+    <a href="#pick">Which test</a>
     <a href="#desc">Descriptives</a>
     <a href="#tind">Independent t</a>
     <a href="#tpair">Paired t</a>
     <a href="#corr">Correlation</a>
-    <a href="#part">Partial / semi</a>
     <a href="#anova">ANOVA</a>
     <a href="#rm">RM ANOVA</a>
-    <a href="#plots">Plots</a>
     <a href="#formula">Formulas</a>
     <a href="#l1">Lecture 1</a>
     <a href="#l2">Lecture 2</a>
@@ -58,8 +65,8 @@
 </header>
 <main>
 
-<section id="exam">
-<h2>On the day — scenario, test, numbers, interpretation</h2>
+<section id="pick">
+<h2>1. Which test, and the rules for every answer</h2>
 <div class="do">
 <p>You get one dataset and several scenarios. Each scenario is three decisions: which analysis, which statistics to report, how to interpret them. Design picks the test. The output picks the row you are allowed to quote. α = .05 unless a question says otherwise.</p>
 </div>
@@ -144,92 +151,8 @@
 </table>
 </div>
 
-<h3>Worked examples</h3>
-<div class="card">
-<p class="k">Example A — pick the test before you click</p>
-<ul>
-<li>“Do students in tutor A’s class score higher than tutor B’s?” Two groups, different people, grade is continuous. Independent t.</li>
-<li>“Did the same 20 students score higher on test 2 than test 1?” Same people, two measures. Paired t.</li>
-<li>“Do joyzepam, anxifree, and placebo differ in mood?” Three groups, different people. One-way ANOVA, not three t-tests.</li>
-<li>“Did the same children differ across speech, conceptual, and syntax?” Same people, three conditions. RM ANOVA.</li>
-<li>“Is sleep related to grumpiness?” Two continuous variables. Pearson r.</li>
-<li>“Is stress still related to exam score after holding study time constant?” Partial r, after you have the simple r.</li>
-</ul>
-</div>
 
-<div class="card">
-<p class="k">Example B — independent t, significant, Levene met (class: Anastasia vs Bernadette)</p>
-<p><span class="k">Analysis.</span> Independent-samples t. Two tutors, different students, grade is continuous.</p>
-<p><span class="k">Which row.</span> Levene F(1, 31) = 2.49, p = .125. p &gt; .05, so homogeneity is met. Quote Student’s t. Ignore the Welch row.</p>
-<p><span class="k">Numbers.</span> Anastasia 74.53 (SD 9.00), Bernadette 69.06 (SD 5.77). t(31) = 2.12, p = .043, 95% CI [0.20, 10.76], d = .74.</p>
-<p><span class="k">Interpretation.</span> p = .043 is below .05, so reject H0: the class means differ. The CI excludes 0 and is positive in the direction of Anastasia’s higher mean. d = .74 sits between 0.5 and 0.8, so between medium and large. Anastasia’s class scored higher. Significance here is not the same claim as “the difference is large”; the size word comes from d, and d is not yet at the large benchmark of 0.8.</p>
-<pre>The mean grade in Anastasia’s class was 74.53 (SD = 9.00), whereas the mean in Bernadette’s class was 69.06 (SD = 5.77). Normality of errors was checked with a Q-Q plot of the residuals and was met. Homogeneity of variance was checked with Levene’s test, F(1, 31) = 2.49, p = .125, and was met. Because Levene’s test was not significant, Student’s independent-samples t-test was used. There was a significant difference, t(31) = 2.12, p = .043, 95% CI [0.20, 10.76], Cohen’s d = .74 (between medium and large), such that Anastasia’s class had higher grades than Bernadette’s class.</pre>
-</div>
-
-<div class="card">
-<p class="k">Example C — same output, if Levene had failed (practice rule, not a class result)</p>
-<p>Suppose the means were unchanged but Levene was F(1, 31) = 8.10, p = .008. p &lt; .05, so variances are unequal. You must not report t(31) = 2.12. Open the Welch row and copy that t, that df (it will not be 31), that p, that CI, and that d. Write that homogeneity was violated and Welch’s t was used. Welch has a slight loss of power. The p rule and the d bands stay the same.</p>
-</div>
-
-<div class="card">
-<p class="k">Example D — not significant, and the effect is small (practice output, not from the slides)</p>
-<table>
-<tr><th></th><th>Group A</th><th>Group B</th></tr>
-<tr><td>Mean (SD)</td><td>12.40 (2.10)</td><td>11.90 (4.80)</td></tr>
-</table>
-<p>Levene F(1, 40) = 6.20, p = .017. Student’s t(40) = 0.55, p = .585, d = 0.17, 95% CI [−1.20, 2.20]. Welch’s t(28.4) = 0.48, p = .635, d = 0.15, 95% CI [−1.55, 2.55].</p>
-<p><span class="k">Which row.</span> Levene p = .017 &lt; .05, so Welch only.</p>
-<p><span class="k">Interpretation.</span> Welch p = .635 &gt; .05, so fail to reject H0. The CI includes 0, which agrees. d = 0.15 is below 0.2, so smaller than the small benchmark. Group A’s mean is a little higher, but you do not claim a difference, and you do not claim the groups are the same.</p>
-<pre>The mean in Group A was 12.40 (SD = 2.10), whereas the mean in Group B was 11.90 (SD = 4.80). Homogeneity of variance was violated, Levene’s F(1, 40) = 6.20, p = .017, so Welch’s t-test was used. The difference was not significant, t(28.4) = 0.48, p = .635, 95% CI [−1.55, 2.55], Cohen’s d = 0.15 (smaller than small). There was no statistically significant difference in means.</pre>
-</div>
-
-<div class="card">
-<p class="k">Example E — paired t, significant, large d (class)</p>
-<p>Test 1 = 56.98 (SD 6.62), test 2 = 58.38 (SD 6.41). Same students. t(19) = 6.48, so 20 people. p &lt; .001. CI [0.95, 1.86] excludes 0. d = 1.45 is above 0.8, so large. Scores were higher on test 2. No Levene sentence.</p>
-<pre>The mean of the first test was 56.98 (SD = 6.62), whereas the mean of the second test was 58.38 (SD = 6.41). Normality of errors was checked with a Q-Q plot and was met. A paired-samples t-test showed a significant difference, t(19) = 6.48, p &lt; .001, 95% CI [0.95, 1.86], Cohen’s d = 1.45 (large), such that scores were higher on the second test.</pre>
-</div>
-
-<div class="card">
-<p class="k">Example F — p &gt; .05 with a medium effect (class: sleep and attention)</p>
-<p>N = 100, r = .35, p = .051. |r| is at least .30 and below .50, so medium. p is above .05, so you do not reject H0.</p>
-<pre>There was a non-significant positive medium relationship between sleep duration and attention, r = .35, p = .051. As sleep increased, attention increased. At α = .05 the null hypothesis was not rejected. The effect is still medium, so this is not evidence that the relationship is absent. .049 and .051 would not be treated as different kinds of result.</pre>
-</div>
-
-<div class="card">
-<p class="k">Example G — significant correlations, size from |r| (class: Dan)</p>
-<ul>
-<li>Dan’s sleep with baby’s sleep, r = .63, p &lt; .001. Positive, large. As Dan’s sleep increased, the baby’s sleep increased.</li>
-<li>Dan’s sleep with grumpiness, r = −.90, p &lt; .001. Negative, large. |r| = .90. As Dan’s sleep increased, grumpiness decreased.</li>
-<li>Baby’s sleep with grumpiness, r = −.57, p &lt; .001. Negative, large.</li>
-</ul>
-<p>Add the assumption sentence from the scatterplot and the residual plot. A fan means you report Spearman or Kendall instead, and you say Pearson’s homoscedasticity failed.</p>
-</div>
-
-<div class="card">
-<p class="k">Example H — partial correlation, sign flip (class)</p>
-<p>Simple r(stress, exam) = .664, p &lt; .001, positive large. After daily study time, partial r = −.618, p &lt; .001, negative large. It did not weaken. The sign flipped, and it is still significant. That is a negative suppressor, not a confounder.</p>
-<pre>The simple relationship between stress and exam performance was positive and large, r = .664, p &lt; .001. After controlling for daily study time, the partial correlation was r = −.618, p &lt; .001, negative and large. The relationship flipped direction. This pattern is a negative suppressor.</pre>
-</div>
-
-<div class="card">
-<p class="k">Example I — ANOVA, one pair not significant (class: drugs)</p>
-<p>Three drugs, different people. Levene F(2, 15) = 1.45, p = .266 &gt; .05, so ordinary ANOVA, not Welch. Three groups and a significant F, so Fisher’s LSD is allowed. F(2, 15) = 18.61, p &lt; .001. η² = 0.71 means 71% of mood variance is explained by drug. There is no Cohen band for that .71.</p>
-<ul>
-<li>Joyzepam &gt; anxifree, t(15) = 4.36, p &lt; .001. Significant.</li>
-<li>Joyzepam &gt; placebo, t(15) = 5.88, p &lt; .001. Significant.</li>
-<li>Anxifree vs placebo, t(15) = 1.52, p = .150. p &gt; .05, so this pair is not significant. The slide once printed p &lt; .001 here. The correct value is .150. Do not say the two drugs are proven equal. Say they did not differ significantly.</li>
-</ul>
-<p>The write-up on the slide was also marked wrong because the means and SDs were missing. Put every group’s mean and SD in the first sentence even though this summary does not repeat those means.</p>
-</div>
-
-<div class="card">
-<p class="k">Example J — RM ANOVA, omnibus significant, no pair significant (class)</p>
-<p>Speech 7.17 (SD 1.47), Conceptual 6.17 (1.47), Syntax 4.33 (1.63). Mauchly χ² = 0.85, p = .720 &gt; .05, so sphericity is met and you quote the uncorrected F. You do not apply ε. F(2, 10) = 6.39, p = .013, so reject the omnibus H0: the three conditions are not all equal. Partial η² = .581. Tukey pairs: p = .381, .058, and .102. Every pair is above .05, including Speech vs Syntax at .058. The omnibus test found a difference somewhere, and no pairwise comparison reached .05. Do not crown Syntax as significantly lower.</p>
-</div>
-</section>
-
-<section id="choose">
-<h2>1. Which test — decide this first</h2>
+<h3>Design → test, and the fallback if an assumption fails</h3>
 <div class="card">
 <p><span class="k">Question shape → test.</span> Design decides the test. Check assumptions before you trust p.</p>
 <table>
@@ -254,10 +177,10 @@
 </ul>
 <p><span class="k">Post hoc, repeated-measures ANOVA</span> — least conservative → most conservative: None, Tukey, <span class="k">Holm (best balance of power and error control)</span>, Bonferroni, Scheffé.</p>
 </div>
-</section>
 
-<section id="report">
-<h2>2. What every answer must contain</h2>
+
+
+<h3>What every answer must contain</h3>
 <div class="do">
 <ol>
 <li><span class="k">Descriptives.</span> Mean (SD) for every group or every variable. The drug write-up on the slide was marked wrong because these were missing.</li>
@@ -278,10 +201,466 @@
 <p>A value between two cutoffs: say “between medium and large”. The slides do <span class="k">not</span> give small/medium/large cutoffs for η². Report η² as a proportion of variance: η² = 0.71 means 71% of the outcome variance is explained by the model.</p>
 <p><span class="k">p is not importance.</span> Sleep and attention, N = 100, r = .35 (medium), p = .051. At α = .05 you do <span class="k">not</span> reject H0. You also do not conclude “there is no relationship”. Report the effect size. .049 and .051 are not different kinds of science.</p>
 </div>
-</section>
 
+
+
+
+<div class="do">
+<p><span class="k">The same rule on every p-value.</span> p &lt; .05 → significant, reject H0. p &gt; .05 → not significant, fail to reject H0. If jamovi prints &lt; .001, write p &lt; .001. Copy the df from the same row as the statistic. Always write the direction in words.</p>
+<p><span class="k">Before every analysis.</span> Double-click the column name. Grouping variable → measure type <span class="k">Nominal</span>. Outcome → <span class="k">Continuous</span>. Do not use the ID column.</p>
+</div>
+
+<div class="card">
+<p class="k">Example A — pick the test before you click</p>
+<ul>
+<li>“Do students in tutor A’s class score higher than tutor B’s?” Two groups, different people, grade is continuous. Independent t.</li>
+<li>“Did the same 20 students score higher on test 2 than test 1?” Same people, two measures. Paired t.</li>
+<li>“Do joyzepam, anxifree, and placebo differ in mood?” Three groups, different people. One-way ANOVA, not three t-tests.</li>
+<li>“Did the same children differ across speech, conceptual, and syntax?” Same people, three conditions. RM ANOVA.</li>
+<li>“Is sleep related to grumpiness?” Two continuous variables. Pearson r.</li>
+<li>“Is stress still related to exam score after holding study time constant?” Partial r, after you have the simple r.</li>
+</ul>
+</div><div class="trap">
+<p><span class="k">Decision in one line while you are clicking.</span> Two continuous variables → Correlation Matrix. Hold a third variable constant → Partial Correlation, and change Partial / Semipartial. Two groups, different people → Independent t, then Levene decides Student vs Welch. Same people, two measures → Paired t. Three or more groups, different people → One-Way ANOVA, then Levene decides Welch + Games–Howell versus Tukey or LSD. Same people, three or more measures → Repeated Measures ANOVA, then Mauchly and ε decide the F row, and Holm is the post hoc.</p>
+</div>
+</section>
+<section id="desc">
+<h2>2. Descriptives and graphs</h2>
+<h3 id="desc">Descriptives and graphs</h3>
+<div class="card">
+<p><span class="k">How to run.</span> Analyses → Exploration → Descriptives. Move the scores into <span class="k">Variables</span>. If you need a mean for each group, move the group label into <span class="k">Split by</span>.</p>
+<p><span class="k">Tick under Statistics:</span> N, Mean, Median, Mode, Standard deviation, Variance, Minimum, Maximum, Range, Skewness, Kurtosis, Std. error of the mean, Quartiles.</p>
+<p><span class="k">Tick under Plots:</span> Histogram, Box plot, Q-Q. Bar plot only if the variable is categorical.</p>
+<table>
+<tr><th>Number</th><th>Indicator</th></tr>
+<tr><td>Mean and SD</td><td>Put these in the first sentence of every write-up. One pair per group.</td></tr>
+<tr><td>Median vs mean</td><td>Mean pulled above the median → right skew. Mean below the median → left skew. If they differ a lot, also quote the median.</td></tr>
+<tr><td>SD</td><td>Larger SD = scores more spread out. Compare SDs across groups before you trust Levene.</td></tr>
+<tr><td>Skewness</td><td>Positive number = right tail. Negative number = left tail. Near 0 = roughly symmetric.</td></tr>
+<tr><td>Kurtosis</td><td>How much mass sits in the tails. The picture matters more than the number: leptokurtic = peaked, platykurtic = flat.</td></tr>
+<tr><td>Quartiles</td><td>25th = Q1, 50th = median, 75th = Q3. IQR = Q3 − Q1.</td></tr>
+<tr><td>Box plot</td><td>Whisker = last real score inside the fence. Fence = Q1 − 1.5×IQR or Q3 + 1.5×IQR. Point past the fence = outlier.</td></tr>
+<tr><td>Histogram</td><td>One peak = one mode. Two peaks = bimodal. Bell = normal / Gaussian.</td></tr>
+</table>
+</div>
+
+<h3>Histogram</h3>
+<div class="card">
+<p>How often each value occurred. Describe four things: <span class="k">central tendency, dispersion, skewness, kurtosis.</span> A bell shape is the normal distribution. Another name: <span class="k">Gaussian</span>.</p>
+<ul>
+<li><span class="k">Positive / right skew:</span> long tail to the right. Usual pattern: mean &gt; median.</li>
+<li><span class="k">Negative / left skew:</span> long tail to the left. Usual pattern: mean &lt; median.</li>
+<li><span class="k">Kurtosis (slide definition):</span> the degree to which scores cluster at the ends of the distribution. Picture labels: <span class="k">Leptokurtic</span> = tall sharp peak. <span class="k">Platykurtic</span> = flat.</li>
+<li>More than one peak → more than one mode (bimodal / multimodal).</li>
+</ul>
+</div>
+<h3>Boxplot whiskers — three rules on the slide</h3>
+<div class="card">
+<ol>
+<li>Find the IQR.</li>
+<li>Theoretical whisker = <span class="k">1.5 × IQR from the edge of the box</span> (that line is the fence).</li>
+<li><span class="k">Then pull the whisker back to the closest observed score inside the fence.</span></li>
+</ol>
+<p>Points beyond the fence are outliers. The fence is not the whisker. The whisker is a real data point. The depression-by-gender slide writes the numbers 18, 19, and 20.5 next to this rule: those marks are about the fence versus the retracted whisker, not “the whisker always ends at 1.5 × IQR”.</p>
+<p><span class="k">Practice.</span> Q1 = 8, Q3 = 16, IQR = 8. Upper fence = 16 + 12 = 28. If the largest score that is still ≤ 28 is 18, the upper whisker stops at 18. A score of 40 is an outlier.</p>
+<p>The box itself is Q1 to Q3. The line inside the box is the median. Comparing boxplots: look at medians, spread (box + whiskers), and outliers. A mean can sit far from the median when there is skew or an outlier (slide mean = 95, median = 98, with 234 in the set).</p>
+<p><span class="k">Four bands, 25% of the values in each.</span> Below Q1. Q1 to the median. Median to Q3. Above Q3.</p>
+<table>
+<tr><th>Part</th><th>Meaning</th></tr>
+<tr><td>Bottom of the box</td><td>Q1, 25th percentile</td></tr>
+<tr><td>Line in the box</td><td>Median, 50th percentile (Q2)</td></tr>
+<tr><td>Top of the box</td><td>Q3, 75th percentile</td></tr>
+<tr><td>The box</td><td>IQR = Q3 − Q1. Middle 50%</td></tr>
+<tr><td>Lower fence (dashed)</td><td>Q1 − 1.5 × IQR. A cutoff, not a score</td></tr>
+<tr><td>Upper fence (dashed)</td><td>Q3 + 1.5 × IQR. A cutoff, not a score</td></tr>
+<tr><td>Lower whisker</td><td>Stops at the smallest score that is still above the lower fence</td></tr>
+<tr><td>Upper whisker</td><td>Stops at the largest score that is still below the upper fence</td></tr>
+<tr><td>x past a fence</td><td>Outlier. The max or min of the whole data set can be an outlier, so it is not the whisker</td></tr>
+</table>
+<img class="fig" src="plot-examples/07-boxplot-parts.png" alt="Labeled boxplot: quartiles, whiskers, fences, and outliers.">
+<img class="fig" src="plot-examples/06-boxplot.png" alt="Boxplot showing the 1.5 IQR fence above the whisker, and an outlier at 30.">
+</div>
+</section>
+<section id="tind">
+<h2>3. Independent-samples t-test</h2>
+<p>Two groups, different people, one continuous outcome. This is the first hypothesis test on the lab test.</p>
+<h3 id="tind">Independent-samples t-test</h3>
+<div class="card">
+<p><span class="k">Use when</span> the independent variable is categorical with <span class="k">exactly two groups</span>, and the dependent variable is continuous. Different people in each group.</p>
+<p><span class="k">How to run.</span> Analyses → T-Tests → Independent Samples T-Test.</p>
+<ul>
+<li><span class="k">Dependent Variables</span> = the outcome (Exam_Performance, mood, grade).</li>
+<li><span class="k">Grouping Variable</span> = the independent variable (Gender, drug, tutor). This is the two-group label.</li>
+<li>Tests: tick <span class="k">Student’s</span> and <span class="k">Welch’s</span>.</li>
+<li>Hypothesis: <span class="k">Group 1 ≠ Group 2</span> (two-tailed) unless the question states a direction.</li>
+<li>Additional Statistics: Mean difference, Confidence interval, Effect size (Cohen’s d), Descriptives, Descriptives plots.</li>
+<li>Assumption Checks: <span class="k">Homogeneity test</span> (this is Levene), Normality test, <span class="k">Q-Q plot</span>.</li>
+</ul>
+<p class="k">How to read</p>
+<table>
+<tr><th>Read this</th><th>Indicator</th></tr>
+<tr><td>Descriptives: Mean, SD, N</td><td>Report both groups first. The group with the higher mean is the direction.</td></tr>
+<tr><td>Q-Q plot of residuals</td><td>Points hug the line → normality met. Bend, or ends peeling off → not met. Trust the plot more than Shapiro–Wilk.</td></tr>
+<tr><td>Shapiro–Wilk p</td><td>Low p means “not normal”, but it over-calls. Do not switch tests on Shapiro alone.</td></tr>
+<tr><td>Levene’s F and p</td><td><span class="k">p &gt; .05 → variances equal → report Student’s t.</span> <span class="k">p &lt; .05 → variances unequal → report Welch’s t</span> and say homogeneity was violated.</td></tr>
+<tr><td>t, df, p</td><td>From the Student’s row or the Welch’s row, not both. p &lt; .05 = the two means differ.</td></tr>
+<tr><td>Mean difference and 95% CI</td><td>If the CI includes 0, the difference is not significant. The sign of the difference tells you which group is higher. Check that it matches the means.</td></tr>
+<tr><td>Cohen’s d</td><td>0.2 small, 0.5 medium, 0.8 large. Between two cutoffs: say “between medium and large”.</td></tr>
+</table>
+<p>Order in the answer: means (SDs) → Q-Q → Levene → which t you chose → t(df), p, CI, d → who was higher.</p>
+<p class="k">How to write it</p>
+<pre>The mean [outcome] in [group 1] was __ (SD = __), whereas the mean in [group 2] was __ (SD = __). Normality of errors was checked with a Q-Q plot of the residuals and was met / not met. Homogeneity of variance was checked with Levene’s test, F(__, __) = __, p = __, and was met / violated. [Because Levene’s test was not significant, Student’s independent-samples t-test was used. / Because homogeneity was violated, Welch’s t-test was used.] There was a significant / non-significant difference, t(__) = __, p = __, 95% CI [__, __], Cohen’s d = __ (small / medium / large / between …), such that [group] had higher [outcome] than [group].</pre>
+<p class="small">Class example, Anastasia vs Bernadette: 74.53 (SD 9.00) vs 69.06 (SD 5.77). Levene F(1, 31) = 2.49, p = .125, met. t(31) = 2.12, p = .043, CI [0.20, 10.76], d = .74. Anastasia higher.</p>
+</div>
+
+<h3>How to judge normality — Q-Q plot</h3>
+<h3>Q-Q plot — normality of errors</h3>
+<div class="do">
+<p>Points hug the diagonal → normality met. A bend, or a clear departure at the ends → not met. Small samples: the ends are sparse, so do not call a violation from one or two end points. A low Shapiro–Wilk p means “not normal”, but Alvin wants the picture. Write-ups in class say “checked via Q-Q plot of the residuals and met”.</p>
+<p>Shapiro–Wilk wording on the slides: Lecture 2 says it is <span class="k">extremely conservative</span> (a tiny departure gets called a violation). Lecture 3 says it is <span class="k">too liberal</span>. Both sentences mean the same practical thing: it declares non-normality too easily. Prefer the Q-Q plot. If a blank quotes a lecture, match that lecture’s adjective, then still choose the Q-Q plot.</p>
+<img class="fig" src="plot-examples/05-qq-plots.png" alt="Q-Q plots: points on the line, ends peeling off, and a skewed bend.">
+</div>
+
+<h3>When this is the wrong test</h3>
+<div class="trap">
+<ul>
+<li>Three or more groups, different people → one-way ANOVA. Do not run a pile of t-tests.</li>
+<li>Same people measured twice → paired t. There is no grouping variable.</li>
+<li>Two continuous scores, “is there a relationship?” → correlation, not a t-test.</li>
+<li>Levene p &lt; .05 does <em>not</em> change the family. Stay on the independent t, and quote the Welch row.</li>
+</ul>
+</div>
+<h3>Worked examples</h3>
+<div class="card">
+<p class="k">Example B — independent t, significant, Levene met (class: Anastasia vs Bernadette)</p>
+<p><span class="k">Analysis.</span> Independent-samples t. Two tutors, different students, grade is continuous.</p>
+<p><span class="k">Which row.</span> Levene F(1, 31) = 2.49, p = .125. p &gt; .05, so homogeneity is met. Quote Student’s t. Ignore the Welch row.</p>
+<p><span class="k">Numbers.</span> Anastasia 74.53 (SD 9.00), Bernadette 69.06 (SD 5.77). t(31) = 2.12, p = .043, 95% CI [0.20, 10.76], d = .74.</p>
+<p><span class="k">Interpretation.</span> p = .043 is below .05, so reject H0: the class means differ. The CI excludes 0 and is positive in the direction of Anastasia’s higher mean. d = .74 sits between 0.5 and 0.8, so between medium and large. Anastasia’s class scored higher. Significance here is not the same claim as “the difference is large”; the size word comes from d, and d is not yet at the large benchmark of 0.8.</p>
+<pre>The mean grade in Anastasia’s class was 74.53 (SD = 9.00), whereas the mean in Bernadette’s class was 69.06 (SD = 5.77). Normality of errors was checked with a Q-Q plot of the residuals and was met. Homogeneity of variance was checked with Levene’s test, F(1, 31) = 2.49, p = .125, and was met. Because Levene’s test was not significant, Student’s independent-samples t-test was used. There was a significant difference, t(31) = 2.12, p = .043, 95% CI [0.20, 10.76], Cohen’s d = .74 (between medium and large), such that Anastasia’s class had higher grades than Bernadette’s class.</pre>
+</div><div class="card">
+<p class="k">Example C — same output, if Levene had failed (practice rule, not a class result)</p>
+<p>Suppose the means were unchanged but Levene was F(1, 31) = 8.10, p = .008. p &lt; .05, so variances are unequal. You must not report t(31) = 2.12. Open the Welch row and copy that t, that df (it will not be 31), that p, that CI, and that d. Write that homogeneity was violated and Welch’s t was used. Welch has a slight loss of power. The p rule and the d bands stay the same.</p>
+</div><div class="card">
+<p class="k">Example D — not significant, and the effect is small (practice output, not from the slides)</p>
+<table>
+<tr><th></th><th>Group A</th><th>Group B</th></tr>
+<tr><td>Mean (SD)</td><td>12.40 (2.10)</td><td>11.90 (4.80)</td></tr>
+</table>
+<p>Levene F(1, 40) = 6.20, p = .017. Student’s t(40) = 0.55, p = .585, d = 0.17, 95% CI [−1.20, 2.20]. Welch’s t(28.4) = 0.48, p = .635, d = 0.15, 95% CI [−1.55, 2.55].</p>
+<p><span class="k">Which row.</span> Levene p = .017 &lt; .05, so Welch only.</p>
+<p><span class="k">Interpretation.</span> Welch p = .635 &gt; .05, so fail to reject H0. The CI includes 0, which agrees. d = 0.15 is below 0.2, so smaller than the small benchmark. Group A’s mean is a little higher, but you do not claim a difference, and you do not claim the groups are the same.</p>
+<pre>The mean in Group A was 12.40 (SD = 2.10), whereas the mean in Group B was 11.90 (SD = 4.80). Homogeneity of variance was violated, Levene’s F(1, 40) = 6.20, p = .017, so Welch’s t-test was used. The difference was not significant, t(28.4) = 0.48, p = .635, 95% CI [−1.55, 2.55], Cohen’s d = 0.15 (smaller than small). There was no statistically significant difference in means.</pre>
+</div></section>
+<section id="tpair">
+<h2>4. Paired-samples t-test</h2>
+<p>Same people, two times or two conditions. The lab test calls this the repeated t-test.</p>
+<h3 id="tpair">Paired-samples t-test</h3>
+<div class="card">
+<p><span class="k">Use when</span> the same people are measured twice. There is no grouping variable.</p>
+<p><span class="k">How to run.</span> Analyses → T-Tests → Paired Samples T-Test. Move the two measures into one pair (Happiness_Monday with Happiness_Friday, test 1 with test 2).</p>
+<ul>
+<li>Tests: Student’s. There is no Welch and no Levene.</li>
+<li>Hypothesis: Measure 1 ≠ Measure 2, unless the question is directional.</li>
+<li>Additional Statistics: Mean difference, Confidence interval, Cohen’s d, Descriptives.</li>
+<li>Assumption Checks: Normality, Q-Q plot.</li>
+</ul>
+<p class="k">How to read</p>
+<table>
+<tr><th>Read this</th><th>Indicator</th></tr>
+<tr><td>Mean and SD of each time</td><td>Report both. Higher mean = the direction.</td></tr>
+<tr><td>Q-Q plot</td><td>Hug the line → normality of the difference scores is met.</td></tr>
+<tr><td>t(df), p</td><td>df = number of people − 1. t(19) means 20 people. p &lt; .05 = the two times differ.</td></tr>
+<tr><td>95% CI of the mean difference</td><td>Includes 0 → not significant.</td></tr>
+<tr><td>Cohen’s d</td><td>Same 0.2 / 0.5 / 0.8 cuts.</td></tr>
+</table>
+<p class="k">How to write it</p>
+<pre>The mean of [time 1] was __ (SD = __), whereas the mean of [time 2] was __ (SD = __). Normality of errors was checked with a Q-Q plot of the residuals and was met. A paired-samples t-test showed a significant / non-significant difference, t(__) = __, p = __, 95% CI [__, __], Cohen’s d = __, such that scores were higher at [time].</pre>
+<p class="small">Class example: test 1 = 56.98 (6.62), test 2 = 58.38 (6.41). t(19) = 6.48, p &lt; .001, CI [0.95, 1.86], d = 1.45. Second test higher.</p>
+</div>
+
+<h3>How to judge normality — Q-Q plot</h3>
+<h3>Q-Q plot — normality of errors</h3>
+<div class="do">
+<p>Points hug the diagonal → normality met. A bend, or a clear departure at the ends → not met. Small samples: the ends are sparse, so do not call a violation from one or two end points. A low Shapiro–Wilk p means “not normal”, but Alvin wants the picture. Write-ups in class say “checked via Q-Q plot of the residuals and met”.</p>
+<p>Shapiro–Wilk wording on the slides: Lecture 2 says it is <span class="k">extremely conservative</span> (a tiny departure gets called a violation). Lecture 3 says it is <span class="k">too liberal</span>. Both sentences mean the same practical thing: it declares non-normality too easily. Prefer the Q-Q plot. If a blank quotes a lecture, match that lecture’s adjective, then still choose the Q-Q plot.</p>
+<img class="fig" src="plot-examples/05-qq-plots.png" alt="Q-Q plots: points on the line, ends peeling off, and a skewed bend.">
+</div>
+
+<h3>When this is the wrong test</h3>
+<div class="trap">
+<ul>
+<li>Same people, three or more conditions → repeated-measures ANOVA.</li>
+<li>Different people in two groups → independent t.</li>
+<li>There is no Levene test and no Welch row on a paired t.</li>
+</ul>
+</div>
+<h3>Worked example</h3>
+<div class="card">
+<p class="k">Example E — paired t, significant, large d (class)</p>
+<p>Test 1 = 56.98 (SD 6.62), test 2 = 58.38 (SD 6.41). Same students. t(19) = 6.48, so 20 people. p &lt; .001. CI [0.95, 1.86] excludes 0. d = 1.45 is above 0.8, so large. Scores were higher on test 2. No Levene sentence.</p>
+<pre>The mean of the first test was 56.98 (SD = 6.62), whereas the mean of the second test was 58.38 (SD = 6.41). Normality of errors was checked with a Q-Q plot and was met. A paired-samples t-test showed a significant difference, t(19) = 6.48, p &lt; .001, 95% CI [0.95, 1.86], Cohen’s d = 1.45 (large), such that scores were higher on the second test.</pre>
+</div></section>
+<section id="corr">
+<h2>5. Correlation — Pearson, then partial and semi-partial</h2>
+<p>Two continuous variables. Partial and semi-partial are the same chapter: run the simple correlation first, then the controlled one.</p>
+<h3 id="corr">Pearson, Spearman, Kendall</h3>
+<div class="card">
+<p><span class="k">Use when</span> both variables are continuous and you are not controlling a third variable. Pearson is the default. Spearman or Kendall only if bivariate normality or homoscedasticity fails.</p>
+<p><span class="k">How to run.</span> Analyses → Regression → Correlation Matrix. Move both variables into the box.</p>
+<ul>
+<li>Correlation Coefficients: <span class="k">Pearson</span> first. Add Spearman or Kendall’s tau-b only after you have decided Pearson’s assumptions fail.</li>
+<li>Hypothesis: <span class="k">Correlated</span> = two-tailed. “Positively correlated” or “Negatively correlated” = one-tailed. Use two-tailed unless the question states a direction.</li>
+<li>Additional Options: Report significance, Flag significant correlations, N, Confidence interval.</li>
+<li>Plots: Correlation matrix plot, if the button is there. For the assumption pictures, also run the linear regression below.</li>
+</ul>
+<p class="k">How to read</p>
+<table>
+<tr><th>Read this</th><th>Indicator</th></tr>
+<tr><td>Scatterplot, shape</td><td>Straight cloud → linearity met. U-shape or a clear curve → linearity violated. Pearson is the wrong model. Spearman also misses a U.</td></tr>
+<tr><td>Scatterplot, cloud</td><td>One ellipse → bivariate normality met. Two clumps, or not an ellipse → violated.</td></tr>
+<tr><td>Residual plot (see next block)</td><td>Even vertical spread → homoscedasticity met. Fan → violated. If normality or homoscedasticity fails, report Spearman or Kendall instead of Pearson, and say why.</td></tr>
+<tr><td>r (or rho, or tau-b)</td><td>Sign = direction. Positive: as X goes up, Y goes up. Negative: as X goes up, Y goes down. |r| ≥ .10 small, ≥ .30 medium, ≥ .50 large.</td></tr>
+<tr><td>p</td><td>p &lt; .05 → the correlation is significant. p = .051 is not significant, but a medium r is still a real-sized relationship. Say both.</td></tr>
+<tr><td>N</td><td>How many pairs entered the correlation. Mention it if people were dropped.</td></tr>
+</table>
+<p>A curved-but-always-rising cloud: Pearson linearity is shaky; Spearman can describe that monotonic rise. Time-linked data (sleep today with sleep tomorrow) breaks independence. Name autocorrelation. Do not treat those rows as independent people. Alternatives named in class: AR, MA, ARMA, ARIMA. You only need to spot the problem.</p>
+<p class="k">How to write it</p>
+<pre>There was a significant / non-significant [positive / negative] and [small / medium / large] relationship between [X] and [Y], r = __, p = __. As [X] increased, [Y] increased / decreased. Assumptions: independence holds by design / is violated because …; the scatterplot showed a linear / curved pattern; the cloud was consistent / not consistent with bivariate normality; homoscedasticity was met / violated on the residual plot (say why).</pre>
+<p class="small">Class example: dan’s sleep with baby’s sleep r = .63; dan’s sleep with grumpiness r = −.90; baby’s sleep with grumpiness r = −.57. All p &lt; .001, all large.</p>
+</div>
+
+<h3>Scatterplot — correlation assumptions you can see</h3>
+<div class="card">
+<table>
+<tr><th>Look at</th><th>Met</th><th>Violated</th></tr>
+<tr><td>Linearity</td><td>Cloud follows a straight line</td><td>A curve or a U. Pearson is the wrong model. Rank correlations also miss a U-shape.</td></tr>
+<tr><td>Bivariate normality</td><td>Roughly one elliptical cloud</td><td>A clump, a fan of outliers, or a shape that is not an ellipse</td></tr>
+<tr><td>Homoscedasticity</td><td>Vertical spread looks similar all along X</td><td>Spread grows (a fan) or clearly changes along X</td></tr>
+<tr><td>r itself</td><td colspan="2">0 = round cloud. +1 = perfect line up. −1 = perfect line down. .33 mild, .66 clearer. Sign = direction. Size uses .10 / .30 / .50.</td></tr>
+</table>
+<img class="fig" src="plot-examples/01-scatter-correlation-size.png" alt="Scatterplots for r of 0, .33, .66, and 1, positive and negative.">
+<img class="fig" src="plot-examples/02-scatter-assumptions.png" alt="Scatterplots showing linearity, bivariate normality, and homoscedasticity met and violated.">
+<img class="fig" src="plot-examples/03-scatter-tricky.png" alt="Tricky scatterplots: strong negative, a few outliers, a rising curve, and a small sample.">
+</div>
+<h3>Check homoscedasticity (residual plot)</h3>
+<div class="card">
+<p><span class="k">How to run.</span> Analyses → Regression → Linear Regression. This is only to get the plot. You do not write a regression answer unless the question asks for one.</p>
+<ul>
+<li><span class="k">Dependent Variable</span> = the outcome Y.</li>
+<li><span class="k">Covariates</span> = the predictor X. In jamovi, a continuous predictor is a covariate.</li>
+<li>Assumption Checks: tick <span class="k">Q-Q plot of residuals</span> and <span class="k">Residual plots</span>.</li>
+</ul>
+<table>
+<tr><th>Plot</th><th>Indicator</th></tr>
+<tr><td>First plot: Fitted vs residuals</td><td>This is the one you judge. Fitted = predicted Y. Vertical spread similar all the way across → homoscedasticity met. Spread grows into a fan → violated. Wider in the middle, with few points at the ends → say it is ambiguous, pick a side, give the reason.</td></tr>
+<tr><td>Residuals that curve up or down</td><td>Not a fan. The straight line is the wrong model (failed linearity). Call it bias, not heteroscedasticity.</td></tr>
+<tr><td>Q-Q of residuals</td><td>Same normality rule as the t-test.</td></tr>
+</table>
+</div>
+
+<h3>Residual plot — homoscedasticity (Lance’s supplement)</h3>
+<div class="card">
+<p><span class="k">Homoscedasticity:</span> the vertical spread of points around the regression line is the same at all levels of X.</p>
+<ul>
+<li><span class="k">Fitted</span> = predicted Y. Put X into the regression equation and the result is a fitted value.</li>
+<li><span class="k">Residual</span> = prediction error. Its vertical spread copies the vertical spread around the line.</li>
+<li>Similar vertical spread across fitted values → homoscedasticity reasonably met.</li>
+<li><span class="k">Fan</span> (spread grows as fitted values grow) → heteroscedasticity. Alvin’s word for this pattern is “fan”.</li>
+<li>Spread larger in the middle than at the ends → ambiguous. The ends often have fewer people.</li>
+</ul>
+<p><span class="k">If the plot is ambiguous, write three things:</span> (1) it is ambiguous, (2) which side you lean to, (3) why. Example: “Despite some unevenness, the vertical spread of the residuals looks similar across fitted values, so I take homoscedasticity as reasonably met.” Both Alvin’s and Lance’s readings of one real plot were accepted when the reason was clear.</p>
+<p>Second plot = raw Y vs residuals. Same kind of reading, not the usual one. Third plot = raw X vs residuals. In <span class="k">simple</span> regression (one predictor) this matches the fitted plot, because each X maps to one fitted Y. In multiple regression they can look very different, because fitted Y depends on several predictors.</p>
+<p>A residual cloud that <span class="k">trends</span> up or down is a different problem (the slide calls it a <span class="k">bias assumption</span> — the model is systematically off, more like failed linearity). That is not the same sentence as “heteroscedastic”.</p>
+<p>Small samples and empty ends: hard to judge. A large sample with only a few extreme points can still be homoscedastic. Wild bootstrap and simulated Q-Q confidence bands are named on the slides as beyond this course.</p>
+<img class="fig" src="plot-examples/04-residual-plots.png" alt="Residual plots: even spread, a fan, a middle bulge, and a curved bias pattern.">
+</div>
+<h3>How to judge normality — Q-Q plot</h3>
+<h3>Q-Q plot — normality of errors</h3>
+<div class="do">
+<p>Points hug the diagonal → normality met. A bend, or a clear departure at the ends → not met. Small samples: the ends are sparse, so do not call a violation from one or two end points. A low Shapiro–Wilk p means “not normal”, but Alvin wants the picture. Write-ups in class say “checked via Q-Q plot of the residuals and met”.</p>
+<p>Shapiro–Wilk wording on the slides: Lecture 2 says it is <span class="k">extremely conservative</span> (a tiny departure gets called a violation). Lecture 3 says it is <span class="k">too liberal</span>. Both sentences mean the same practical thing: it declares non-normality too easily. Prefer the Q-Q plot. If a blank quotes a lecture, match that lecture’s adjective, then still choose the Q-Q plot.</p>
+<img class="fig" src="plot-examples/05-qq-plots.png" alt="Q-Q plots: points on the line, ends peeling off, and a skewed bend.">
+</div>
+
+<h3>When to leave Pearson</h3>
+<div class="trap">
+<ul>
+<li>Bivariate normality or homoscedasticity fails, and the cloud is still monotonic → Spearman or Kendall’s tau-b. Say why you left Pearson.</li>
+<li>A U-shape is a failed straight line. Spearman does not fix a U.</li>
+<li>Time-linked rows (sleep today with sleep tomorrow) break independence. Name autocorrelation. Alternatives named in class: AR, MA, ARMA, ARIMA. Spot the problem. Do not treat those rows as independent people.</li>
+<li>“After controlling for” a third variable → partial correlation, below. Run the simple r first.</li>
+<li>“Unique contribution”, or Z removed from only one variable → semi-partial, not partial.</li>
+<li>Comparing two or more means → t-test or ANOVA, not a correlation.</li>
+</ul>
+</div>
+<h3>Worked examples — simple correlation</h3>
+<div class="card">
+<p class="k">Example F — p &gt; .05 with a medium effect (class: sleep and attention)</p>
+<p>N = 100, r = .35, p = .051. |r| is at least .30 and below .50, so medium. p is above .05, so you do not reject H0.</p>
+<pre>There was a non-significant positive medium relationship between sleep duration and attention, r = .35, p = .051. As sleep increased, attention increased. At α = .05 the null hypothesis was not rejected. The effect is still medium, so this is not evidence that the relationship is absent. .049 and .051 would not be treated as different kinds of result.</pre>
+</div><div class="card">
+<p class="k">Example G — significant correlations, size from |r| (class: Dan)</p>
+<ul>
+<li>Dan’s sleep with baby’s sleep, r = .63, p &lt; .001. Positive, large. As Dan’s sleep increased, the baby’s sleep increased.</li>
+<li>Dan’s sleep with grumpiness, r = −.90, p &lt; .001. Negative, large. |r| = .90. As Dan’s sleep increased, grumpiness decreased.</li>
+<li>Baby’s sleep with grumpiness, r = −.57, p &lt; .001. Negative, large.</li>
+</ul>
+<p>Add the assumption sentence from the scatterplot and the residual plot. A fan means you report Spearman or Kendall instead, and you say Pearson’s homoscedasticity failed.</p>
+</div><h3 id="part">Partial and semi-partial correlation</h3>
+<div class="card">
+<p><span class="k">How to run.</span> Analyses → Regression → Partial Correlation.</p>
+<ul>
+<li><span class="k">Variables</span> = the two you care about (stress and exam performance).</li>
+<li><span class="k">Control Variables</span> = Z, the one you are holding constant (daily study time).</li>
+<li>Pearson.</li>
+<li><span class="k">Correlation type: Partial</span> removes Z from both. <span class="k">Semipartial</span> removes Z from only one. The default is Partial. Change it if the question says semi-partial.</li>
+<li>Report significance.</li>
+</ul>
+<p>Also run the ordinary Correlation Matrix first, so you have the simple r to compare with.</p>
+<p class="k">How to read</p>
+<table>
+<tr><th>Read this</th><th>Indicator</th></tr>
+<tr><td>Simple r and its p</td><td>The relationship before any control. Report direction and Cohen size.</td></tr>
+<tr><td>Partial or semi-partial r and its p</td><td>The relationship after Z. Read the note under the table (“controlling for …”).</td></tr>
+<tr><td>Which cell, if semi-partial</td><td>The two off-diagonal numbers can differ. Use the cell that removes Z from the predictor, and say which variable that was. Partial r is the same either way, and it is usually larger than the semi-partial.</td></tr>
+<tr><td>Compare the two r values</td><td>Weaker but still significant → <span class="k">partial confounder</span>. No longer significant → <span class="k">confounder</span>. Stronger → <span class="k">suppressor</span>. Sign flips → <span class="k">negative suppressor</span>.</td></tr>
+</table>
+<p><span class="k">Semi-partial is not symmetric.</span> Partial r(X,Y) equals partial r(Y,X). Semi-partial does not. The two off-diagonal cells can differ because Z is removed from only one variable. Read the cell that removes Z from the variable the question names (usually the predictor), and say so in the answer. Partial tends to be larger because the same overlap is judged against what is left of Y, not all of Y.</p>
+<p class="k">How to write it</p>
+<pre>The simple relationship between [X] and [Y] was [direction] and [size], r = __, p = __. After controlling for [Z], the partial correlation was r = __, p = __. The relationship weakened / was no longer significant / strengthened / flipped direction. This pattern is a partial confounder / confounder / suppressor / negative suppressor.</pre>
+<p class="small">Class example: stress and exam performance r = .664, p &lt; .001, positive large. After daily study time, partial r = −.618, p &lt; .001, negative large. That flip is a negative suppressor.</p>
+</div>
+
+<h3>Worked example — partial correlation</h3>
+<div class="card">
+<p class="k">Example H — partial correlation, sign flip (class)</p>
+<p>Simple r(stress, exam) = .664, p &lt; .001, positive large. After daily study time, partial r = −.618, p &lt; .001, negative large. It did not weaken. The sign flipped, and it is still significant. That is a negative suppressor, not a confounder.</p>
+<pre>The simple relationship between stress and exam performance was positive and large, r = .664, p &lt; .001. After controlling for daily study time, the partial correlation was r = −.618, p &lt; .001, negative and large. The relationship flipped direction. This pattern is a negative suppressor.</pre>
+</div></section>
+<section id="anova">
+<h2>6. One-way independent ANOVA</h2>
+<p>One grouping variable, three or more groups, different people.</p>
+<h3 id="anova">One-way independent ANOVA</h3>
+<div class="card">
+<p><span class="k">Use when</span> the independent variable has <span class="k">3 or more groups</span> and different people are in each group. Two groups only: use the t-test. If you run both on two groups, t² = F.</p>
+<p><span class="k">How to run.</span> Analyses → ANOVA → One-Way ANOVA.</p>
+<ul>
+<li><span class="k">Dependent Variable</span> = the outcome.</li>
+<li><span class="k">Grouping Variable</span> = the independent variable (the groups).</li>
+<li>Variances: leave “Assume equal” on. If Levene fails, switch to <span class="k">Don’t assume equal (Welch’s)</span>.</li>
+<li>Effect Size: <span class="k">η²</span>.</li>
+<li>Descriptives, and a descriptives plot if you want the means pictured.</li>
+<li>Assumption Checks: Homogeneity test, Normality, Q-Q plot.</li>
+<li>Post-Hoc Tests: tick the one the rule allows (below). Do this after you have seen Levene and the omnibus F.</li>
+</ul>
+<p class="k">How to read</p>
+<table>
+<tr><th>Read this</th><th>Indicator</th></tr>
+<tr><td>Group means and SDs</td><td>Missing these is a wrong write-up. Report every group.</td></tr>
+<tr><td>Q-Q plot</td><td>Hug the line → normality met.</td></tr>
+<tr><td>Levene’s F(df1, df2), p</td><td>p &gt; .05 → equal variances. p &lt; .05 → tick Welch’s, and use Games–Howell, not Tukey and not LSD.</td></tr>
+<tr><td>ANOVA F(df1, df2), p</td><td>This is the omnibus test. p &lt; .05 → the means are not all equal. A difference somewhere. It does not name the pair. df1 = k − 1, df2 = N − k.</td></tr>
+<tr><td>η²</td><td>SS model / SS total. 0.71 means 71% of the outcome variance is explained by the grouping variable. No small/medium/large cutoff was given in class. Report the proportion.</td></tr>
+<tr><td>Post hoc t, df, p for each pair</td><td>p &lt; .05 → those two groups differ. p &gt; .05 → they do not. df here is the residual df (the second df of F), not a new one.</td></tr>
+</table>
+<p><span class="k">Which post hoc button.</span> Levene met and the ANOVA is significant and there are at most 3 groups → <span class="k">None (Fisher’s LSD)</span>. Levene met and more than 3 groups, or you want a correction → <span class="k">Tukey</span>. Levene violated → <span class="k">Games–Howell</span> together with Welch’s F. A significant F with every post hoc p &gt; .05 is allowed. Report that. Do not invent a winning group.</p>
+<p class="k">How to write it</p>
+<pre>Means (SDs): [group A] __ (__), [group B] __ (__), [group C] __ (__). Homogeneity of variance was met / violated, Levene’s F(__, __) = __, p = __. Normality of errors was checked with a Q-Q plot and was met / not met. A one-way independent ANOVA [or Welch’s F] showed a significant / non-significant effect of [IV] on [DV], F(__, __) = __, p = __, η² = __. Post hoc [Fisher’s LSD / Tukey / Games–Howell]: [pair], t(__) = __, p = __; … In words: [who differed from whom, and who did not].</pre>
+<p class="small">Class example, drugs: Levene F(2, 15) = 1.45, p = .266, met. F(2, 15) = 18.61, p &lt; .001, η² = 0.71. LSD: joyzepam &gt; anxifree, t(15) = 4.36, p &lt; .001; joyzepam &gt; placebo, t(15) = 5.88, p &lt; .001; anxifree vs placebo, t(15) = 1.52, p = .150. The slide once printed that last p as &lt; .001. The correct value is .150. The slide write-up was also missing the means and SDs.</p>
+</div>
+
+<h3>How to judge normality — Q-Q plot</h3>
+<h3>Q-Q plot — normality of errors</h3>
+<div class="do">
+<p>Points hug the diagonal → normality met. A bend, or a clear departure at the ends → not met. Small samples: the ends are sparse, so do not call a violation from one or two end points. A low Shapiro–Wilk p means “not normal”, but Alvin wants the picture. Write-ups in class say “checked via Q-Q plot of the residuals and met”.</p>
+<p>Shapiro–Wilk wording on the slides: Lecture 2 says it is <span class="k">extremely conservative</span> (a tiny departure gets called a violation). Lecture 3 says it is <span class="k">too liberal</span>. Both sentences mean the same practical thing: it declares non-normality too easily. Prefer the Q-Q plot. If a blank quotes a lecture, match that lecture’s adjective, then still choose the Q-Q plot.</p>
+<img class="fig" src="plot-examples/05-qq-plots.png" alt="Q-Q plots: points on the line, ends peeling off, and a skewed bend.">
+</div>
+
+<h3>When this is the wrong test</h3>
+<div class="trap">
+<ul>
+<li>Exactly two groups, different people → independent t. If you run both, F = t². Square the t, not the F.</li>
+<li>Same people in every condition → repeated-measures ANOVA.</li>
+<li>Levene p &lt; .05 → still this ANOVA, but Welch’s F and Games–Howell. Not Tukey. Not Fisher’s LSD.</li>
+<li>Levene p &gt; .05, the F is significant, and there are at most 3 groups → None (Fisher’s LSD).</li>
+<li>Levene p &gt; .05 and 4 or more groups → Tukey. Four groups does not override a failed Levene.</li>
+<li>F not significant → stop. Do not hunt for a winning pair.</li>
+<li>A significant F can still have every pair p &gt; .05. Report that. Do not invent a winner.</li>
+</ul>
+</div>
+<div class="card">
+<p class="k">Where to read η²</p>
+<p>The slides use <span class="k">One-Way ANOVA</span>. Some jamovi versions have no effect-size box on that screen. Open <span class="k">Analyses → ANOVA → ANOVA</span> as well. Dependent Variable = the outcome. Fixed Factors = that one grouping variable only. Tick Effect size → η². Do not add a second factor. A second factor is factorial ANOVA, and factorial ANOVA is not on this test. Fisher’s F, df, and p should match the Fisher’s row you already have. Copy η² from this second table. In a one-way design, partial η² prints the same number. The name to write is still η². There is no small / medium / large cutoff. 0.71 means 71% of the outcome variance.</p>
+</div>
+<h3>Worked example</h3>
+<div class="card">
+<p class="k">Example I — ANOVA, one pair not significant (class: drugs)</p>
+<p>Three drugs, different people. Levene F(2, 15) = 1.45, p = .266 &gt; .05, so ordinary ANOVA, not Welch. Three groups and a significant F, so Fisher’s LSD is allowed. F(2, 15) = 18.61, p &lt; .001. η² = 0.71 means 71% of mood variance is explained by drug. There is no Cohen band for that .71.</p>
+<ul>
+<li>Joyzepam &gt; anxifree, t(15) = 4.36, p &lt; .001. Significant.</li>
+<li>Joyzepam &gt; placebo, t(15) = 5.88, p &lt; .001. Significant.</li>
+<li>Anxifree vs placebo, t(15) = 1.52, p = .150. p &gt; .05, so this pair is not significant. The slide once printed p &lt; .001 here. The correct value is .150. Do not say the two drugs are proven equal. Say they did not differ significantly.</li>
+</ul>
+<p>The write-up on the slide was also marked wrong because the means and SDs were missing. Put every group’s mean and SD in the first sentence even though this summary does not repeat those means.</p>
+</div></section>
+<section id="rm">
+<h2>7. One-way repeated-measures ANOVA</h2>
+<p>Same people, three or more conditions.</p>
+<h3 id="rm">One-way repeated-measures ANOVA</h3>
+<div class="card">
+<p><span class="k">Use when</span> the same people do 3 or more conditions. Two conditions only: paired t.</p>
+<p><span class="k">How to run.</span> Analyses → ANOVA → Repeated Measures ANOVA.</p>
+<ul>
+<li>Repeated Measures Factors: type a factor name (Condition). Set Levels to the number of conditions. Label them (Speech, Conceptual, Syntax).</li>
+<li>Drag each measure into its level. There is no grouping variable.</li>
+<li>Effect Size: tick <span class="k">Partial η²</span>. In a one-way RM, η² and generalised η² print the same number. Partial η² is the one to report, because it ignores between-person variance.</li>
+<li>Assumption Checks: <span class="k">Sphericity tests</span> (Mauchly) and Q-Q.</li>
+<li>Post Hoc Tests: put the factor across, and tick <span class="k">Holm</span> unless the question names another correction.</li>
+</ul>
+<p class="k">How to read</p>
+<table>
+<tr><th>Read this</th><th>Indicator</th></tr>
+<tr><td>Mean and SD of each condition</td><td>Report all of them. The pattern of means is the direction.</td></tr>
+<tr><td>Q-Q plot</td><td>Hug the line → normality met.</td></tr>
+<tr><td>Mauchly χ²(df), p</td><td>p &gt; .05 → sphericity met. Report the uncorrected F. p &lt; .05 → sphericity violated. Read ε (Greenhouse–Geisser epsilon).</td></tr>
+<tr><td>ε</td><td><span class="k">ε &gt; .75 → use the Huynh–Feldt row. ε ≤ .75 → use the Greenhouse–Geisser row.</span> Greenhouse–Geisser is the stronger correction.</td></tr>
+<tr><td>F(df1, df2), p from the row you chose</td><td>p &lt; .05 → conditions differ somewhere. df1 = k − 1. df2 = (k − 1)(n − 1) when sphericity holds. Corrected rows change the df. Copy the row you actually use.</td></tr>
+<tr><td>Partial η²</td><td>Effect / (effect + error). Ignores the between-person slice. .581 is the class example.</td></tr>
+<tr><td>Post hoc t(df), p</td><td>Holm is the balanced default. Order from least to most conservative: None, Tukey, Holm, Bonferroni, Scheffé. p &lt; .05 → that pair differs. A significant F can sit next to every pair p &gt; .05 (Speech vs Syntax was p = .058). Say so.</td></tr>
+</table>
+<p>Mauchly df for 3 conditions is usually 2. The slide once printed χ²(5). Copy whatever jamovi prints. Slide 92 is headed “Assumptions of One-way Independent ANOVA” but the bullets (subject independence, normality, sphericity) are the repeated-measures list.</p>
+<p class="k">How to write it</p>
+<pre>[Condition A] M = __ (SD = __), [B] M = __ (SD = __), [C] M = __ (SD = __). Mauchly’s test indicated that sphericity was met / violated, χ²(__) = __, p = __. [If violated: ε = __. Because ε was above / not above .75, the Huynh–Feldt / Greenhouse–Geisser correction was used.] Normality of errors was checked with a Q-Q plot and was met. There was a significant / non-significant effect of condition, F(__, __) = __, p = __, partial η² = __. Post hoc [Holm / Tukey / …]: [pairs with t, df, p]. If no pair is significant, write that the omnibus test was significant but no pairwise comparison reached .05.</pre>
+<p class="small">Class example, successful trials: Speech 7.17 (1.47), Conceptual 6.17 (1.47), Syntax 4.33 (1.63). Mauchly χ² = 0.85, p = .720, met. F(2, 10) = 6.39, p = .013, partial η² = .581. Tukey pairs: p = .381, .058, .102. Omnibus significant, no pair at .05.</p>
+</div>
+
+<h3>How to judge normality — Q-Q plot</h3>
+<h3>Q-Q plot — normality of errors</h3>
+<div class="do">
+<p>Points hug the diagonal → normality met. A bend, or a clear departure at the ends → not met. Small samples: the ends are sparse, so do not call a violation from one or two end points. A low Shapiro–Wilk p means “not normal”, but Alvin wants the picture. Write-ups in class say “checked via Q-Q plot of the residuals and met”.</p>
+<p>Shapiro–Wilk wording on the slides: Lecture 2 says it is <span class="k">extremely conservative</span> (a tiny departure gets called a violation). Lecture 3 says it is <span class="k">too liberal</span>. Both sentences mean the same practical thing: it declares non-normality too easily. Prefer the Q-Q plot. If a blank quotes a lecture, match that lecture’s adjective, then still choose the Q-Q plot.</p>
+<img class="fig" src="plot-examples/05-qq-plots.png" alt="Q-Q plots: points on the line, ends peeling off, and a skewed bend.">
+</div>
+
+<h3>When this is the wrong test</h3>
+<div class="trap">
+<ul>
+<li>Same people, only two conditions → paired t.</li>
+<li>Different people in each group → one-way independent ANOVA.</li>
+<li>Mauchly p &gt; .05 → quote the uncorrected F. Do not apply ε.</li>
+<li>Mauchly p &lt; .05 and ε &gt; .75 → Huynh–Feldt row. ε ≤ .75 → Greenhouse–Geisser row. Copy df from the row you use.</li>
+<li>Post hoc default is Holm. Least conservative → most conservative: None, Tukey, Holm, Bonferroni, Scheffé.</li>
+</ul>
+</div>
+<h3>Worked example</h3>
+<div class="card">
+<p class="k">Example J — RM ANOVA, omnibus significant, no pair significant (class)</p>
+<p>Speech 7.17 (SD 1.47), Conceptual 6.17 (1.47), Syntax 4.33 (1.63). Mauchly χ² = 0.85, p = .720 &gt; .05, so sphericity is met and you quote the uncorrected F. You do not apply ε. F(2, 10) = 6.39, p = .013, so reject the omnibus H0: the three conditions are not all equal. Partial η² = .581. Tukey pairs: p = .381, .058, and .102. Every pair is above .05, including Speech vs Syntax at .058. The omnibus test found a difference somewhere, and no pairwise comparison reached .05. Do not crown Syntax as significantly lower.</p>
+</div></section>
 <section id="formula">
-<h2>3. Formulas and df</h2>
+<h2>8. Formulas and df</h2>
 <div class="formula">
 Mean: x̄ = Σx / n<br>
 Slide example: 22+40+53+57+93+98+103+108+116+121+234 = 1045. n = 11. Mean = 1045/11 = 95.<br>
@@ -335,291 +714,8 @@ Number of pairwise tests = k(k − 1) / 2
 </div>
 </section>
 
-<section id="steps">
-<h2>4. Running each test</h2>
-<p>Each test below is one block: how to run it, which numbers to read, then the sentence to write. Theory, formulas, and the plot pictures are further down. Nothing from those sections has been removed.</p>
-<div class="do">
-<p><span class="k">The same rule on every p-value.</span> p &lt; .05 → significant, reject H0. p &gt; .05 → not significant, fail to reject H0. If jamovi prints &lt; .001, write p &lt; .001. Copy the df from the same row as the statistic. Always write the direction in words.</p>
-<p><span class="k">Before every analysis.</span> Double-click the column name. Grouping variable → measure type <span class="k">Nominal</span>. Outcome → <span class="k">Continuous</span>. Do not use the ID column.</p>
-</div>
-
-<h3 id="desc">Descriptives and graphs</h3>
-<div class="card">
-<p><span class="k">How to run.</span> Analyses → Exploration → Descriptives. Move the scores into <span class="k">Variables</span>. If you need a mean for each group, move the group label into <span class="k">Split by</span>.</p>
-<p><span class="k">Tick under Statistics:</span> N, Mean, Median, Mode, Standard deviation, Variance, Minimum, Maximum, Range, Skewness, Kurtosis, Std. error of the mean, Quartiles.</p>
-<p><span class="k">Tick under Plots:</span> Histogram, Box plot, Q-Q. Bar plot only if the variable is categorical.</p>
-<table>
-<tr><th>Number</th><th>Indicator</th></tr>
-<tr><td>Mean and SD</td><td>Put these in the first sentence of every write-up. One pair per group.</td></tr>
-<tr><td>Median vs mean</td><td>Mean pulled above the median → right skew. Mean below the median → left skew. If they differ a lot, also quote the median.</td></tr>
-<tr><td>SD</td><td>Larger SD = scores more spread out. Compare SDs across groups before you trust Levene.</td></tr>
-<tr><td>Skewness</td><td>Positive number = right tail. Negative number = left tail. Near 0 = roughly symmetric.</td></tr>
-<tr><td>Kurtosis</td><td>How much mass sits in the tails. The picture matters more than the number: leptokurtic = peaked, platykurtic = flat.</td></tr>
-<tr><td>Quartiles</td><td>25th = Q1, 50th = median, 75th = Q3. IQR = Q3 − Q1.</td></tr>
-<tr><td>Box plot</td><td>Whisker = last real score inside the fence. Fence = Q1 − 1.5×IQR or Q3 + 1.5×IQR. Point past the fence = outlier.</td></tr>
-<tr><td>Histogram</td><td>One peak = one mode. Two peaks = bimodal. Bell = normal / Gaussian.</td></tr>
-</table>
-</div>
-
-<h3 id="tind">Independent-samples t-test</h3>
-<div class="card">
-<p><span class="k">Use when</span> the independent variable is categorical with <span class="k">exactly two groups</span>, and the dependent variable is continuous. Different people in each group.</p>
-<p><span class="k">How to run.</span> Analyses → T-Tests → Independent Samples T-Test.</p>
-<ul>
-<li><span class="k">Dependent Variables</span> = the outcome (Exam_Performance, mood, grade).</li>
-<li><span class="k">Grouping Variable</span> = the independent variable (Gender, drug, tutor). This is the two-group label.</li>
-<li>Tests: tick <span class="k">Student’s</span> and <span class="k">Welch’s</span>.</li>
-<li>Hypothesis: <span class="k">Group 1 ≠ Group 2</span> (two-tailed) unless the question states a direction.</li>
-<li>Additional Statistics: Mean difference, Confidence interval, Effect size (Cohen’s d), Descriptives, Descriptives plots.</li>
-<li>Assumption Checks: <span class="k">Homogeneity test</span> (this is Levene), Normality test, <span class="k">Q-Q plot</span>.</li>
-</ul>
-<p class="k">How to read</p>
-<table>
-<tr><th>Read this</th><th>Indicator</th></tr>
-<tr><td>Descriptives: Mean, SD, N</td><td>Report both groups first. The group with the higher mean is the direction.</td></tr>
-<tr><td>Q-Q plot of residuals</td><td>Points hug the line → normality met. Bend, or ends peeling off → not met. Trust the plot more than Shapiro–Wilk.</td></tr>
-<tr><td>Shapiro–Wilk p</td><td>Low p means “not normal”, but it over-calls. Do not switch tests on Shapiro alone.</td></tr>
-<tr><td>Levene’s F and p</td><td><span class="k">p &gt; .05 → variances equal → report Student’s t.</span> <span class="k">p &lt; .05 → variances unequal → report Welch’s t</span> and say homogeneity was violated.</td></tr>
-<tr><td>t, df, p</td><td>From the Student’s row or the Welch’s row, not both. p &lt; .05 = the two means differ.</td></tr>
-<tr><td>Mean difference and 95% CI</td><td>If the CI includes 0, the difference is not significant. The sign of the difference tells you which group is higher. Check that it matches the means.</td></tr>
-<tr><td>Cohen’s d</td><td>0.2 small, 0.5 medium, 0.8 large. Between two cutoffs: say “between medium and large”.</td></tr>
-</table>
-<p>Order in the answer: means (SDs) → Q-Q → Levene → which t you chose → t(df), p, CI, d → who was higher.</p>
-<p class="k">How to write it</p>
-<pre>The mean [outcome] in [group 1] was __ (SD = __), whereas the mean in [group 2] was __ (SD = __). Normality of errors was checked with a Q-Q plot of the residuals and was met / not met. Homogeneity of variance was checked with Levene’s test, F(__, __) = __, p = __, and was met / violated. [Because Levene’s test was not significant, Student’s independent-samples t-test was used. / Because homogeneity was violated, Welch’s t-test was used.] There was a significant / non-significant difference, t(__) = __, p = __, 95% CI [__, __], Cohen’s d = __ (small / medium / large / between …), such that [group] had higher [outcome] than [group].</pre>
-<p class="small">Class example, Anastasia vs Bernadette: 74.53 (SD 9.00) vs 69.06 (SD 5.77). Levene F(1, 31) = 2.49, p = .125, met. t(31) = 2.12, p = .043, CI [0.20, 10.76], d = .74. Anastasia higher.</p>
-</div>
-
-<h3 id="tpair">Paired-samples t-test</h3>
-<div class="card">
-<p><span class="k">Use when</span> the same people are measured twice. There is no grouping variable.</p>
-<p><span class="k">How to run.</span> Analyses → T-Tests → Paired Samples T-Test. Move the two measures into one pair (Happiness_Monday with Happiness_Friday, test 1 with test 2).</p>
-<ul>
-<li>Tests: Student’s. There is no Welch and no Levene.</li>
-<li>Hypothesis: Measure 1 ≠ Measure 2, unless the question is directional.</li>
-<li>Additional Statistics: Mean difference, Confidence interval, Cohen’s d, Descriptives.</li>
-<li>Assumption Checks: Normality, Q-Q plot.</li>
-</ul>
-<p class="k">How to read</p>
-<table>
-<tr><th>Read this</th><th>Indicator</th></tr>
-<tr><td>Mean and SD of each time</td><td>Report both. Higher mean = the direction.</td></tr>
-<tr><td>Q-Q plot</td><td>Hug the line → normality of the difference scores is met.</td></tr>
-<tr><td>t(df), p</td><td>df = number of people − 1. t(19) means 20 people. p &lt; .05 = the two times differ.</td></tr>
-<tr><td>95% CI of the mean difference</td><td>Includes 0 → not significant.</td></tr>
-<tr><td>Cohen’s d</td><td>Same 0.2 / 0.5 / 0.8 cuts.</td></tr>
-</table>
-<p class="k">How to write it</p>
-<pre>The mean of [time 1] was __ (SD = __), whereas the mean of [time 2] was __ (SD = __). Normality of errors was checked with a Q-Q plot of the residuals and was met. A paired-samples t-test showed a significant / non-significant difference, t(__) = __, p = __, 95% CI [__, __], Cohen’s d = __, such that scores were higher at [time].</pre>
-<p class="small">Class example: test 1 = 56.98 (6.62), test 2 = 58.38 (6.41). t(19) = 6.48, p &lt; .001, CI [0.95, 1.86], d = 1.45. Second test higher.</p>
-</div>
-
-<h3 id="corr">Pearson, Spearman, Kendall</h3>
-<div class="card">
-<p><span class="k">Use when</span> both variables are continuous and you are not controlling a third variable. Pearson is the default. Spearman or Kendall only if bivariate normality or homoscedasticity fails.</p>
-<p><span class="k">How to run.</span> Analyses → Regression → Correlation Matrix. Move both variables into the box.</p>
-<ul>
-<li>Correlation Coefficients: <span class="k">Pearson</span> first. Add Spearman or Kendall’s tau-b only after you have decided Pearson’s assumptions fail.</li>
-<li>Hypothesis: <span class="k">Correlated</span> = two-tailed. “Positively correlated” or “Negatively correlated” = one-tailed. Use two-tailed unless the question states a direction.</li>
-<li>Additional Options: Report significance, Flag significant correlations, N, Confidence interval.</li>
-<li>Plots: Correlation matrix plot, if the button is there. For the assumption pictures, also run the linear regression below.</li>
-</ul>
-<p class="k">How to read</p>
-<table>
-<tr><th>Read this</th><th>Indicator</th></tr>
-<tr><td>Scatterplot, shape</td><td>Straight cloud → linearity met. U-shape or a clear curve → linearity violated. Pearson is the wrong model. Spearman also misses a U.</td></tr>
-<tr><td>Scatterplot, cloud</td><td>One ellipse → bivariate normality met. Two clumps, or not an ellipse → violated.</td></tr>
-<tr><td>Residual plot (see next block)</td><td>Even vertical spread → homoscedasticity met. Fan → violated. If normality or homoscedasticity fails, report Spearman or Kendall instead of Pearson, and say why.</td></tr>
-<tr><td>r (or rho, or tau-b)</td><td>Sign = direction. Positive: as X goes up, Y goes up. Negative: as X goes up, Y goes down. |r| ≥ .10 small, ≥ .30 medium, ≥ .50 large.</td></tr>
-<tr><td>p</td><td>p &lt; .05 → the correlation is significant. p = .051 is not significant, but a medium r is still a real-sized relationship. Say both.</td></tr>
-<tr><td>N</td><td>How many pairs entered the correlation. Mention it if people were dropped.</td></tr>
-</table>
-<p>A curved-but-always-rising cloud: Pearson linearity is shaky; Spearman can describe that monotonic rise. Time-linked data (sleep today with sleep tomorrow) breaks independence. Name autocorrelation. Do not treat those rows as independent people. Alternatives named in class: AR, MA, ARMA, ARIMA. You only need to spot the problem.</p>
-<p class="k">How to write it</p>
-<pre>There was a significant / non-significant [positive / negative] and [small / medium / large] relationship between [X] and [Y], r = __, p = __. As [X] increased, [Y] increased / decreased. Assumptions: independence holds by design / is violated because …; the scatterplot showed a linear / curved pattern; the cloud was consistent / not consistent with bivariate normality; homoscedasticity was met / violated on the residual plot (say why).</pre>
-<p class="small">Class example: dan’s sleep with baby’s sleep r = .63; dan’s sleep with grumpiness r = −.90; baby’s sleep with grumpiness r = −.57. All p &lt; .001, all large.</p>
-</div>
-
-<h3>Check homoscedasticity (residual plot)</h3>
-<div class="card">
-<p><span class="k">How to run.</span> Analyses → Regression → Linear Regression. This is only to get the plot. You do not write a regression answer unless the question asks for one.</p>
-<ul>
-<li><span class="k">Dependent Variable</span> = the outcome Y.</li>
-<li><span class="k">Covariates</span> = the predictor X. In jamovi, a continuous predictor is a covariate.</li>
-<li>Assumption Checks: tick <span class="k">Q-Q plot of residuals</span> and <span class="k">Residual plots</span>.</li>
-</ul>
-<table>
-<tr><th>Plot</th><th>Indicator</th></tr>
-<tr><td>First plot: Fitted vs residuals</td><td>This is the one you judge. Fitted = predicted Y. Vertical spread similar all the way across → homoscedasticity met. Spread grows into a fan → violated. Wider in the middle, with few points at the ends → say it is ambiguous, pick a side, give the reason.</td></tr>
-<tr><td>Residuals that curve up or down</td><td>Not a fan. The straight line is the wrong model (failed linearity). Call it bias, not heteroscedasticity.</td></tr>
-<tr><td>Q-Q of residuals</td><td>Same normality rule as the t-test.</td></tr>
-</table>
-</div>
-
-<h3 id="part">Partial and semi-partial correlation</h3>
-<div class="card">
-<p><span class="k">How to run.</span> Analyses → Regression → Partial Correlation.</p>
-<ul>
-<li><span class="k">Variables</span> = the two you care about (stress and exam performance).</li>
-<li><span class="k">Control Variables</span> = Z, the one you are holding constant (daily study time).</li>
-<li>Pearson.</li>
-<li><span class="k">Correlation type: Partial</span> removes Z from both. <span class="k">Semipartial</span> removes Z from only one. The default is Partial. Change it if the question says semi-partial.</li>
-<li>Report significance.</li>
-</ul>
-<p>Also run the ordinary Correlation Matrix first, so you have the simple r to compare with.</p>
-<p class="k">How to read</p>
-<table>
-<tr><th>Read this</th><th>Indicator</th></tr>
-<tr><td>Simple r and its p</td><td>The relationship before any control. Report direction and Cohen size.</td></tr>
-<tr><td>Partial or semi-partial r and its p</td><td>The relationship after Z. Read the note under the table (“controlling for …”).</td></tr>
-<tr><td>Which cell, if semi-partial</td><td>The two off-diagonal numbers can differ. Use the cell that removes Z from the predictor, and say which variable that was. Partial r is the same either way, and it is usually larger than the semi-partial.</td></tr>
-<tr><td>Compare the two r values</td><td>Weaker but still significant → <span class="k">partial confounder</span>. No longer significant → <span class="k">confounder</span>. Stronger → <span class="k">suppressor</span>. Sign flips → <span class="k">negative suppressor</span>.</td></tr>
-</table>
-<p><span class="k">Semi-partial is not symmetric.</span> Partial r(X,Y) equals partial r(Y,X). Semi-partial does not. The two off-diagonal cells can differ because Z is removed from only one variable. Read the cell that removes Z from the variable the question names (usually the predictor), and say so in the answer. Partial tends to be larger because the same overlap is judged against what is left of Y, not all of Y.</p>
-<p class="k">How to write it</p>
-<pre>The simple relationship between [X] and [Y] was [direction] and [size], r = __, p = __. After controlling for [Z], the partial correlation was r = __, p = __. The relationship weakened / was no longer significant / strengthened / flipped direction. This pattern is a partial confounder / confounder / suppressor / negative suppressor.</pre>
-<p class="small">Class example: stress and exam performance r = .664, p &lt; .001, positive large. After daily study time, partial r = −.618, p &lt; .001, negative large. That flip is a negative suppressor.</p>
-</div>
-
-<h3 id="anova">One-way independent ANOVA</h3>
-<div class="card">
-<p><span class="k">Use when</span> the independent variable has <span class="k">3 or more groups</span> and different people are in each group. Two groups only: use the t-test. If you run both on two groups, t² = F.</p>
-<p><span class="k">How to run.</span> Analyses → ANOVA → One-Way ANOVA.</p>
-<ul>
-<li><span class="k">Dependent Variable</span> = the outcome.</li>
-<li><span class="k">Grouping Variable</span> = the independent variable (the groups).</li>
-<li>Variances: leave “Assume equal” on. If Levene fails, switch to <span class="k">Don’t assume equal (Welch’s)</span>.</li>
-<li>Effect Size: <span class="k">η²</span>.</li>
-<li>Descriptives, and a descriptives plot if you want the means pictured.</li>
-<li>Assumption Checks: Homogeneity test, Normality, Q-Q plot.</li>
-<li>Post-Hoc Tests: tick the one the rule allows (below). Do this after you have seen Levene and the omnibus F.</li>
-</ul>
-<p class="k">How to read</p>
-<table>
-<tr><th>Read this</th><th>Indicator</th></tr>
-<tr><td>Group means and SDs</td><td>Missing these is a wrong write-up. Report every group.</td></tr>
-<tr><td>Q-Q plot</td><td>Hug the line → normality met.</td></tr>
-<tr><td>Levene’s F(df1, df2), p</td><td>p &gt; .05 → equal variances. p &lt; .05 → tick Welch’s, and use Games–Howell, not Tukey and not LSD.</td></tr>
-<tr><td>ANOVA F(df1, df2), p</td><td>This is the omnibus test. p &lt; .05 → the means are not all equal. A difference somewhere. It does not name the pair. df1 = k − 1, df2 = N − k.</td></tr>
-<tr><td>η²</td><td>SS model / SS total. 0.71 means 71% of the outcome variance is explained by the grouping variable. No small/medium/large cutoff was given in class. Report the proportion.</td></tr>
-<tr><td>Post hoc t, df, p for each pair</td><td>p &lt; .05 → those two groups differ. p &gt; .05 → they do not. df here is the residual df (the second df of F), not a new one.</td></tr>
-</table>
-<p><span class="k">Which post hoc button.</span> Levene met and the ANOVA is significant and there are at most 3 groups → <span class="k">None (Fisher’s LSD)</span>. Levene met and more than 3 groups, or you want a correction → <span class="k">Tukey</span>. Levene violated → <span class="k">Games–Howell</span> together with Welch’s F. A significant F with every post hoc p &gt; .05 is allowed. Report that. Do not invent a winning group.</p>
-<p class="k">How to write it</p>
-<pre>Means (SDs): [group A] __ (__), [group B] __ (__), [group C] __ (__). Homogeneity of variance was met / violated, Levene’s F(__, __) = __, p = __. Normality of errors was checked with a Q-Q plot and was met / not met. A one-way independent ANOVA [or Welch’s F] showed a significant / non-significant effect of [IV] on [DV], F(__, __) = __, p = __, η² = __. Post hoc [Fisher’s LSD / Tukey / Games–Howell]: [pair], t(__) = __, p = __; … In words: [who differed from whom, and who did not].</pre>
-<p class="small">Class example, drugs: Levene F(2, 15) = 1.45, p = .266, met. F(2, 15) = 18.61, p &lt; .001, η² = 0.71. LSD: joyzepam &gt; anxifree, t(15) = 4.36, p &lt; .001; joyzepam &gt; placebo, t(15) = 5.88, p &lt; .001; anxifree vs placebo, t(15) = 1.52, p = .150. The slide once printed that last p as &lt; .001. The correct value is .150. The slide write-up was also missing the means and SDs.</p>
-</div>
-
-<h3 id="rm">One-way repeated-measures ANOVA</h3>
-<div class="card">
-<p><span class="k">Use when</span> the same people do 3 or more conditions. Two conditions only: paired t.</p>
-<p><span class="k">How to run.</span> Analyses → ANOVA → Repeated Measures ANOVA.</p>
-<ul>
-<li>Repeated Measures Factors: type a factor name (Condition). Set Levels to the number of conditions. Label them (Speech, Conceptual, Syntax).</li>
-<li>Drag each measure into its level. There is no grouping variable.</li>
-<li>Effect Size: tick <span class="k">Partial η²</span>. In a one-way RM, η² and generalised η² print the same number. Partial η² is the one to report, because it ignores between-person variance.</li>
-<li>Assumption Checks: <span class="k">Sphericity tests</span> (Mauchly) and Q-Q.</li>
-<li>Post Hoc Tests: put the factor across, and tick <span class="k">Holm</span> unless the question names another correction.</li>
-</ul>
-<p class="k">How to read</p>
-<table>
-<tr><th>Read this</th><th>Indicator</th></tr>
-<tr><td>Mean and SD of each condition</td><td>Report all of them. The pattern of means is the direction.</td></tr>
-<tr><td>Q-Q plot</td><td>Hug the line → normality met.</td></tr>
-<tr><td>Mauchly χ²(df), p</td><td>p &gt; .05 → sphericity met. Report the uncorrected F. p &lt; .05 → sphericity violated. Read ε (Greenhouse–Geisser epsilon).</td></tr>
-<tr><td>ε</td><td><span class="k">ε &gt; .75 → use the Huynh–Feldt row. ε ≤ .75 → use the Greenhouse–Geisser row.</span> Greenhouse–Geisser is the stronger correction.</td></tr>
-<tr><td>F(df1, df2), p from the row you chose</td><td>p &lt; .05 → conditions differ somewhere. df1 = k − 1. df2 = (k − 1)(n − 1) when sphericity holds. Corrected rows change the df. Copy the row you actually use.</td></tr>
-<tr><td>Partial η²</td><td>Effect / (effect + error). Ignores the between-person slice. .581 is the class example.</td></tr>
-<tr><td>Post hoc t(df), p</td><td>Holm is the balanced default. Order from least to most conservative: None, Tukey, Holm, Bonferroni, Scheffé. p &lt; .05 → that pair differs. A significant F can sit next to every pair p &gt; .05 (Speech vs Syntax was p = .058). Say so.</td></tr>
-</table>
-<p>Mauchly df for 3 conditions is usually 2. The slide once printed χ²(5). Copy whatever jamovi prints. Slide 92 is headed “Assumptions of One-way Independent ANOVA” but the bullets (subject independence, normality, sphericity) are the repeated-measures list.</p>
-<p class="k">How to write it</p>
-<pre>[Condition A] M = __ (SD = __), [B] M = __ (SD = __), [C] M = __ (SD = __). Mauchly’s test indicated that sphericity was met / violated, χ²(__) = __, p = __. [If violated: ε = __. Because ε was above / not above .75, the Huynh–Feldt / Greenhouse–Geisser correction was used.] Normality of errors was checked with a Q-Q plot and was met. There was a significant / non-significant effect of condition, F(__, __) = __, p = __, partial η² = __. Post hoc [Holm / Tukey / …]: [pairs with t, df, p]. If no pair is significant, write that the omnibus test was significant but no pairwise comparison reached .05.</pre>
-<p class="small">Class example, successful trials: Speech 7.17 (1.47), Conceptual 6.17 (1.47), Syntax 4.33 (1.63). Mauchly χ² = 0.85, p = .720, met. F(2, 10) = 6.39, p = .013, partial η² = .581. Tukey pairs: p = .381, .058, .102. Omnibus significant, no pair at .05.</p>
-</div>
-
-<div class="trap">
-<p><span class="k">Decision in one line while you are clicking.</span> Two continuous variables → Correlation Matrix. Hold a third variable constant → Partial Correlation, and change Partial / Semipartial. Two groups, different people → Independent t, then Levene decides Student vs Welch. Same people, two measures → Paired t. Three or more groups, different people → One-Way ANOVA, then Levene decides Welch + Games–Howell versus Tukey or LSD. Same people, three or more measures → Repeated Measures ANOVA, then Mauchly and ε decide the F row, and Holm is the post hoc.</p>
-</div>
-</section>
-
-<section id="plots">
-<h2>5. How to read a plot</h2>
-<h3>Boxplot whiskers — three rules on the slide</h3>
-<div class="card">
-<ol>
-<li>Find the IQR.</li>
-<li>Theoretical whisker = <span class="k">1.5 × IQR from the edge of the box</span> (that line is the fence).</li>
-<li><span class="k">Then pull the whisker back to the closest observed score inside the fence.</span></li>
-</ol>
-<p>Points beyond the fence are outliers. The fence is not the whisker. The whisker is a real data point. The depression-by-gender slide writes the numbers 18, 19, and 20.5 next to this rule: those marks are about the fence versus the retracted whisker, not “the whisker always ends at 1.5 × IQR”.</p>
-<p><span class="k">Practice.</span> Q1 = 8, Q3 = 16, IQR = 8. Upper fence = 16 + 12 = 28. If the largest score that is still ≤ 28 is 18, the upper whisker stops at 18. A score of 40 is an outlier.</p>
-<p>The box itself is Q1 to Q3. The line inside the box is the median. Comparing boxplots: look at medians, spread (box + whiskers), and outliers. A mean can sit far from the median when there is skew or an outlier (slide mean = 95, median = 98, with 234 in the set).</p>
-<p><span class="k">Four bands, 25% of the values in each.</span> Below Q1. Q1 to the median. Median to Q3. Above Q3.</p>
-<table>
-<tr><th>Part</th><th>Meaning</th></tr>
-<tr><td>Bottom of the box</td><td>Q1, 25th percentile</td></tr>
-<tr><td>Line in the box</td><td>Median, 50th percentile (Q2)</td></tr>
-<tr><td>Top of the box</td><td>Q3, 75th percentile</td></tr>
-<tr><td>The box</td><td>IQR = Q3 − Q1. Middle 50%</td></tr>
-<tr><td>Lower fence (dashed)</td><td>Q1 − 1.5 × IQR. A cutoff, not a score</td></tr>
-<tr><td>Upper fence (dashed)</td><td>Q3 + 1.5 × IQR. A cutoff, not a score</td></tr>
-<tr><td>Lower whisker</td><td>Stops at the smallest score that is still above the lower fence</td></tr>
-<tr><td>Upper whisker</td><td>Stops at the largest score that is still below the upper fence</td></tr>
-<tr><td>x past a fence</td><td>Outlier. The max or min of the whole data set can be an outlier, so it is not the whisker</td></tr>
-</table>
-<img class="fig" src="plot-examples/07-boxplot-parts.png" alt="Labeled boxplot: quartiles, whiskers, fences, and outliers.">
-<img class="fig" src="plot-examples/06-boxplot.png" alt="Boxplot showing the 1.5 IQR fence above the whisker, and an outlier at 30.">
-</div>
-<h3>Histogram</h3>
-<div class="card">
-<p>How often each value occurred. Describe four things: <span class="k">central tendency, dispersion, skewness, kurtosis.</span> A bell shape is the normal distribution. Another name: <span class="k">Gaussian</span>.</p>
-<ul>
-<li><span class="k">Positive / right skew:</span> long tail to the right. Usual pattern: mean &gt; median.</li>
-<li><span class="k">Negative / left skew:</span> long tail to the left. Usual pattern: mean &lt; median.</li>
-<li><span class="k">Kurtosis (slide definition):</span> the degree to which scores cluster at the ends of the distribution. Picture labels: <span class="k">Leptokurtic</span> = tall sharp peak. <span class="k">Platykurtic</span> = flat.</li>
-<li>More than one peak → more than one mode (bimodal / multimodal).</li>
-</ul>
-</div>
-<h3>Scatterplot — correlation assumptions you can see</h3>
-<div class="card">
-<table>
-<tr><th>Look at</th><th>Met</th><th>Violated</th></tr>
-<tr><td>Linearity</td><td>Cloud follows a straight line</td><td>A curve or a U. Pearson is the wrong model. Rank correlations also miss a U-shape.</td></tr>
-<tr><td>Bivariate normality</td><td>Roughly one elliptical cloud</td><td>A clump, a fan of outliers, or a shape that is not an ellipse</td></tr>
-<tr><td>Homoscedasticity</td><td>Vertical spread looks similar all along X</td><td>Spread grows (a fan) or clearly changes along X</td></tr>
-<tr><td>r itself</td><td colspan="2">0 = round cloud. +1 = perfect line up. −1 = perfect line down. .33 mild, .66 clearer. Sign = direction. Size uses .10 / .30 / .50.</td></tr>
-</table>
-<img class="fig" src="plot-examples/01-scatter-correlation-size.png" alt="Scatterplots for r of 0, .33, .66, and 1, positive and negative.">
-<img class="fig" src="plot-examples/02-scatter-assumptions.png" alt="Scatterplots showing linearity, bivariate normality, and homoscedasticity met and violated.">
-<img class="fig" src="plot-examples/03-scatter-tricky.png" alt="Tricky scatterplots: strong negative, a few outliers, a rising curve, and a small sample.">
-</div>
-<h3>Q-Q plot — normality of errors</h3>
-<div class="do">
-<p>Points hug the diagonal → normality met. A bend, or a clear departure at the ends → not met. Small samples: the ends are sparse, so do not call a violation from one or two end points. A low Shapiro–Wilk p means “not normal”, but Alvin wants the picture. Write-ups in class say “checked via Q-Q plot of the residuals and met”.</p>
-<p>Shapiro–Wilk wording on the slides: Lecture 2 says it is <span class="k">extremely conservative</span> (a tiny departure gets called a violation). Lecture 3 says it is <span class="k">too liberal</span>. Both sentences mean the same practical thing: it declares non-normality too easily. Prefer the Q-Q plot. If a blank quotes a lecture, match that lecture’s adjective, then still choose the Q-Q plot.</p>
-<img class="fig" src="plot-examples/05-qq-plots.png" alt="Q-Q plots: points on the line, ends peeling off, and a skewed bend.">
-</div>
-<h3>Residual plot — homoscedasticity (Lance’s supplement)</h3>
-<div class="card">
-<p><span class="k">Homoscedasticity:</span> the vertical spread of points around the regression line is the same at all levels of X.</p>
-<ul>
-<li><span class="k">Fitted</span> = predicted Y. Put X into the regression equation and the result is a fitted value.</li>
-<li><span class="k">Residual</span> = prediction error. Its vertical spread copies the vertical spread around the line.</li>
-<li>Similar vertical spread across fitted values → homoscedasticity reasonably met.</li>
-<li><span class="k">Fan</span> (spread grows as fitted values grow) → heteroscedasticity. Alvin’s word for this pattern is “fan”.</li>
-<li>Spread larger in the middle than at the ends → ambiguous. The ends often have fewer people.</li>
-</ul>
-<p><span class="k">If the plot is ambiguous, write three things:</span> (1) it is ambiguous, (2) which side you lean to, (3) why. Example: “Despite some unevenness, the vertical spread of the residuals looks similar across fitted values, so I take homoscedasticity as reasonably met.” Both Alvin’s and Lance’s readings of one real plot were accepted when the reason was clear.</p>
-<p>Second plot = raw Y vs residuals. Same kind of reading, not the usual one. Third plot = raw X vs residuals. In <span class="k">simple</span> regression (one predictor) this matches the fitted plot, because each X maps to one fitted Y. In multiple regression they can look very different, because fitted Y depends on several predictors.</p>
-<p>A residual cloud that <span class="k">trends</span> up or down is a different problem (the slide calls it a <span class="k">bias assumption</span> — the model is systematically off, more like failed linearity). That is not the same sentence as “heteroscedastic”.</p>
-<p>Small samples and empty ends: hard to judge. A large sample with only a few extreme points can still be homoscedastic. Wild bootstrap and simulated Q-Q confidence bands are named on the slides as beyond this course.</p>
-<img class="fig" src="plot-examples/04-residual-plots.png" alt="Residual plots: even spread, a fan, a middle bulge, and a curved bias pattern.">
-</div>
-</section>
-
 <section id="l1">
-<h2>6. Lecture 1 — everything on the slides</h2>
+<h2>Lecture 1 — everything on the slides</h2>
 <h3>Why the course, and the research steps</h3>
 <div class="card">
 <p>Models of applied psychology: <span class="k">Scientist–Practitioner (Boulder)</span>, <span class="k">Clinical Scientist (Bloomington)</span>, <span class="k">Practitioner–Scholar (Vail)</span>. Outcomes: (A) apply methods and statistics to applied questions; (B) critically evaluate other people’s designs and analyses.</p>
@@ -711,7 +807,7 @@ Number of pairwise tests = k(k − 1) / 2
 </section>
 
 <section id="l2">
-<h2>7. Lecture 2 — inference, t-tests, correlation</h2>
+<h2>Lecture 2 — inference, t-tests, correlation</h2>
 <h3>Population, sample, CLT, SE, CI</h3>
 <div class="card">
 <p>We want a claim about a <span class="k">population</span> (as wide or as narrow as the question). We almost never measure everyone, so we take a <span class="k">sample</span> and use <span class="k">inferential statistics</span>.</p>
@@ -781,7 +877,7 @@ Number of pairwise tests = k(k − 1) / 2
 </section>
 
 <section id="partial">
-<h2>8. Partial and semi-partial — Lance’s supplement + Lecture 3 recap</h2>
+<h2>Partial and semi-partial — Lance’s supplement + Lecture 3 recap</h2>
 <div class="card">
 <p>Both ask about X and Y <span class="k">after a third variable Z</span>. If there is no Z, there is only a simple correlation.</p>
 <p>Think of circles (or squares, as on Field’s exam diagram) as variance.</p>
@@ -807,7 +903,7 @@ Number of pairwise tests = k(k − 1) / 2
 </section>
 
 <section id="l3">
-<h2>9. Lecture 3 — one-way ANOVA</h2>
+<h2>Lecture 3 — one-way ANOVA</h2>
 <div class="card">
 <p>Recap line you may need to paraphrase: we never know the population mean. Inference makes a claim anyway, with a stated error rate. “We reject H0, assuming we are wrong 5 times out of 100.”</p>
 <p><span class="k">Do not run many t-tests</span> for 3+ groups. For 3 groups that is group1–2, 2–3, and 1–3. Each at α = .05 inflates the familywise error (14.26% for 3 tests, and the table climbs from there). You can adjust p-values (Bonferroni is the example on the slide). ANOVA is the more effective control, because it asks one overall question first.</p>
@@ -862,7 +958,7 @@ Number of pairwise tests = k(k − 1) / 2
 </section>
 
 <section id="traps">
-<h2>10. Traps already planted in class</h2>
+<h2>Traps already planted in class</h2>
 <div class="trap">
 <ul>
 <li>Whisker ≠ 1.5 × IQR. Retract to a real score.</li>
@@ -893,7 +989,7 @@ Number of pairwise tests = k(k − 1) / 2
 </section>
 
 <section id="gloss">
-<h2>11. Keyword lines for fill-in-the-blank</h2>
+<h2>Keyword lines for fill-in-the-blank</h2>
 <table>
 <tr><th>Term</th><th>One line</th></tr>
 <tr><td>α</td><td>The Type I error rate you accept. Usually .05.</td></tr>
