@@ -50,7 +50,7 @@ body {
 .app {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 28px 22px 64px;
+  padding: 28px 22px 120px;
   padding-left: max(22px, env(safe-area-inset-left));
   padding-right: max(22px, env(safe-area-inset-right));
   padding-bottom: max(64px, calc(24px + env(safe-area-inset-bottom)));
@@ -162,6 +162,104 @@ button.active, .chip.active {
   font-size: 12px;
   color: var(--muted);
   align-self: center;
+}
+
+.due-widget {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 30;
+  width: min(340px, calc(100vw - 24px));
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 18px 50px rgba(28, 25, 23, 0.16);
+  overflow: hidden;
+}
+.due-toggle {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 0;
+  border-radius: 0;
+  background: #1c1917;
+  color: #fffcf7;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.due-toggle .due-count { color: #e7e0d6; }
+.due-panel {
+  padding: 12px 12px 8px;
+}
+.due-panel h2 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.due-widget.collapsed .due-panel { display: none; }
+.due-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: min(42vh, 360px);
+  overflow: auto;
+}
+.due-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 10px;
+  align-items: baseline;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  padding: 8px 6px 8px 8px;
+  cursor: pointer;
+  border-left: 4px solid var(--line);
+}
+.due-item:last-child { border-bottom: 0; }
+.due-item:hover { background: #faf7f2; }
+.due-item.red { border-left-color: var(--red-asg); }
+.due-item.blue { border-left-color: var(--blue-asg); }
+.due-item.teal { border-left-color: var(--teal-asg); }
+.due-item.purple { border-left-color: var(--purple-asg); }
+.due-item.amber { border-left-color: var(--amber-asg); }
+.due-item.green { border-left-color: var(--green-asg); }
+.due-item.slate { border-left-color: var(--slate-asg); }
+.due-item.orange { border-left-color: var(--orange-asg); }
+.due-item.pink { border-left-color: var(--pink-asg); }
+.due-item.soon { background: #fff7ed; }
+.due-course {
+  grid-column: 1 / -1;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.due-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+.due-when {
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: right;
+}
+.due-empty {
+  color: var(--muted);
+  font-size: 14px;
+  padding: 8px 4px 12px;
 }
 
 .layout {
@@ -518,6 +616,12 @@ dialog::backdrop { background: rgba(28, 25, 23, 0.35); }
     font-size: 12px;
   }
   .hint { display: none; }
+  .due-widget {
+    right: max(10px, env(safe-area-inset-right));
+    bottom: max(10px, env(safe-area-inset-bottom));
+    width: min(300px, calc(100vw - 20px));
+  }
+  .due-list { max-height: 36vh; }
   .calendar { border-radius: 16px; }
   .dow {
     padding: 8px 0;

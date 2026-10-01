@@ -488,8 +488,71 @@ async function askAndNotify() {
   renderRemindBar();
 }
 
+function isPreLectureQuestion(event) {
+  return /pre-lecture/i.test(event.title || "");
+}
+
+function upcomingAssessments() {
+  return mergedEvents()
+    .filter((e) => e.type === "assignment" && !isPreLectureQuestion(e) && daysUntil(e.date) >= 0)
+    .sort((a, b) => {
+      if (a.date !== b.date) return a.date.localeCompare(b.date);
+      return String(a.start || "99:99").localeCompare(String(b.start || "99:99"));
+    });
+}
+
+function dueWhenLabel(event) {
+  const days = daysUntil(event.date);
+  const dateBit = parseISO(event.date).toLocaleDateString("en-GB", {
+    weekday: "short", day: "numeric", month: "short",
+  });
+  const time = event.start ? fmtTime(event.start) : "";
+  let relative = dateBit;
+  if (days === 0) relative = "Today";
+  else if (days === 1) relative = "Tomorrow";
+  else if (days <= 7) relative = `${dateBit} · in ${days} days`;
+  return time ? `${relative} · ${time}` : relative;
+}
+
+function goToDate(iso) {
+  const d = parseISO(iso);
+  state.year = d.getFullYear();
+  state.month = d.getMonth();
+  state.selected = iso;
+  render();
+  if (isPhone()) {
+    requestAnimationFrame(() => {
+      document.getElementById("dayPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+}
+
+function renderDueWidget() {
+  const list = document.getElementById("dueList");
+  const count = document.getElementById("dueCount");
+  const items = upcomingAssessments();
+  count.textContent = String(items.length);
+  if (!items.length) {
+    list.innerHTML = `<li class="due-empty">No upcoming assignments or quizzes.</li>`;
+    return;
+  }
+  list.innerHTML = items.map((e) => {
+    const c = COURSES[e.course] || COURSES.personal;
+    const days = daysUntil(e.date);
+    const soon = days <= 2 ? " soon" : "";
+    return `<li>
+      <button type="button" class="due-item ${c.hue}${soon}" data-date="${e.date}">
+        <span class="due-course">${escapeHtml(c.short)}</span>
+        <span class="due-title">${escapeHtml(e.title)}</span>
+        <span class="due-when">${escapeHtml(dueWhenLabel(e))}</span>
+      </button>
+    </li>`;
+  }).join("");
+}
+
 function render() {
   renderLegend();
+  renderDueWidget();
   renderCalendar();
   renderSide();
   renderRemindBar();
@@ -508,6 +571,16 @@ document.getElementById("enableReminders").addEventListener("click", () => {
   askAndNotify().catch((err) => alert(err.message || String(err)));
 });
 document.getElementById("downloadIcs").addEventListener("click", downloadDeadlineCalendar);
+document.getElementById("dueList").addEventListener("click", (event) => {
+  const btn = event.target.closest("button[data-date]");
+  if (!btn) return;
+  goToDate(btn.getAttribute("data-date"));
+});
+document.getElementById("dueToggle").addEventListener("click", () => {
+  const widget = document.getElementById("dueWidget");
+  const collapsed = widget.classList.toggle("collapsed");
+  document.getElementById("dueToggle").setAttribute("aria-expanded", collapsed ? "false" : "true");
+});
 document.getElementById("sideList").addEventListener("click", (event) => {
   const btn = event.target.closest("button[data-action]");
   if (!btn) return;
