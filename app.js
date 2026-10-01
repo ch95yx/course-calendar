@@ -488,13 +488,14 @@ async function askAndNotify() {
   renderRemindBar();
 }
 
-function isPreLectureQuestion(event) {
-  return /pre-lecture/i.test(event.title || "");
+function isSkippedDeadline(event) {
+  const title = event.title || "";
+  return /pre-lecture/i.test(title) || /weekly question/i.test(title);
 }
 
 function upcomingAssessments() {
   return mergedEvents()
-    .filter((e) => e.type === "assignment" && !isPreLectureQuestion(e) && daysUntil(e.date) >= 0)
+    .filter((e) => e.type === "assignment" && !isSkippedDeadline(e) && daysUntil(e.date) >= 0)
     .sort((a, b) => {
       if (a.date !== b.date) return a.date.localeCompare(b.date);
       return String(a.start || "99:99").localeCompare(String(b.start || "99:99"));
