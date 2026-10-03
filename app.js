@@ -7,11 +7,12 @@ const MONTHS = [
 
 const params = new URLSearchParams(location.search);
 const paramDate = params.get("date");
+const today = new Date();
 
 const state = {
-  year: 2026,
-  month: 8,
-  selected: paramDate || isoTodayInRange() || "2026-09-02",
+  year: today.getFullYear(),
+  month: today.getMonth(),
+  selected: paramDate || toISO(today),
   hidden: new Set(),
 };
 
