@@ -177,7 +177,7 @@ const EVENTS = [
   cls("skills", "2026-10-16", "10:00", "12:50", "CPD 3.28 (breakout 4.36–4.41, 4.55)", "Workshop 3 · Micro skills: intake interview", "Kathy S. & course instructors. Counts toward the 30% workshop participation mark."),
   cls("skills", "2026-10-16", "14:00", "16:50", "CPD-2.37", "Workshop 4 · PSU case allocation"),
   cls("skills", "2026-10-23", "10:00", "12:50", "CPD-3.28", "Workshop 5 · WPPSI-IV (HK)", "Ms Janice Tsang, Child Assessment Service. Joint with CP."),
-  cls("skills", "2026-10-23", "14:00", "16:50", "LE5", "Workshop 6 · Demonstration of intake for PSU case", "Mr Richard Ng. Joint with CP."),
+  cls("skills", "2026-10-22", "10:00", "12:50", "MB217", "Workshop 6 · Demonstration of intake for PSU case", "Moved from 23 Oct PM (LE5) in the 21 Sep outline. Mr Richard Ng. Joint with CP. Thursday AM."),
   cls("skills", "2026-10-30", "10:00", "12:50", "CPD 3.28 (breakout 4.36–4.41, 4.55)", "Workshop 7 · Micro skills: counselling skills", "Matthew & course instructors. Counts toward the 30% workshop participation mark."),
   cls("skills", "2026-11-13", "10:00", "12:50", "CPD 3.28 (breakout 4.36–4.41)", "Workshop 8 · Micro skills: take two for counselling", "Kathy S. & course instructors. Counts toward the 30% workshop participation mark."),
 
@@ -186,7 +186,7 @@ const EVENTS = [
   asg("skills", "2026-10-23", "23:59", "WISC-IV (HK) protocol 3 of 4", "Submit to Kathy Wong", "Due 2 weeks after practice."),
   asg("skills", "2026-10-30", "23:59", "WISC-IV (HK) protocol 4 of 4", "Submit to Kathy Wong", "Due 2 weeks after practice. Include observer checklist for one case."),
   asg("skills", "2026-11-06", "23:59", "WPPSI-IV (HK) protocol", "Submit to Matthew Chu", "1 protocol; due 2 weeks after the 23 Oct practice."),
-  asg("skills", "2026-12-03", "23:59", "Observation & reflection on orientation visits", "Moodle / as instructed", "≤4 pages, double-line spacing. 20% of the course. Child Assessment Service visit date is still TBC."),
+  asg("skills", "2026-12-03", "23:59", "Observation & reflection on orientation visits", "Moodle / as instructed", "≤4 pages, double-line spacing. 20% of the course. Deadline 3 Dec 2026 (Thu)."),
 
   cls("skills2", "2026-11-06", "10:00", "12:50", "CPD-3.28", "SK-II · Vineland-III and SB-V", "Assessment skills workshop. Speaker: Ms Priscilla Kung."),
   cls("skills2", "2026-11-06", "14:00", "16:50", "LE5", "SK-II · Merrill-Palmer-Revised (M-P-R)", "Assessment skills workshop 1. Joint session with CP."),
