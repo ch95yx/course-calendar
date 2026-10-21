@@ -199,6 +199,7 @@ const EVENTS = [
   asg("skills2", "2026-12-04", "23:59", "HKT-P(III) protocol", "Submit to Dr. Kitty Yeung", "Due 2 weeks after the 20 Nov practice. Also observe one classmate’s HKT-P(III) or HKT-JS(II) and submit one observation checklist."),
   asg("skills2", "2026-12-11", "23:59", "HKT-JS(II) protocol", "Submit to Dr. Kitty Yeung", "Due 2 weeks after the 20 Nov practice."),
   asg("skills2", "2027-05-09", "23:59", "SK-II learning portfolio", "Submit to Dr. Melody Xu", "~1,500 words. 20% of the course. Semester 2 workshops/visits are still TBC."),
+  cls("skills2", "2026-12-12", "09:00", "10:00", "Zoom", "Mentorship Zoom", ""),
 
   asg("thesis", "2026-09-30", "23:59", "Supervisor Preference Form", "Department", "Submit by the end of September. Results announced 15 October 2026."),
   asg("thesis", "2026-10-15", "23:59", "Supervisor assignment announced", "Department", "After this, finalise the research topic and a meeting schedule with your supervisor."),
@@ -228,6 +229,21 @@ function asg(course, date, due, title, location, notes) {
 function brk(course, date, title) {
   return { course, type: "break", date, start: null, end: null, location: "", title, notes: "" };
 }
+
+function addDailyRange(course, startISO, endISO, title, location, notes) {
+  const [ys, ms, ds] = startISO.split("-").map(Number);
+  const [ye, me, de] = endISO.split("-").map(Number);
+  const cur = new Date(ys, ms - 1, ds);
+  const last = new Date(ye, me - 1, de);
+  while (cur <= last) {
+    const iso = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, "0")}-${String(cur.getDate()).padStart(2, "0")}`;
+    EVENTS.push(cls(course, iso, null, null, location, title, notes));
+    cur.setDate(cur.getDate() + 1);
+  }
+}
+
+addDailyRange("skills", "2026-12-14", "2026-12-21", "PSU Roster", "PSU", "Roster week: 14–21 Dec 2026.");
+addDailyRange("skills", "2027-08-16", "2027-08-23", "PSU Roster", "PSU", "Roster week: 16–23 Aug 2027.");
 
 EVENTS.forEach((e, i) => {
   e.id = `${e.course}-${e.type}-${e.date}-${i}`;
