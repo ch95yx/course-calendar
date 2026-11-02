@@ -179,6 +179,7 @@ const EVENTS = [
   cls("skills", "2026-10-23", "10:00", "12:50", "CPD-3.28", "Workshop 5 · WPPSI-IV (HK)", "Ms Janice Tsang, Child Assessment Service. Joint with CP."),
   cls("skills", "2026-10-22", "10:00", "12:50", "MB217", "Workshop 6 · Demonstration of intake for PSU case", "Moved from 23 Oct PM (LE5) in the 21 Sep outline. Mr Richard Ng. Joint with CP. Thursday AM."),
   cls("skills", "2026-10-30", "10:00", "12:50", "CPD 3.28 (breakout 4.36–4.41, 4.55)", "Workshop 7 · Micro skills: counselling skills", "Matthew & course instructors. Counts toward the 30% workshop participation mark."),
+  cls("skills", "2026-11-12", "11:30", null, "4.38", "PSU case intake", ""),
   cls("skills", "2026-11-13", "10:00", "12:50", "CPD 3.28 (breakout 4.36–4.41)", "Workshop 8 · Micro skills: take two for counselling", "Kathy S. & course instructors. Counts toward the 30% workshop participation mark."),
 
   asg("skills", "2026-10-09", "23:59", "WISC-IV (HK) protocol 1 of 4", "Submit to Kathy Wong", "Protocols are due 2 weeks after practice. Clear documentation and accurate scoring. One WISC case also needs an observer checklist."),
