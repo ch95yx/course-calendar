@@ -168,6 +168,7 @@ const EVENTS = [
   cls("skills", "2026-10-25", "14:00", null, "元朗", "WPPSI", ""),
   cls("skills", "2026-11-14", "14:00", null, "元朗", "ABAS", ""),
   cls("skills", "2026-11-15", "11:00", null, "天水圍", "M-P-R", ""),
+  cls("skills", "2026-11-22", "13:00", null, "天水圍", "HKT-P", ""),
   cls("skills", "2026-11-28", "10:30", null, "HKU", "HKT-JS (中三)", ""),
   cls("skills", "2026-10-27", "10:00", "12:00", "HKRSS Tai Po Secondary School, Fu Heng Estate, Tai Po", "Orientation visit 4 · HKRSS Tai Po Secondary School", "Meet 9:50 a.m. at the school entrance. Coordinator: Matthew Chu."),
   cls("skills", "2026-11-26", "10:00", "12:50", "LE4", "Orientation talk · EDB Educational Psychology Services", "Meet 10:00 a.m. Speaker: Mrs Jacqueline Ho. Coordinator: Rachelle Li."),
